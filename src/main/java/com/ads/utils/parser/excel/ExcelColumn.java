@@ -1,4 +1,6 @@
-package com.ads.utils.parser;
+package com.ads.utils.parser.excel;
+
+import com.ads.utils.enums.GenericType;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -8,7 +10,11 @@ import java.lang.annotation.RetentionPolicy;
  **/
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ExcelColumn {
-    String name();
+    String name() default "";
+
     int index();
+
+    GenericType type() default GenericType.GENERIC_TYPE;
+
     String numberFormat() default "General";
 }

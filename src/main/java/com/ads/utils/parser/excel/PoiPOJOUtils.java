@@ -1,18 +1,19 @@
-package com.ads.utils.parser;
+package com.ads.utils.parser.excel;
 
+import com.ads.utils.enums.GenericType;
+import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * JMA - 25/10/2021 21:38
  **/
+@Log4j2
 public class PoiPOJOUtils {
 
     public static <T> List<T> sheetToPOJO(Sheet sheet, Class<T> beanClass) throws Exception {
@@ -23,7 +24,7 @@ public class PoiPOJOUtils {
         int headerRowNum = sheet.getFirstRowNum();
 
         // collecting the column headers as a Map of header names to column indexes
-        Map<Integer, String> colHeaders = new HashMap<Integer, String>();
+        Map<Integer, String> colHeaders = new HashMap<>();
         Row row = sheet.getRow(headerRowNum);
         for (Cell cell : row) {
             int colIdx = cell.getColumnIndex();
@@ -32,7 +33,7 @@ public class PoiPOJOUtils {
         }
 
         // collecting the content rows
-        List<T> result = new ArrayList<T>();
+        List<T> result = new ArrayList<>();
         String cellValue = "";
         java.util.Date date = null;
         Double num = null;
@@ -67,31 +68,42 @@ public class PoiPOJOUtils {
                 }
 
                 // fill the bean
+                StringJoiner errorBuilder = new StringJoiner("\n");
                 for (Field f : beanClass.getDeclaredFields()) {
                     if (!f.isAnnotationPresent(ExcelColumn.class)) {
                         continue;
                     }
-                    ExcelColumn ec = f.getAnnotation(ExcelColumn.class);
-                    if (ec.index() == colIdx || entry.getValue().equals(ec.name())) {
-                        f.setAccessible(true);
-                        if (f.getType() == String.class) {
-                            f.set(bean, cellValue);
-                        } else if (f.getType() == Double.class) {
-                            f.set(bean, num);
-                        } else if (f.getType() == java.util.Date.class) {
-                            f.set(bean, date);
-                        } else { // this is for all other; Integer, Boolean, ...
-                            if (!"".equals(cellValue)) {
-                                Method valueOf = f.getType().getDeclaredMethod("valueOf", String.class);
-                                f.set(bean, valueOf.invoke(f.getType(), cellValue));
+                    try {
+                        ExcelColumn ec = f.getAnnotation(ExcelColumn.class);
+                        if ((StringUtils.isBlank(ec.name()) && ec.index() == colIdx) || entry.getValue().equals(ec.name())) {
+                            f.setAccessible(true);
+                            if (GenericType.BOOLEAN == ec.type()) {
+                                f.set(bean, StringUtils.isNoneBlank(cellValue));
+                            } else if (GenericType.INT == ec.type()) {
+                                f.set(bean, Integer.valueOf(cellValue));
+                            } else if (f.getType() == String.class) {
+                                f.set(bean, cellValue);
+                            } else if (f.getType() == Double.class) {
+                                f.set(bean, num);
+                            } else if (f.getType() == java.util.Date.class) {
+                                f.set(bean, date);
+                            } else { // this is for all other; Integer, Boolean, ...
+                                if (!"".equals(cellValue)) {
+                                    Method valueOf = f.getType().getDeclaredMethod("valueOf", String.class);
+                                    f.set(bean, valueOf.invoke(f.getType(), cellValue));
+                                }
                             }
                         }
+                    } catch (Exception e) {
+                        errorBuilder.add("Field Error: " + f.getName() + " type:" + f.getType() + " Exception:" + e.getMessage());
                     }
+                }
+                if (errorBuilder.length() > 0) {
+                    log.warn(errorBuilder.toString());
                 }
             }
             result.add(bean);
         }
-
         return result;
 
     }
@@ -117,7 +129,7 @@ public class PoiPOJOUtils {
                 ExcelColumn ec = f.getAnnotation(ExcelColumn.class);
                 cell = row.createCell(c++);
                 // do formatting the header row
-                properties = new HashMap<String, Object>();
+                properties = new HashMap<>();
                 properties.put(CellUtil.FILL_PATTERN, FillPatternType.SOLID_FOREGROUND);
                 properties.put(CellUtil.FILL_FOREGROUND_COLOR, IndexedColors.GREY_25_PERCENT.getIndex());
                 CellUtil.setCellStyleProperties(cell, properties);
@@ -138,7 +150,7 @@ public class PoiPOJOUtils {
                     ExcelColumn ec = f.getAnnotation(ExcelColumn.class);
                     // do number formatting the contents
                     String numberFormat = ec.numberFormat();
-                    properties = new HashMap<String, Object>();
+                    properties = new HashMap<>();
                     properties.put(CellUtil.DATA_FORMAT, dataFormat.getFormat(numberFormat));
                     CellUtil.setCellStyleProperties(cell, properties);
 
