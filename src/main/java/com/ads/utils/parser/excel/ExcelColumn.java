@@ -7,6 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * JMA - 25/10/2021 21:39
+ * Configuration to parse Excel on java object
  **/
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ExcelColumn {

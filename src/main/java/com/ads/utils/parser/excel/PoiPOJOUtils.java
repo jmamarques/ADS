@@ -12,10 +12,20 @@ import java.util.*;
 
 /**
  * JMA - 25/10/2021 21:38
+ * Helps to convert the Excel format in java class and vice versa (abstraction)
  **/
 @Log4j2
 public class PoiPOJOUtils {
 
+    /**
+     * Convert Excel in Java Object
+     *
+     * @param sheet     Excel sheet
+     * @param beanClass class to convert
+     * @param <T>       Generic parameter
+     * @return List of java object from Excel sheet
+     * @throws Exception if any error occur during the conversion
+     */
     public static <T> List<T> sheetToPOJO(Sheet sheet, Class<T> beanClass) throws Exception {
 
         DataFormatter formatter = new DataFormatter(java.util.Locale.US);
@@ -108,6 +118,14 @@ public class PoiPOJOUtils {
 
     }
 
+    /**
+     * Convert a list of object in a Excel sheet
+     *
+     * @param sheet Excel sheet
+     * @param rows  List of objects to create the Excel
+     * @param <T>   Generic parameter
+     * @throws Exception if any error occur during the conversion
+     */
     public static <T> void pojoToSheet(Sheet sheet, List<T> rows) throws Exception {
         if (rows.size() > 0) {
             Row row = null;

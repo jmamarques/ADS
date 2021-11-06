@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * JMA - 27/10/2021 21:37
+ * Convert string into boolean for CSV parser - Check if the field is filled with something
  **/
 public class CsvBooleanField extends AbstractBeanField<String, Boolean> {
     @Override
