@@ -1,6 +1,6 @@
 package com.ads.configuration;
 
-import com.ads.dto.ClassDto;
+import com.ads.dto.ClassDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
@@ -27,17 +27,17 @@ public class StartUp implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         InputStream inputStream = new ClassPathResource("static/ADS_Caracterizacao_das_salas.csv").getInputStream();
-        ColumnPositionMappingStrategy<ClassDto> ms = new ColumnPositionMappingStrategy();
-        ms.setType(ClassDto.class);
+        ColumnPositionMappingStrategy<ClassDTO> ms = new ColumnPositionMappingStrategy();
+        ms.setType(ClassDTO.class);
 
         Reader reader = Files.newBufferedReader(Paths.get(new ClassPathResource("static/ADS_Caracterizacao_das_salas.csv").getURI()));
-        CsvToBean<ClassDto> cb = new CsvToBeanBuilder(reader)
-                .withType(ClassDto.class)
+        CsvToBean<ClassDTO> cb = new CsvToBeanBuilder(reader)
+                .withType(ClassDTO.class)
                 .withSkipLines(1)
                 .withSeparator(';')
                 .withMappingStrategy(ms)
                 .build();
-        List<ClassDto> parse = cb.parse();
+        List<ClassDTO> parse = cb.parse();
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString(parse);
 //        Workbook workbook = WorkbookFactory.create(new ClassPathResource("static/ADS_Caracterizacao_das_salas.xls").getInputStream());
