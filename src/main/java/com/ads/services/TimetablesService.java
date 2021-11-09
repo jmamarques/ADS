@@ -16,8 +16,11 @@ public class TimetablesService {
 
     public void processJsonTimetable(List<ClassDTO> rooms) {
         // validate data received
-        TimetableValidator.isValidClassDTO(rooms);
-        // Convert internally to a specific structure
-        List<Timetable> timetables = TimetableMapper.toTimetable(rooms);
+        boolean validClassDTO = TimetableValidator.isValidClassDTO(rooms);
+        if (validClassDTO) {
+            // Convert internally to a specific structure
+            List<Timetable> timetables = TimetableMapper.toTimetable(rooms);
+        }
+
     }
 }
