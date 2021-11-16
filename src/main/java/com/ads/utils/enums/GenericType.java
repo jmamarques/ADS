@@ -7,5 +7,10 @@ package com.ads.utils.enums;
 public enum GenericType {
     GENERIC_TYPE,
     BOOLEAN,
-    INT
+    INT,
+    LIST_COMMA,
+    LOCAL_DATE,
+    LOCAL_TIME,
+    BOOLEAN_FROM,
+    DAY_OF_WEEK
 }
