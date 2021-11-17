@@ -1,6 +1,7 @@
 package com.ads.configuration;
 
 import com.ads.dto.ClassDTO;
+import com.ads.dto.TimetableDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
@@ -40,6 +41,19 @@ public class StartUp implements CommandLineRunner {
         List<ClassDTO> parse = cb.parse();
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString(parse);
+
+        inputStream = new ClassPathResource("static/ADS_horario_2.csv").getInputStream();
+        ColumnPositionMappingStrategy<TimetableDTO> mss = new ColumnPositionMappingStrategy();
+        mss.setType(TimetableDTO.class);
+
+        reader = Files.newBufferedReader(Paths.get(new ClassPathResource("static/ADS_horario_2.csv").getURI()));
+        CsvToBean<TimetableDTO> cbb = new CsvToBeanBuilder(reader)
+                .withType(TimetableDTO.class)
+                .withSkipLines(1)
+                .withSeparator(';')
+                .withMappingStrategy(ms)
+                .build();
+        List<TimetableDTO> parse1 = cbb.parse();
 //        Workbook workbook = WorkbookFactory.create(new ClassPathResource("static/ADS_Caracterizacao_das_salas.xls").getInputStream());
 //        Sheet sheet = workbook.getSheetAt(0);
 //        List<ClassObj> cars = PoiPOJOUtils.sheetToPOJO(sheet, ClassObj.class);

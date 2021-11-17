@@ -12,6 +12,6 @@ import java.util.List;
 public class CsvListCommaField extends AbstractBeanField<String, List<String>> {
     @Override
     protected List<String> convert(String s) {
-        return Arrays.asList(StringUtils.split(s, ","));
+        return Arrays.stream(StringUtils.split(s, ",")).map(String::trim).toList();
     }
 }

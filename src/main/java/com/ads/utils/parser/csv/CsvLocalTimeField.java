@@ -10,6 +10,10 @@ import java.time.LocalTime;
 public class CsvLocalTimeField extends AbstractBeanField<String, LocalTime> {
     @Override
     protected LocalTime convert(String s) {
-        return LocalTime.parse(s == null ? "" : s);
+        try {
+            return LocalTime.parse(s == null ? "" : s);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

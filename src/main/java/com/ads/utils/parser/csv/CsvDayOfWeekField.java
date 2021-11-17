@@ -10,6 +10,13 @@ import org.apache.commons.lang3.StringUtils;
 public class CsvDayOfWeekField extends AbstractBeanField<String, DayOfWeek> {
     @Override
     protected DayOfWeek convert(String s) {
-        return DayOfWeek.valueOf(StringUtils.upperCase(s));
+        if (StringUtils.equalsIgnoreCase("Sáb", s)) {
+            return DayOfWeek.SAB;
+        }
+        try {
+            return DayOfWeek.valueOf(StringUtils.upperCase(s));
+        } catch (Exception e) {
+            return DayOfWeek.NONE;
+        }
     }
 }

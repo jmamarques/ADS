@@ -10,6 +10,10 @@ import java.time.LocalDate;
 public class CsvLocalDateField extends AbstractBeanField<String, LocalDate> {
     @Override
     protected LocalDate convert(String s) {
-        return LocalDate.parse(s == null ? "" : s);
+        try {
+            return LocalDate.parse(s == null ? "" : s);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

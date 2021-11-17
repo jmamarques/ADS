@@ -4,22 +4,30 @@ import com.ads.utils.enums.DayOfWeek;
 import com.ads.utils.enums.GenericType;
 import com.ads.utils.parser.csv.*;
 import com.ads.utils.parser.excel.ExcelColumn;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvCustomBindByPosition;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 
 /**
  * JMA - 16/11/2021 22:39
  **/
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @XmlRootElement(name = "timetable")
 public class TimetableDTO implements Serializable {
@@ -40,69 +48,78 @@ public class TimetableDTO implements Serializable {
     @XmlElement
     private String shift;
 
-
-    @CsvCustomBindByPosition(position = 3, converter = CsvIntegerField.class)
+    @CsvBindByPosition(position = 3)
     @ExcelColumn(index = 3)
     @XmlElement
-    private int registeredShift;
+    private String classNumber;
 
 
-    @CsvCustomBindByPosition(position = 4, converter = CsvBooleanStringField.class)
-    @ExcelColumn(index = 4, type = GenericType.BOOLEAN_FROM)
+    @CsvCustomBindByPosition(position = 4, converter = CsvIntegerField.class)
+    @ExcelColumn(index = 4)
     @XmlElement
-    private boolean overflowShift;
+    private int registeredShift;
 
 
     @CsvCustomBindByPosition(position = 5, converter = CsvBooleanStringField.class)
     @ExcelColumn(index = 5, type = GenericType.BOOLEAN_FROM)
     @XmlElement
-    private boolean overflowEnrollment;
+    private boolean overflowShift;
 
 
     @CsvCustomBindByPosition(position = 6, converter = CsvBooleanStringField.class)
-    @ExcelColumn(index = 6, type = GenericType.DAY_OF_WEEK)
+    @ExcelColumn(index = 6, type = GenericType.BOOLEAN_FROM)
+    @XmlElement
+    private boolean overflowEnrollment;
+
+
+    @CsvCustomBindByPosition(position = 7, converter = CsvDayOfWeekField.class)
+    @ExcelColumn(index = 7, type = GenericType.DAY_OF_WEEK)
     @XmlElement
     private DayOfWeek dayOfWeek;
 
 
-    @CsvCustomBindByPosition(position = 7, converter = CsvLocalTimeField.class)
-    @ExcelColumn(index = 7, type = GenericType.LOCAL_TIME)
+    @CsvCustomBindByPosition(position = 8, converter = CsvLocalTimeField.class)
+    @JsonSerialize(using = LocalTimeSerializer.class)
+    @JsonDeserialize(using = LocalTimeDeserializer.class)
+    @ExcelColumn(index = 8, type = GenericType.LOCAL_TIME)
     @XmlElement
     private LocalTime begin;
 
 
-    @CsvCustomBindByPosition(position = 8, converter = CsvLocalTimeField.class)
-    @ExcelColumn(index = 8, type = GenericType.LOCAL_TIME)
+    @CsvCustomBindByPosition(position = 9, converter = CsvLocalTimeField.class)
+    @JsonSerialize(using = LocalTimeSerializer.class)
+    @JsonDeserialize(using = LocalTimeDeserializer.class)
+    @ExcelColumn(index = 9, type = GenericType.LOCAL_TIME)
     @XmlElement
     private LocalTime end;
 
 
-    @CsvCustomBindByPosition(position = 9, converter = CsvLocalDateField.class)
-    @ExcelColumn(index = 9, type = GenericType.LOCAL_DATE)
+    @CsvCustomBindByPosition(position = 10, converter = CsvDateField.class)
+    @ExcelColumn(index = 10, type = GenericType.LOCAL_DATE)
     @XmlElement
-    private LocalDate day;
-
-
-    @CsvBindByPosition(position = 10)
-    @ExcelColumn(index = 10)
-    @XmlElement
-    private String features;
+    private Date day;
 
 
     @CsvBindByPosition(position = 11)
     @ExcelColumn(index = 11)
     @XmlElement
+    private String features;
+
+
+    @CsvBindByPosition(position = 12)
+    @ExcelColumn(index = 12)
+    @XmlElement
     private String classRoom;
 
 
-    @CsvCustomBindByPosition(position = 12, converter = CsvIntegerField.class)
-    @ExcelColumn(index = 12)
+    @CsvCustomBindByPosition(position = 13, converter = CsvIntegerField.class)
+    @ExcelColumn(index = 13)
     @XmlElement
     private int capacity;
 
 
-    @CsvCustomBindByPosition(position = 13, converter = CsvListCommaField.class)
-    @ExcelColumn(index = 13, type = GenericType.LIST_COMMA)
+    @CsvCustomBindByPosition(position = 14, converter = CsvListCommaField.class)
+    @ExcelColumn(index = 14, type = GenericType.LIST_COMMA)
     @XmlElement
     private List<String> realFeatures;
 }

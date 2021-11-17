@@ -9,6 +9,10 @@ import com.opencsv.bean.AbstractBeanField;
 public class CsvIntegerField extends AbstractBeanField<String, Integer> {
     @Override
     protected Integer convert(String s) {
-        return Integer.valueOf(s);
+        try {
+            return Integer.valueOf(s);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 }

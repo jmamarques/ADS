@@ -7,8 +7,10 @@ import com.ads.utils.parser.csv.CsvIntegerField;
 import com.ads.utils.parser.excel.ExcelColumn;
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvCustomBindByPosition;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -19,6 +21,8 @@ import java.util.List;
  * JMA - 25/10/2021 21:20
  **/
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @XmlRootElement(name = "class")
 public class ClassDTO implements Serializable {
