@@ -1,8 +1,8 @@
 package com.ads.services;
 
 import com.ads.dto.ClassDTO;
-import com.ads.models.Timetable;
-import com.ads.utils.mapper.TimetableMapper;
+import com.ads.models.ClassRoom;
+import com.ads.utils.mapper.ClassRoomMapper;
 import com.ads.utils.validators.TimetableValidator;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class TimetablesService {
         boolean validClassDTO = TimetableValidator.isValidClassDTO(rooms);
         if (validClassDTO) {
             // Convert internally to a specific structure
-            List<Timetable> timetables = TimetableMapper.toTimetable(rooms);
+            List<ClassRoom> classRooms = ClassRoomMapper.toTimetable(rooms);
         }
 
     }

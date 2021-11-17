@@ -1,7 +1,9 @@
 package com.ads.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -10,7 +12,9 @@ import java.util.List;
  **/
 @Data
 @Builder
-public class Timetable {
+@AllArgsConstructor
+@NoArgsConstructor
+public class ClassRoom {
 
     private String building;
     private String roomName;

@@ -1,7 +1,7 @@
 package com.ads.utils.mapper;
 
 import com.ads.dto.ClassDTO;
-import com.ads.models.Timetable;
+import com.ads.models.ClassRoom;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
  * JMA - 07/11/2021 18:44
  **/
 @Log4j2
-public class TimetableMapper {
+public class ClassRoomMapper {
 
-    public static Timetable toTimetable(@NonNull ClassDTO classDTO) {
+    public static ClassRoom toTimetable(@NonNull ClassDTO classDTO) {
         // Pattern Builder
-        Timetable.TimetableBuilder bean = Timetable.builder()
+        ClassRoom.ClassRoomBuilder bean = ClassRoom.builder()
                 .building(classDTO.getBuilding())
                 .roomName(classDTO.getRoomName())
                 .examCapacity(classDTO.getExamCapacity())
@@ -35,11 +35,12 @@ public class TimetableMapper {
             if (!f.isAnnotationPresent(Feature.class)) {
                 continue;
             }
+            Feature feature = f.getAnnotation(Feature.class);
             // do not add the feature when we have troubles to get current value of property
             try {
                 f.setAccessible(true);
                 if (StringUtils.equals(f.getType().getName(), "boolean") && f.getBoolean(classDTO)) {
-                    features.add(f.getName());
+                    features.add(feature.name());
                 }
             } catch (IllegalAccessException e) {
                 log.warn("Error during process of @Feature to get boolean value", e);
@@ -50,7 +51,7 @@ public class TimetableMapper {
         return bean.features(features).build();
     }
 
-    public static List<Timetable> toTimetable(@NonNull List<ClassDTO> classDTOs) {
-        return classDTOs.stream().map(TimetableMapper::toTimetable).collect(Collectors.toList());
+    public static List<ClassRoom> toTimetable(@NonNull List<ClassDTO> classDTOs) {
+        return classDTOs.stream().map(ClassRoomMapper::toTimetable).collect(Collectors.toList());
     }
 }

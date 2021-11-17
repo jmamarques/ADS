@@ -2,6 +2,8 @@ package com.ads.configuration;
 
 import com.ads.dto.ClassDTO;
 import com.ads.dto.TimetableDTO;
+import com.ads.models.ClassRoom;
+import com.ads.utils.mapper.ClassRoomMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
@@ -39,6 +41,7 @@ public class StartUp implements CommandLineRunner {
                 .withMappingStrategy(ms)
                 .build();
         List<ClassDTO> parse = cb.parse();
+        List<ClassRoom> classRooms = ClassRoomMapper.toTimetable(parse);
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString(parse);
 
