@@ -3,7 +3,9 @@ package com.ads.configuration;
 import com.ads.dto.ClassDTO;
 import com.ads.dto.TimetableDTO;
 import com.ads.models.ClassRoom;
+import com.ads.models.Timetable;
 import com.ads.utils.mapper.ClassRoomMapper;
+import com.ads.utils.mapper.TimetableMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
@@ -54,9 +56,12 @@ public class StartUp implements CommandLineRunner {
                 .withType(TimetableDTO.class)
                 .withSkipLines(1)
                 .withSeparator(';')
-                .withMappingStrategy(ms)
+                .withMappingStrategy(mss)
                 .build();
-        List<TimetableDTO> parse1 = cbb.parse();
+        List<TimetableDTO> timetableDTOList = cbb.parse();
+        List<Timetable> timetables = TimetableMapper.toTimetable(timetableDTOList);
+        timetables.size();
+
 //        Workbook workbook = WorkbookFactory.create(new ClassPathResource("static/ADS_Caracterizacao_das_salas.xls").getInputStream());
 //        Sheet sheet = workbook.getSheetAt(0);
 //        List<ClassObj> cars = PoiPOJOUtils.sheetToPOJO(sheet, ClassObj.class);
