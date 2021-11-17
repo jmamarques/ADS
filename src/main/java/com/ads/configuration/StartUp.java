@@ -41,7 +41,7 @@ public class StartUp implements CommandLineRunner {
                 .withMappingStrategy(ms)
                 .build();
         List<ClassDTO> parse = cb.parse();
-        List<ClassRoom> classRooms = ClassRoomMapper.toTimetable(parse);
+        List<ClassRoom> classRooms = ClassRoomMapper.toClassRoom(parse);
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString(parse);
 

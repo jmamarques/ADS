@@ -1,6 +1,6 @@
 package com.ads.controllers;
 
-import com.ads.dto.ClassDTO;
+import com.ads.dto.ScheduleDTO;
 import com.ads.services.TimetablesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -9,8 +9,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * JMA - 25/10/2021 21:17
@@ -39,9 +37,9 @@ public class FileController {
     @GetMapping("/json/timetable")
     @ApiOperation(value = "Upload timetables to process (Json)",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public void processJsonTimetable(@RequestBody List<ClassDTO> rooms) {
-        log.info("Process TimeTable JSON version");
-        timetablesService.processJsonTimetable(rooms);
+    public void processJsonTimetable(@RequestBody ScheduleDTO scheduleDTO) {
+        log.info("Process Schedule JSON version");
+        timetablesService.processJsonTimetable(scheduleDTO);
     }
 
 }

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Log4j2
 public class ClassRoomMapper {
 
-    public static ClassRoom toTimetable(@NonNull ClassDTO classDTO) {
+    public static ClassRoom toClassRoom(@NonNull ClassDTO classDTO) {
         // Pattern Builder
         ClassRoom.ClassRoomBuilder bean = ClassRoom.builder()
                 .building(classDTO.getBuilding())
@@ -51,7 +51,7 @@ public class ClassRoomMapper {
         return bean.features(features).build();
     }
 
-    public static List<ClassRoom> toTimetable(@NonNull List<ClassDTO> classDTOs) {
-        return classDTOs.stream().map(ClassRoomMapper::toTimetable).collect(Collectors.toList());
+    public static List<ClassRoom> toClassRoom(@NonNull List<ClassDTO> classDTOs) {
+        return classDTOs.stream().map(ClassRoomMapper::toClassRoom).collect(Collectors.toList());
     }
 }

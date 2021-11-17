@@ -1,9 +1,10 @@
 package com.ads.services;
 
-import com.ads.dto.ClassDTO;
+import com.ads.dto.ScheduleDTO;
 import com.ads.models.ClassRoom;
 import com.ads.utils.mapper.ClassRoomMapper;
 import com.ads.utils.validators.TimetableValidator;
+import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,12 +15,12 @@ import java.util.List;
 @Service
 public class TimetablesService {
 
-    public void processJsonTimetable(List<ClassDTO> rooms) {
+    public void processJsonTimetable(@NonNull ScheduleDTO scheduleDTO) {
         // validate data received
-        boolean validClassDTO = TimetableValidator.isValidClassDTO(rooms);
+        boolean validClassDTO = TimetableValidator.isValidClassDTO(scheduleDTO.getClassDTOS());
         if (validClassDTO) {
             // Convert internally to a specific structure
-            List<ClassRoom> classRooms = ClassRoomMapper.toTimetable(rooms);
+            List<ClassRoom> classRooms = ClassRoomMapper.toClassRoom(scheduleDTO.getClassDTOS());
         }
 
     }
