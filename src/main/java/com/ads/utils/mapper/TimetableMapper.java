@@ -38,4 +38,27 @@ public class TimetableMapper {
     public static List<Timetable> toTimetable(@NonNull List<TimetableDTO> timetableDTOS) {
         return timetableDTOS.stream().map(TimetableMapper::toTimetable).collect(Collectors.toList());
     }
+
+    public static Timetable toTimetable(@NonNull Timetable timetable) {
+        return Timetable.builder()
+                .course(timetable.getCourse())
+                .unit(timetable.getUnit())
+                .shift(timetable.getShift())
+                .classNumber(timetable.getClassNumber())
+                .registeredShift(timetable.getRegisteredShift())
+                .overflowShift(timetable.isOverflowShift())
+                .overflowEnrollment(timetable.isOverflowEnrollment())
+                .dayOfWeek(timetable.getDayOfWeek())
+                .begin(timetable.getBegin())
+                .end(timetable.getEnd())
+                .day(timetable.getDay())
+                .features(timetable.getFeatures())
+                .capacity(timetable.getCapacity())
+                .realFeatures(timetable.getRealFeatures())
+                .build();
+    }
+
+    public static List<Timetable> toTimetableList(@NonNull List<Timetable> timetableList) {
+        return timetableList.stream().map(TimetableMapper::toTimetable).collect(Collectors.toList());
+    }
 }

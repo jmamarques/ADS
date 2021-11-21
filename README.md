@@ -41,3 +41,10 @@ Definição dos critérios de qualidade:
 * O menor número de horas entre aulas
 * O utilizador irá poder optar pelo horário que prefere conforme o peso que atribui a cada critério de qualidade.
 
+o que falta fazer é:
+FE:
+pagina para upload do ficheiro csv, json, excel adição do mapeamento chamada da API Escolher criterios de qualidades
+mais relevantes antes da chamada da API (extra)
+Apresentar resultados BE:
+Completar documentação Docker Criação de testes Implementação dos algoritmos Chamada aos pedidos do projecto 1 criação
+do ficheiro final com os horarios error handling
