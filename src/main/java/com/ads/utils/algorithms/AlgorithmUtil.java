@@ -40,6 +40,16 @@ public class AlgorithmUtil {
         return isValid;
     }
 
+    public static boolean isValidClassTolerance(@NonNull Timetable timetable, @NonNull ClassRoom classRoom) {
+        boolean isValid = false;
+        double max = classRoom.getNormalCapacity() * 1.25;
+        // size should be respected
+        if (timetable.getCapacity() <= max) {
+            isValid = true;
+        }
+        return isValid;
+    }
+
     /**
      * Check if the reservation is not between the start and end dates of all reservations present in the occupation object
      *

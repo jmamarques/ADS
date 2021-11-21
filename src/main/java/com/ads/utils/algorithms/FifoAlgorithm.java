@@ -5,6 +5,7 @@ import com.ads.models.Reservation;
 import com.ads.models.Timetable;
 import com.ads.utils.converter.TimeUtils;
 import com.ads.utils.mapper.TimetableMapper;
+import lombok.NonNull;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
 public class FifoAlgorithm implements Algorithm {
 
     @Override
-    public List<Timetable> apply(List<ClassRoom> classRoomList, List<Timetable> timetableList, List<String> qualities) {
+    public List<Timetable> apply(@NonNull List<ClassRoom> classRoomList, @NonNull List<Timetable> timetableList, @NonNull List<String> qualities) {
         ArrayListValuedHashMap<ClassRoom, Reservation> occupation = new ArrayListValuedHashMap<>();
         // clone all list
         List<Timetable> timetables = TimetableMapper.toTimetableList(timetableList);
