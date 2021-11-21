@@ -33,4 +33,6 @@ public class Timetable {
     private String classRoom;
     private int capacity;
     private List<String> realFeatures;
+    private boolean hasError;
+    private String error;
 }

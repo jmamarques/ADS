@@ -4,6 +4,7 @@ import com.ads.dto.ClassDTO;
 import com.ads.dto.TimetableDTO;
 import com.ads.models.ClassRoom;
 import com.ads.models.Timetable;
+import com.ads.utils.algorithms.FifoAlgorithm;
 import com.ads.utils.mapper.ClassRoomMapper;
 import com.ads.utils.mapper.TimetableMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,6 +21,7 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +30,9 @@ import java.util.List;
 @Component
 @Log4j2
 public class StartUp implements CommandLineRunner {
+    // ONLY FOR TESTING
+    public static List<ClassRoom> classRooms = new ArrayList<>();
+    public static List<Timetable> timetables = new ArrayList<>();
 
     @Override
     public void run(String... args) throws Exception {
@@ -43,7 +48,7 @@ public class StartUp implements CommandLineRunner {
                 .withMappingStrategy(ms)
                 .build();
         List<ClassDTO> parse = cb.parse();
-        List<ClassRoom> classRooms = ClassRoomMapper.toClassRoom(parse);
+        classRooms = ClassRoomMapper.toClassRoom(parse);
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString(parse);
 
@@ -59,8 +64,12 @@ public class StartUp implements CommandLineRunner {
                 .withMappingStrategy(mss)
                 .build();
         List<TimetableDTO> timetableDTOList = cbb.parse();
-        List<Timetable> timetables = TimetableMapper.toTimetable(timetableDTOList);
+        timetables = TimetableMapper.toTimetable(timetableDTOList);
         timetables.size();
+
+        FifoAlgorithm fifoAlgorithm = new FifoAlgorithm();
+        List<Timetable> apply = fifoAlgorithm.apply(classRooms, timetables, new ArrayList<>());
+        apply.stream().forEach(System.out::println);
 
 //        Workbook workbook = WorkbookFactory.create(new ClassPathResource("static/ADS_Caracterizacao_das_salas.xls").getInputStream());
 //        Sheet sheet = workbook.getSheetAt(0);
