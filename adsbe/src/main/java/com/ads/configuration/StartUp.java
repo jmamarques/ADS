@@ -4,6 +4,7 @@ import com.ads.dto.ClassDTO;
 import com.ads.dto.TimetableDTO;
 import com.ads.models.ClassRoom;
 import com.ads.models.Timetable;
+import com.ads.services.SWRLAPIService;
 import com.ads.utils.algorithms.FeatureAlgorithm;
 import com.ads.utils.algorithms.FifoAlgorithm;
 import com.ads.utils.mapper.ClassRoomMapper;
@@ -75,6 +76,9 @@ public class StartUp implements CommandLineRunner {
         FeatureAlgorithm featureAlgorithm = new FeatureAlgorithm();
         List<Timetable> apply1 = featureAlgorithm.apply(classRooms, timetables, new ArrayList<>());
         apply1.stream().forEach(System.out::println);
+
+        SWRLAPIService swrlapiService = new SWRLAPIService();
+        swrlapiService.process();
 //        Workbook workbook = WorkbookFactory.create(new ClassPathResource("static/ADS_Caracterizacao_das_salas.xls").getInputStream());
 //        Sheet sheet = workbook.getSheetAt(0);
 //        List<ClassObj> cars = PoiPOJOUtils.sheetToPOJO(sheet, ClassObj.class);
