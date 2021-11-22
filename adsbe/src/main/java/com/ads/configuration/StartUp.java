@@ -78,7 +78,7 @@ public class StartUp implements CommandLineRunner {
         apply1.stream().forEach(System.out::println);
 
         SWRLAPIService swrlapiService = new SWRLAPIService();
-        swrlapiService.process();
+        swrlapiService.process(3);
 //        Workbook workbook = WorkbookFactory.create(new ClassPathResource("static/ADS_Caracterizacao_das_salas.xls").getInputStream());
 //        Sheet sheet = workbook.getSheetAt(0);
 //        List<ClassObj> cars = PoiPOJOUtils.sheetToPOJO(sheet, ClassObj.class);

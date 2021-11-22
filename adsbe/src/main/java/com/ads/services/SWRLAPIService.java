@@ -24,7 +24,7 @@ import java.util.List;
 @Service
 public class SWRLAPIService {
 
-    public List<String> process() {
+    public List<String> process(int numberOfObjectives) {
         ArrayList<String> result = new ArrayList<>();
         try {
             // Create an OWL ontology using the OWLAPI
@@ -35,7 +35,7 @@ public class SWRLAPIService {
             SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
             // Create and execute a SQWRL query using the SWRLAPI
-            String numberOfObjectives = "3";
+
             String query = "Algorithm(?alg) ^ "
                     + "minObjectivesAlgorithmIsAbleToDealWith(?alg,?min) ^ swrlb:lessThanOrEqual(?min," + numberOfObjectives + ")"
                     + "maxObjectivesAlgorithmIsAbleToDealWith(?alg,?max) ^ swrlb:greaterThanOrEqual(?max," + numberOfObjectives + ")"
