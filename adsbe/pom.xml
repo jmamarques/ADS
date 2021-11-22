@@ -91,8 +91,27 @@
             <artifactId>swrlapi-drools-engine</artifactId>
             <version>${swrlapi.drools.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.debacharya</groupId>
+            <artifactId>nsgaii</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.uma.jmetal</groupId>
+            <artifactId>jmetal-core</artifactId>
+            <version>5.11</version>
+        </dependency>
+        <dependency>
+            <groupId>org.uma.jmetal</groupId>
+            <artifactId>jmetal-problem</artifactId>
+            <version>5.11</version>
+        </dependency>
+        <dependency>
+            <groupId>org.uma.jmetal</groupId>
+            <artifactId>jmetal-algorithm</artifactId>
+            <version>5.11</version>
+        </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
