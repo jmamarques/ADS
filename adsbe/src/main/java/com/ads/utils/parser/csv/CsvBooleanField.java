@@ -8,6 +8,11 @@ import org.apache.commons.lang3.StringUtils;
  * Convert string into boolean for CSV parser - Check if the field is filled with something
  **/
 public class CsvBooleanField extends AbstractBeanField<String, Boolean> {
+    /**
+     * Convert string into boolean for CSV parser
+     * @param string
+     * @return boolean
+     */
     @Override
     protected Boolean convert(String s) {
         return StringUtils.isNoneBlank(s);

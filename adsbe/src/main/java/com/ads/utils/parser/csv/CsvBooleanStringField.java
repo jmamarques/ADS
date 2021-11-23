@@ -7,6 +7,11 @@ import com.opencsv.bean.AbstractBeanField;
  * Convert string into integer for CSV parser - use Boolean.valueOf
  **/
 public class CsvBooleanStringField extends AbstractBeanField<String, Boolean> {
+    /**
+     * Convert string into integer for CSV parser
+     * @param string
+     * @return boolean
+     */
     @Override
     protected Boolean convert(String s) {
         return Boolean.valueOf(s);

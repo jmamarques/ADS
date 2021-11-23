@@ -10,6 +10,11 @@ import java.util.Date;
  **/
 public class CsvDateField extends AbstractBeanField<String, Date> {
 
+    /**
+     * parses a string representing a date
+     * @param string
+     * @return string date
+     */
     @Override
     protected Date convert(String s) {
         try {

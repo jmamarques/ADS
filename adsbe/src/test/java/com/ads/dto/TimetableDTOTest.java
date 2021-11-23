@@ -26,6 +26,9 @@ class TimetableDTOTest {
 
     List<TimetableDTO> timetableDTOS;
 
+    /**
+     * @throws IOException
+     */
     @BeforeEach
     void setUp() throws IOException {
         InputStream inputStream = new ClassPathResource("static/ADS_horario_2.csv").getInputStream();
@@ -42,6 +45,9 @@ class TimetableDTOTest {
         timetableDTOS = cb.parse();
     }
 
+    /**
+     * @throws JsonProcessingException
+     */
     @Test
     void testPrintList() throws JsonProcessingException {
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();

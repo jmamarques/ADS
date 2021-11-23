@@ -10,6 +10,10 @@ import java.util.List;
  * JMA - 16/11/2021 22:59
  **/
 public class CsvListCommaField extends AbstractBeanField<String, List<String>> {
+    /**
+     * @param string
+     * @return list of strings split by the comma
+     */
     @Override
     protected List<String> convert(String s) {
         return Arrays.stream(StringUtils.split(s, ",")).map(String::trim).toList();

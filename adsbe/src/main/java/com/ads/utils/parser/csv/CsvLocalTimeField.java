@@ -8,6 +8,11 @@ import java.time.LocalTime;
  * JMA - 16/11/2021 23:01
  **/
 public class CsvLocalTimeField extends AbstractBeanField<String, LocalTime> {
+    /**
+     * get an instance from localtime from a string such as ’10:15:45′ passed as parameter.
+     * @param string
+     * @return localtime
+     */
     @Override
     protected LocalTime convert(String s) {
         try {

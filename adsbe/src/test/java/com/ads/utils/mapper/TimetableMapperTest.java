@@ -12,6 +12,9 @@ import java.util.Arrays;
  **/
 class TimetableMapperTest {
 
+    /**
+     *
+     */
     @Test
     void toTimetable() {
         ClassDTO roomTest = ClassDTO.builder().roomName("room test").examCapacity(99).arq1(true).atrium(true).build();

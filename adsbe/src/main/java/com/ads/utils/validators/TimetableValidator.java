@@ -10,11 +10,19 @@ import java.util.List;
  **/
 public class TimetableValidator {
 
+    /**
+     * @param classDTOs
+     * @return
+     */
     public static boolean isValidClassDTO(List<ClassDTO> classDTOs) {
         // is not valid if found that not respect TimetableValidator::isValidClassDTO
         return classDTOs != null && classDTOs.stream().map(TimetableValidator::isValidClassDTO).anyMatch(aBoolean -> !aBoolean);
     }
 
+    /**
+     * @param classDTO
+     * @return
+     */
     public static boolean isValidClassDTO(ClassDTO classDTO) {
         // not null
         boolean res = classDTO != null;

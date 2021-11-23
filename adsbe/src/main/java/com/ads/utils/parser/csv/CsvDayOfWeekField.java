@@ -8,6 +8,11 @@ import org.apache.commons.lang3.StringUtils;
  * JMA - 16/11/2021 22:59
  **/
 public class CsvDayOfWeekField extends AbstractBeanField<String, DayOfWeek> {
+    /**
+     * convert to day of the week
+     * @param string
+     * @return
+     */
     @Override
     protected DayOfWeek convert(String s) {
         if (StringUtils.equalsIgnoreCase("Sáb", s)) {
