@@ -3,6 +3,9 @@ package com.ads;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * class that starts the whole spring application
+ */
 @SpringBootApplication
 public class AdsApplication {
 
