@@ -11,8 +11,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * class to mapping from a xsf, csv and json file
+ */
 public class Mapping {
 
+    /**
+     * @param sheet
+     * @return List<String>headers
+     * Returns the headers from a xsf file
+     */
     // method to return the headers in case of being a xlsx file
     public List<String> getHeaderData(Sheet sheet) {
         List<String> headers = new ArrayList<>();
@@ -31,6 +39,12 @@ public class Mapping {
         return headers;
     }
 
+    /**
+     * @param file
+     * @return List<List<String>> headers
+     * @throws IOException
+     * returns the headers from a csv file
+     */
     // method to return the headers in case of being a csv file
     public  List<List<String>> getHeaderDataCSV(String file) throws IOException {
         List<List<String>> headers = new ArrayList<>();
