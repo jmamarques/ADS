@@ -14,6 +14,10 @@ import java.util.stream.Collectors;
 @Log4j2
 public class TimetableMapper {
 
+    /**
+     * @param timetableDTO
+     * @return
+     */
     public static Timetable toTimetable(@NonNull TimetableDTO timetableDTO) {
         return Timetable.builder()
                 .course(timetableDTO.getCourse())
@@ -35,10 +39,20 @@ public class TimetableMapper {
                 .build();
     }
 
+    /**
+     * Maps the timetable
+     * @param timetableDTOS
+     * @return
+     */
     public static List<Timetable> toTimetable(@NonNull List<TimetableDTO> timetableDTOS) {
         return timetableDTOS.stream().map(TimetableMapper::toTimetable).collect(Collectors.toList());
     }
 
+    /**
+     * Build the timetable according with some features
+     * @param timetable
+     * @return
+     */
     public static Timetable toTimetable(@NonNull Timetable timetable) {
         return Timetable.builder()
                 .course(timetable.getCourse())
@@ -58,6 +72,11 @@ public class TimetableMapper {
                 .build();
     }
 
+    /**
+     * list of timetable mapped
+     * @param timetableList
+     * @return
+     */
     public static List<Timetable> toTimetableList(@NonNull List<Timetable> timetableList) {
         return timetableList.stream().map(TimetableMapper::toTimetable).collect(Collectors.toList());
     }

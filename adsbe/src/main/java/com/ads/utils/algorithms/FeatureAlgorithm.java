@@ -17,6 +17,14 @@ import java.util.List;
  * JMA - 21/11/2021 21:36
  **/
 public class FeatureAlgorithm implements Algorithm {
+
+    /**
+     * Returns the list of timetables according to the occupation and take into account the space for specified class
+     * @param classRoomList
+     * @param timetableList
+     * @param qualities
+     * @return list of timetables
+     */
     @Override
     public List<Timetable> apply(@NonNull List<ClassRoom> classRoomList, @NonNull List<Timetable> timetableList, @NonNull List<String> qualities) {
         ArrayListValuedHashMap<ClassRoom, Reservation> occupation = new ArrayListValuedHashMap<>();
@@ -93,6 +101,13 @@ public class FeatureAlgorithm implements Algorithm {
         return timetables;
     }
 
+    /**
+     * verify the occupation for a specified classroom
+     * @param occupation
+     * @param classRoomByFeature
+     * @param timetable
+     * @param reservation
+     */
     private void occupation(ArrayListValuedHashMap<ClassRoom, Reservation> occupation, ArrayListValuedHashMap<String, ClassRoom> classRoomByFeature, Timetable timetable, Reservation reservation) {
         classRoomByFeature.get(timetable.getFeatures())
                 .stream()

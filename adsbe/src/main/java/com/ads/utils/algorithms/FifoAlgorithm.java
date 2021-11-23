@@ -16,6 +16,17 @@ import java.util.List;
  **/
 public class FifoAlgorithm implements Algorithm {
 
+    /**
+     * keeps track of all the classroomlist in a list.
+     * For each room verify the algoritm isValidClass, in case of being a valid class makes the reservation.
+     * Hereafter checks if  the room, reservation and occupation is available.
+     * IF yes, it will save in the timetable the room.
+     * @param classRoomList
+     * @param timetableList
+     * @param qualities
+     * @throws java.lang.Exception
+     * @return list of timetable
+     */
     @Override
     public List<Timetable> apply(@NonNull List<ClassRoom> classRoomList, @NonNull List<Timetable> timetableList, @NonNull List<String> qualities) {
         ArrayListValuedHashMap<ClassRoom, Reservation> occupation = new ArrayListValuedHashMap<>();
