@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GUI {
+public class Mapping {
 
     // method to return the headers in case of being a xlsx file
     public List<String> getHeaderData(Sheet sheet) {
