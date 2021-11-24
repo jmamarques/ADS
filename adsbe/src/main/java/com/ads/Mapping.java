@@ -101,6 +101,27 @@ public class Mapping {
         headers.add(sala)
 
     }
+
+
+    //read from a db
+    public List<String> getHeaderDatafromDB(Sheet sheet) {
+        List<String> headers = new ArrayList<>();
+        String sql="SELECT unidade,  turma, lotacao, sala FROM data"
+        PreparedStatement preparedStatement = dbConnection.prepareStatement(sql);
+/*
+        while (iterator.hasNext()){
+
+            preparedStatement.setInt(1, valuefrom_ArrayList);
+
+            ResultSet rs = preparedStatement.executeQuery(selectSQL);
+            while (rs.next()) {
+                String emp_name  = rs.getString("EMPNAME");
+                String emp_age = rs.getString("EMPAGE");
+            }
+        }                                        ????*/
+        return headers;
+    }
+
     /*
     When call this 2 methods
      String ext1 = FilenameUtils.getExtension("pathhhh");
