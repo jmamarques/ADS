@@ -57,7 +57,7 @@ public class Mapping {
     }
 
     /**
-     * Method that provides the text in jsonobject from a JSONFile
+     * Method that provides an array of jsonobject from a JSONFile
      * @param File
      * @return text
      * @throws IOException
