@@ -56,6 +56,51 @@ public class Mapping {
         return headers;
     }
 
+    /**
+     * Method that provides the text in jsonobject from a JSONFile
+     * @param File
+     * @return text
+     * @throws IOException
+     */
+    // method to return the text in a json file
+    public  List<String> getDataJSON(File f) throws IOException {
+        //JSON parser object to parse read file
+        JSONParser jsonParser = new JSONParser();
+
+        try (FileReader reader = new FileReader(f))
+        {
+            //Read JSON file
+            Object obj = jsonParser.parse(reader);
+            JSONArray text = (JSONArray) obj;
+            //Iterate over headers array
+            text.forEach( hd -> parseEmployeeObject( (JSONObject) hd ) );
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return text;
+    }
+
+    /**
+     * Method that returns the headers from jsonobject
+     * @param text
+     * @return headers
+     */
+    private List<String> parseHeadersObject(JSONObject text) {
+        List<String> headers = new ArrayList<>();
+        String inscritos = (String) text.get("inscritos");
+        headers.add(inscritos)
+        String lotacao = (String) text.get("lotacao");
+        headers.add(lotacao)
+        String sala = (String) text.get("sala aula");
+        headers.add(sala)
+
+    }
     /*
     When call this 2 methods
      String ext1 = FilenameUtils.getExtension("pathhhh");
