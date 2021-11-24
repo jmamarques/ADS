@@ -24,7 +24,7 @@ import java.util.List;
 @Service
 public class SWRLAPIService {
 
-    public List<String> process(int numberOfObjectives) {
+    public List<String> algorithm(int numberOfObjectives) {
         ArrayList<String> result = new ArrayList<>();
         try {
             // Create an OWL ontology using the OWLAPI
@@ -61,4 +61,6 @@ public class SWRLAPIService {
         }
         return result;
     }
+
+
 }
