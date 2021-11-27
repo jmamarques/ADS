@@ -8,8 +8,8 @@ import com.ads.utils.criteria.ConflictCriteria;
 import com.ads.utils.criteria.Criteria;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAII;
-import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;
+import org.uma.jmetal.algorithm.multiobjective.smsemoa.SMSEMOA;
+import org.uma.jmetal.algorithm.multiobjective.smsemoa.SMSEMOABuilder;
 import org.uma.jmetal.example.AlgorithmRunner;
 import org.uma.jmetal.operator.crossover.impl.IntegerSBXCrossover;
 import org.uma.jmetal.operator.mutation.impl.IntegerPolynomialMutation;
@@ -19,15 +19,15 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * JMA - 27/11/2021 12:29
- * NSGAII Algorithm
+ * JMA - 27/11/2021 20:15
+ * SMSEMOA Algorithm
  **/
 @Service
 @Log4j2
-public class NSGAIIService {
+public class SMSEMOAService {
 
     public static void main(String[] args) {
-        List<DefaultIntegerSolution> process = new NSGAIIService().processTest();
+        List<DefaultIntegerSolution> process = new SMSEMOAService().processTest();
         log.info(process);
     }
 
@@ -51,9 +51,14 @@ public class NSGAIIService {
      * @return List of Solution after each run
      */
     public List<DefaultIntegerSolution> process(List<ClassRoom> classRooms, List<Timetable> timetables, int maxGenerations, int populationSize, List<Class<? extends Criteria>> objectives) {
-        NSGAII algorithm = (new NSGAIIBuilder(new TimetableProblem(timetables.size(), classRooms, timetables, objectives),
+        log.info("Started " + getClass().getName() + " Algorithm");
+        SMSEMOABuilder integerSolutionSMSEMOABuilder = new SMSEMOABuilder<>(
+                new TimetableProblem(timetables.size(), classRooms, timetables, objectives),
                 new IntegerSBXCrossover(new Random().nextDouble(0, 1), 2.0),
-                new IntegerPolynomialMutation(new Random().nextDouble(0, 1), 20.0), populationSize))
+                new IntegerPolynomialMutation(new Random().nextDouble(0, 1), 20.0)
+        );
+        SMSEMOA algorithm = integerSolutionSMSEMOABuilder
+                .setPopulationSize(populationSize)
                 .setMaxEvaluations(maxGenerations)
                 .build();
 
