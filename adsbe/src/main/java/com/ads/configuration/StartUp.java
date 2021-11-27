@@ -10,6 +10,7 @@ import com.ads.utils.mapper.ClassRoomMapper;
 import com.ads.utils.mapper.TimetableMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -24,6 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * JMA - 24/2/2021 17:20
@@ -51,7 +53,7 @@ public class StartUp implements CommandLineRunner {
         List<ClassDTO> parse = cb.parse();
         classRooms = ClassRoomMapper.toClassRoom(parse);
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(parse);
+        String json = ow.writeValueAsString(classRooms);
 
         inputStream = new ClassPathResource("static/ADS_horario_2.csv").getInputStream();
         ColumnPositionMappingStrategy<TimetableDTO> mss = new ColumnPositionMappingStrategy();
@@ -65,8 +67,15 @@ public class StartUp implements CommandLineRunner {
                 .withMappingStrategy(mss)
                 .build();
         List<TimetableDTO> timetableDTOList = cbb.parse();
-        timetables = TimetableMapper.toTimetable(timetableDTOList);
+        timetables = TimetableMapper.toTimetable(timetableDTOList)
+                .stream()
+                .peek(timetable -> timetable.setClassRoom(null))
+                .collect(Collectors.toList());
         timetables.size();
+
+        ObjectMapper obj = new ObjectMapper();
+        obj.registerModule(new JavaTimeModule());
+        json = obj.writer().withDefaultPrettyPrinter().writeValueAsString(timetables);
 
         FifoAlgorithm fifoAlgorithm = new FifoAlgorithm();
         List<Timetable> apply = fifoAlgorithm.apply(classRooms, timetables, new ArrayList<>());

@@ -16,9 +16,10 @@ public interface Criteria {
      * the smaller, the better it is
      *
      * @param classRoomList - classrooms
-     * @param solution      - solution
+     * @param timetableList - current timetable
+     * @param solution      - solution (index -> timetable, value-> classroom)
      * @return evaluation of solution
      */
-    double applyCriteria(@NonNull List<ClassRoom> classRoomList, @NonNull List<Timetable> solution);
+    double applyCriteria(@NonNull List<ClassRoom> classRoomList, @NonNull List<Timetable> timetableList, List<Integer> solution);
 
 }

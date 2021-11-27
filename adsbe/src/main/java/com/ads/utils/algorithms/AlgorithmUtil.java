@@ -3,11 +3,13 @@ package com.ads.utils.algorithms;
 import com.ads.models.ClassRoom;
 import com.ads.models.Reservation;
 import com.ads.models.Timetable;
+import com.ads.utils.converter.TimeUtils;
 import lombok.NonNull;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * JMA - 21/11/2021 09:38
@@ -68,5 +70,27 @@ public class AlgorithmUtil {
                 book.getBegin().isAfter(r.getEnd()) && book.getEnd().isAfter(r.getEnd()))
         );
 
+    }
+
+    /**
+     * Populate Occupation with current timetable list
+     *
+     * @param timetableList - timetable
+     * @param occupation    - occupation
+     * @param classRoomMap  - class room list
+     */
+    public static void populateOccupation(@NonNull List<Timetable> timetableList, ArrayListValuedHashMap<ClassRoom, Reservation> occupation, Map<String, ClassRoom> classRoomMap) {
+        timetableList.stream()
+                .filter(timetable -> StringUtils.isNotBlank(timetable.getClassRoom()))
+                .forEach(timetable -> {
+                    if (classRoomMap.containsKey(timetable.getClassRoom())) {
+                        Reservation reservation = Reservation.builder()
+                                .begin(TimeUtils.convertToLocalDateTime(timetable.getDay(), timetable.getBegin()))
+                                .end(TimeUtils.convertToLocalDateTime(timetable.getDay(), timetable.getEnd()))
+                                .build();
+                        ClassRoom room = classRoomMap.get(timetable.getClassRoom());
+                        occupation.put(room, reservation);
+                    }
+                });
     }
 }

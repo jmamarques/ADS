@@ -22,6 +22,10 @@ public class ClassRoom {
     private int examCapacity;
     private int featuresNumber;
     private List<String> features;
+    private boolean hasError;
+    private String error;
+
+    public boolean isNotError() {
+        return !hasError;
+    }
 }
-/* testessss*/
-/* alooooooooooooooooooo*/

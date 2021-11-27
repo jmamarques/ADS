@@ -5,6 +5,8 @@ import com.ads.models.Timetable;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -95,5 +97,38 @@ public class TimetableMapper {
      */
     public static List<Timetable> toTimetableWithoutClassList(@NonNull List<Timetable> timetableList) {
         return timetableList.stream().map(TimetableMapper::toTimetable).peek(timetable -> timetable.setClassRoom(null)).collect(Collectors.toList());
+    }
+
+    /**
+     * Split timetable based on Time in period of 30minutes
+     *
+     * @param timetableList target timetable
+     * @return List of timetable of 30 minutes
+     */
+    public static List<Timetable> splitTimetableBasedOnTime(@NonNull List<Timetable> timetableList) {
+        ArrayList<Timetable> resultList = new ArrayList<>();
+        timetableList.stream()
+                .forEach(timetable -> {
+                    if (timetable.isHasError()) {
+                        resultList.add(TimetableMapper.toTimetable(timetable));
+                    } else if (timetable.getBegin() == null || timetable.getEnd() == null) {
+                        Timetable timetableTemp = TimetableMapper.toTimetable(timetable);
+                        timetableTemp.setHasError(true);
+                        timetableTemp.setError("Begin Date and/or End Date is/are null");
+                        resultList.add(timetableTemp);
+                    } else {
+                        LocalTime begin = timetable.getBegin();
+                        LocalTime end = timetable.getEnd();
+                        while (begin.isBefore(end)) {
+                            LocalTime tempEnd = begin.plusMinutes(30);
+                            Timetable timetableTemp = TimetableMapper.toTimetable(timetable);
+                            timetableTemp.setBegin(begin);
+                            timetableTemp.setEnd(tempEnd);
+                            resultList.add(timetableTemp);
+                            begin = tempEnd;
+                        }
+                    }
+                });
+        return resultList;
     }
 }

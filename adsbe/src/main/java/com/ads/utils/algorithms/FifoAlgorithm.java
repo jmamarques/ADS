@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.ads.utils.algorithms.AlgorithmUtil.populateOccupation;
+
 /**
  * JMA - 21/11/2021 09:18
  * Algorithm - doesn't matter the qualities, only apply the rule first in first out
@@ -39,18 +41,7 @@ public class FifoAlgorithm implements Algorithm {
         // clone all list
         List<Timetable> timetables = TimetableMapper.toTimetableList(timetableList);
         //populate initial occupation Map
-        timetables.stream()
-                .filter(timetable -> StringUtils.isNotBlank(timetable.getClassRoom()))
-                .forEach(timetable -> {
-                    if (classRoomMap.containsKey(timetable.getClassRoom())) {
-                        Reservation reservation = Reservation.builder()
-                                .begin(TimeUtils.convertToLocalDateTime(timetable.getDay(), timetable.getBegin()))
-                                .end(TimeUtils.convertToLocalDateTime(timetable.getDay(), timetable.getEnd()))
-                                .build();
-                        ClassRoom room = classRoomMap.get(timetable.getClassRoom());
-                        occupation.put(room, reservation);
-                    }
-                });
+        populateOccupation(timetables, occupation, classRoomMap);
         // iterate and change the classroom
         timetables.stream()
                 .filter(timetable -> !timetable.isHasError() && StringUtils.isBlank(timetable.getClassRoom()))
