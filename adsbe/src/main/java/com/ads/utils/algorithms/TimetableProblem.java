@@ -2,23 +2,30 @@ package com.ads.utils.algorithms;
 
 import com.ads.models.ClassRoom;
 import com.ads.models.Timetable;
+import com.ads.utils.criteria.AllocationCriteria;
+import com.ads.utils.criteria.ClassRoomSizeCriteria;
+import com.ads.utils.criteria.ConflictCriteria;
 import com.ads.utils.criteria.Criteria;
 import lombok.NonNull;
-import org.uma.jmetal.problem.permutationproblem.impl.AbstractIntegerPermutationProblem;
-import org.uma.jmetal.solution.permutationsolution.PermutationSolution;
+import lombok.extern.log4j.Log4j2;
+import org.uma.jmetal.problem.integerproblem.impl.AbstractIntegerProblem;
+import org.uma.jmetal.solution.integersolution.IntegerSolution;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * JMA - 23/11/2021 22:15
  * Structure for our problem
  **/
-public class TimetableProblem extends AbstractIntegerPermutationProblem {
+@Log4j2
+public class TimetableProblem extends AbstractIntegerProblem {
     private int length;
     private List<ClassRoom> classRoomList;
     private List<Timetable> timetableList;
     private List<Class<? extends Criteria>> objectivesClass;
-    private List<Class<? extends Criteria>> constraintsClass;
 
     public TimetableProblem() {
     }
@@ -26,35 +33,39 @@ public class TimetableProblem extends AbstractIntegerPermutationProblem {
     public TimetableProblem(int length,
                             @NonNull List<ClassRoom> classRoomList,
                             @NonNull List<Timetable> timetableList,
-                            @NonNull List<Class<? extends Criteria>> objectivesClass,
-                            @NonNull List<Class<? extends Criteria>> constraintsClass) {
+                            @NonNull List<Class<? extends Criteria>> objectivesClass) {
         this.length = length;
         this.classRoomList = classRoomList;
         this.timetableList = timetableList;
         this.objectivesClass = objectivesClass;
-        this.constraintsClass = constraintsClass;
+        List<Integer> values = IntStream.range(0, length).map(operand -> 0)
+                .boxed()
+                .collect(Collectors.toList());
+        List<Integer> values2 = IntStream.range(0, length).map(operand -> classRoomList.size() - 1)
+                .boxed()
+                .collect(Collectors.toList());
+        setVariableBounds(values, values2);
         setNumberOfObjectives(objectivesClass.size());
-        setNumberOfConstraints(constraintsClass.size());
         setName("ads");
     }
 
     public TimetableProblem(int length, List<ClassRoom> classRoomList, List<Timetable> timetableList) {
-        this.length = length;
-        this.classRoomList = classRoomList;
-        this.timetableList = timetableList;
-        setNumberOfObjectives(1);
-        setNumberOfConstraints(1);
-        setName("ads");
+        this(length, classRoomList, timetableList,
+                List.of(AllocationCriteria.class,
+                        ConflictCriteria.class, ClassRoomSizeCriteria.class));
     }
 
     @Override
-    public int getLength() {
-        return length;
-    }
-
-    @Override
-    public PermutationSolution<Integer> evaluate(PermutationSolution<Integer> solution) {
-        solution.objectives()[0] = solution.variables().get(0) % 5;
+    public IntegerSolution evaluate(IntegerSolution solution) {
+        for (int i = 0; i < objectivesClass.size(); i++) {
+            Class<? extends Criteria> aClass = objectivesClass.get(i);
+            try {
+                Criteria criteria = aClass.getDeclaredConstructor().newInstance();
+                solution.objectives()[i] = criteria.applyCriteria(classRoomList, timetableList, solution.variables());
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                log.error(e.getMessage());
+            }
+        }
         return solution;
     }
 }

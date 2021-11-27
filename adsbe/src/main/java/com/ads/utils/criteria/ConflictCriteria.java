@@ -25,14 +25,13 @@ public class ConflictCriteria implements Criteria {
     @Override
     public double applyCriteria(@NonNull List<ClassRoom> classRoomList, @NonNull List<Timetable> timetableList, List<Integer> solution) {
         double result = 0.0;
-        int numConflicts = 0;
         ArrayListValuedHashMap<ClassRoom, Reservation> occupation = new ArrayListValuedHashMap<>();
         //populate initial occupation Map
         Map<String, ClassRoom> classRoomMap = classRoomList.stream().collect(Collectors.toMap(ClassRoom::getRoomName, Function.identity()));
         populateOccupation(timetableList, occupation, classRoomMap);
         // process solution
         for (int i = 0; i < solution.size(); i++) {
-            int classRoomIndex = solution.get(i) / timetableList.size();
+            int classRoomIndex = solution.get(i);
             Timetable timetable = timetableList.get(i);
             ClassRoom classRoom = classRoomList.get(classRoomIndex);
             // we already have this occupation registered
@@ -47,8 +46,7 @@ public class ConflictCriteria implements Criteria {
             if (AlgorithmUtil.isAvailable(classRoom, reservation, occupation)) {
                 occupation.put(classRoom, reservation);
             } else {
-                numConflicts++;
-                result += numConflicts * 1000;
+                result += 1000;
             }
         }
         return result;

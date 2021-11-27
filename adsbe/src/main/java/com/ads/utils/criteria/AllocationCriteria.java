@@ -31,7 +31,7 @@ public class AllocationCriteria implements Criteria {
         populateOccupation(timetableList, occupation, classRoomMap);
         // calculation
         for (int i = 0; i < solution.size(); i++) {
-            int classRoomIndex = solution.get(i) / timetables.size();
+            int classRoomIndex = solution.get(i);
             ClassRoom classRoom = classRoomList.get(classRoomIndex);
             Timetable timetable = timetables.get(i);
             // we already have this occupation registered
