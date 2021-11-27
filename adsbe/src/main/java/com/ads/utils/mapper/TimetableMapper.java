@@ -15,8 +15,10 @@ import java.util.stream.Collectors;
 public class TimetableMapper {
 
     /**
-     * @param timetableDTO
-     * @return
+     * Maps timetable dto into timetable
+     *
+     * @param timetableDTO timetable dto
+     * @return timetable mapped
      */
     public static Timetable toTimetable(@NonNull TimetableDTO timetableDTO) {
         return Timetable.builder()
@@ -33,7 +35,7 @@ public class TimetableMapper {
                 .day(timetableDTO.getDay())
                 .features(timetableDTO.getFeatures())
                 // Do not copy the Class Room from EXCEL/API
-                // .classRoom(timetableDTO.getClassRoom())
+                .classRoom(timetableDTO.getClassRoom())
                 .capacity(timetableDTO.getCapacity())
                 .realFeatures(timetableDTO.getRealFeatures())
                 .build();
@@ -41,8 +43,9 @@ public class TimetableMapper {
 
     /**
      * Maps the timetable
-     * @param timetableDTOS
-     * @return
+     *
+     * @param timetableDTOS - list of timetables dto
+     * @return list of timetables - objects
      */
     public static List<Timetable> toTimetable(@NonNull List<TimetableDTO> timetableDTOS) {
         return timetableDTOS.stream().map(TimetableMapper::toTimetable).collect(Collectors.toList());
@@ -50,8 +53,9 @@ public class TimetableMapper {
 
     /**
      * Build the timetable according with some features
-     * @param timetable
-     * @return
+     *
+     * @param timetable - timetable target
+     * @return new timetable
      */
     public static Timetable toTimetable(@NonNull Timetable timetable) {
         return Timetable.builder()
@@ -68,16 +72,28 @@ public class TimetableMapper {
                 .day(timetable.getDay())
                 .features(timetable.getFeatures())
                 .capacity(timetable.getCapacity())
+                .classRoom(timetable.getClassRoom())
                 .realFeatures(timetable.getRealFeatures())
                 .build();
     }
 
     /**
      * list of timetable mapped
-     * @param timetableList
-     * @return
+     *
+     * @param timetableList timetable list
+     * @return List of timetable without classroon filled
      */
     public static List<Timetable> toTimetableList(@NonNull List<Timetable> timetableList) {
         return timetableList.stream().map(TimetableMapper::toTimetable).collect(Collectors.toList());
+    }
+
+    /**
+     * list of timetable mapped without class
+     *
+     * @param timetableList timetable list
+     * @return List of timetable without classroom filled
+     */
+    public static List<Timetable> toTimetableWithoutClassList(@NonNull List<Timetable> timetableList) {
+        return timetableList.stream().map(TimetableMapper::toTimetable).peek(timetable -> timetable.setClassRoom(null)).collect(Collectors.toList());
     }
 }
