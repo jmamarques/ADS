@@ -24,7 +24,12 @@ public class ClassRoomSizeCriteria implements Criteria {
                 continue;
             }
             // give more punctuation when the number of persons is higher or lower
-            result += Math.abs(classRoom.getNormalCapacity() - timetable.getCapacity()) * 10;
+            int capacity = classRoom.getNormalCapacity() - timetable.getCapacity();
+            if (capacity > 0) {
+                result += Math.abs(capacity) * 10;
+            } else {
+                result += Math.abs(capacity);
+            }
         }
         return result;
     }

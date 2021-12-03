@@ -4,8 +4,7 @@ import com.ads.models.ClassRoom;
 import com.ads.models.Timetable;
 import com.ads.utils.CaseUtil;
 import com.ads.utils.algorithms.TimetableProblem;
-import com.ads.utils.criteria.ConflictCriteria;
-import com.ads.utils.criteria.Criteria;
+import com.ads.utils.criteria.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIII;
@@ -36,9 +35,10 @@ public class NSGAIIIService {
         List<ClassRoom> classRooms = CaseUtil.getClassRooms();
         List<Timetable> timetables = CaseUtil.getTimetables();
 
-        int maxGenerations = 1000;//25000;
+        int maxGenerations = 500;//25000;
         int populationSize = 100;
-        return this.process(classRooms, timetables, maxGenerations, populationSize, List.of(ConflictCriteria.class));
+        return this.process(classRooms, timetables, maxGenerations, populationSize,
+                List.of(AllocationCriteria.class, ClassRoomSizeCriteria.class, FeatureCriteria.class));
     }
 
     /**

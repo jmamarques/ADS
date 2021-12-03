@@ -10,6 +10,7 @@ import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.uma.jmetal.problem.integerproblem.impl.AbstractIntegerProblem;
 import org.uma.jmetal.solution.integersolution.IntegerSolution;
+import org.uma.jmetal.solution.integersolution.impl.DefaultIntegerSolution;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -46,13 +47,12 @@ public class TimetableProblem extends AbstractIntegerProblem {
                 .collect(Collectors.toList());
         setVariableBounds(values, values2);
         setNumberOfObjectives(objectivesClass.size());
+        setNumberOfConstraints(1);
         setName("ads");
     }
 
     public TimetableProblem(int length, List<ClassRoom> classRoomList, List<Timetable> timetableList) {
-        this(length, classRoomList, timetableList,
-                List.of(AllocationCriteria.class,
-                        ConflictCriteria.class, ClassRoomSizeCriteria.class));
+        this(length, classRoomList, timetableList, List.of(AllocationCriteria.class, ClassRoomSizeCriteria.class));
     }
 
     @Override
@@ -66,6 +66,16 @@ public class TimetableProblem extends AbstractIntegerProblem {
                 log.error(e.getMessage());
             }
         }
+        this.evaluateConstraints(solution);
         return solution;
+    }
+
+    public void evaluateConstraints(IntegerSolution solution) {
+        solution.constraints()[0] = new ConflictCriteria().applyCriteria(classRoomList, timetableList, solution.variables());
+    }
+
+    @Override
+    public IntegerSolution createSolution() {
+        return new DefaultIntegerSolution(getNumberOfObjectives(), getNumberOfConstraints(), getBoundsForVariables());
     }
 }
