@@ -19,8 +19,8 @@ export class FileService {
     return this.http.request(req);
   }
 
-  headers_be(file: File): any {
-    of(["aadawad", "adawdawd", "dadad"]);
+  headers_be(file: any): Observable<String[]> {
+    return of(["aadawad", "adawdawd", "dadad"]);
   }
 
 }

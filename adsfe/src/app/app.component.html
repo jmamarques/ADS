@@ -9,9 +9,75 @@
     <a href="" class="ms-auto link-light" hreflang="ar">Group 13</a>
   </div>
 </header>
+
 <div class="container">
-  <div class="mt-3 mb-3">
-    <label for="classFile" class="form-label">Ficheiro de sala de aulas:</label>
-    <input class="form-control" type="file" id="classFile" accept="{{accept}}" (change)="uploadClassFile($event)">
+  <div class="row">
+    <mat-stepper orientation="vertical" [linear]="true" #stepper>
+      <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>Carregamento do ficheiro das Salas de Aula</ng-template>
+          <div class="col-12 mt-3 mb-3">
+            <label for="classFile" class="form-label">Ficheiro de sala de aulas:</label>
+            <input class="form-control" [multiple]="false" type="file" id="classFile" accept="{{accept}}"
+                   (change)="uploadClassFile($event)">
+          </div>
+          <div>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup">
+          <ng-template matStepLabel>Mapeamento das salas de aula</ng-template>
+
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="thirdFormGroup">
+        <form [formGroup]="thirdFormGroup">
+          <ng-template matStepLabel>Carregamento do ficheiro dos horários</ng-template>
+          <div class="col-12 mt-3 mb-3">
+            <label for="timetableFile" class="form-label">Ficheiro dos horários:</label>
+            <input class="form-control" [multiple]="false" type="file" id="timetableFile" accept="{{accept}}"
+                   (change)="uploadTimetableFile($event)">
+          </div>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="fourthFormGroup">
+        <form [formGroup]="fourthFormGroup">
+          <ng-template matStepLabel>Mapeamento dos horários</ng-template>
+
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="fifthFormGroup">
+        <form [formGroup]="fifthFormGroup">
+          <ng-template matStepLabel>Critérios de qualidade</ng-template>
+
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        <p>You are now done.</p>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="stepper.reset()">Reset</button>
+        </div>
+      </mat-step>
+    </mat-stepper>
   </div>
 </div>

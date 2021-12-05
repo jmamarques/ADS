@@ -43,3 +43,7 @@
     transform: rotate(359deg);
   }
 }
+
+.over {
+  overflow-x: hidden !important
+}
