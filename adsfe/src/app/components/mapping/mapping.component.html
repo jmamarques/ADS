@@ -1,1 +1,15 @@
-<p>mapping works!</p>
+<div class="container mt-3" *ngIf="excelHeaders">
+  <div class="row">
+    <ng-container [formGroup]="formGroup" *ngFor="let header of excelHeaders; index as i">
+      <div class="col-md-4 col-lg-4 col-sm-12 col-xl-3 col-xll-2">
+        <!-- matTooltip="{{i + ': ' + header}}" matTooltipPosition="above" -->
+        <mat-form-field appearance="fill">
+          <mat-label>{{i + ': ' + header}}</mat-label>
+          <mat-select [formControlName]="i" (valueChange)="changeValue($event, i)">
+            <mat-option *ngFor="let headerClass of headers" [value]="headerClass">{{headerClass}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </ng-container>
+  </div>
+</div>

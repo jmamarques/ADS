@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from "@angular/router";
 import {FileService} from "./core/file.service";
-import {Observable} from "rxjs";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Observable, of} from "rxjs";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -30,7 +30,15 @@ export class AppComponent implements OnInit {
   fifthFormGroup: FormGroup = this.fb.group({
     fifthCtrl: ['', Validators.required],
   });
+  // Mappings
+  headerClassroom: String[] = [];
+  excelClassHeaders$: Observable<String[]> = of([]);
+  headerTimetable: String[] = [];
+  excelTimetableHeaders$: Observable<String[]> = of([]);
 
+  // Constructor
+  timetableValid: boolean = false;
+  classValid: boolean = false;
   constructor(private router: Router,
               private fileService: FileService,
               private fb: FormBuilder) {
@@ -41,6 +49,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.headerClassroom = this.fileService.headersClassroom();
+    this.headerTimetable = this.fileService.headersTimetable();
   }
 
   /**
@@ -52,6 +62,7 @@ export class AppComponent implements OnInit {
     if (events && events.target && events.target.files) {
       this.classFile = events.target.files[0];
       this.firstFormGroup.controls['firstCtrl'].setValue(this.classFile);
+      this.excelClassHeaders$ = this.fileService.headers_be(this.classFile);
     }
   }
 
@@ -64,6 +75,7 @@ export class AppComponent implements OnInit {
     if (events && events.target && events.target.files) {
       this.timetableFile = events.target.files[0];
       this.thirdFormGroup.controls['thirdCtrl'].setValue(this.timetableFile);
+      this.excelTimetableHeaders$ = this.fileService.headers_be(this.timetableFile);
     }
   }
 
@@ -83,7 +95,23 @@ export class AppComponent implements OnInit {
     }
   }
 
-  defaultValueClass(header: any, i: any) {
-    return '';
+  updateMappingClass(result: any) {
+    if(result && this.classValid){
+      this.secondFormGroup.controls['secondCtrl'].setValue(result);
+    }
+  }
+
+  updateMappingTimetable(result: any) {
+    if(result && this.timetableValid) {
+      this.fourthFormGroup.controls['fourthCtrl'].setValue(result);
+    }
+  }
+  changeTimetableValid(isValid: boolean) {
+    this.timetableValid = isValid;
+    console.log(this.timetableValid);
+  }
+  changeClassValid(isValid: boolean) {
+    this.classValid = isValid;
+    console.log(this.classValid);
   }
 }

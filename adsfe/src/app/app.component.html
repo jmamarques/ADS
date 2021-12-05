@@ -29,7 +29,8 @@
       <mat-step [stepControl]="secondFormGroup">
         <form [formGroup]="secondFormGroup">
           <ng-template matStepLabel>Mapeamento das salas de aula</ng-template>
-
+          <app-mapping (isValid)="changeClassValid($event)" [headers]="headerClassroom" [excelHeaders]="excelClassHeaders$ | async"
+                       (mappingValue)="updateMappingClass($event)"></app-mapping>
           <div>
             <button mat-button matStepperPrevious>Back</button>
             <button mat-button matStepperNext>Next</button>
@@ -53,7 +54,8 @@
       <mat-step [stepControl]="fourthFormGroup">
         <form [formGroup]="fourthFormGroup">
           <ng-template matStepLabel>Mapeamento dos horários</ng-template>
-
+          <app-mapping (isValid)="changeTimetableValid($event)" [headers]="headerTimetable" [excelHeaders]="excelTimetableHeaders$ | async"
+                       (mappingValue)="updateMappingTimetable($event)"></app-mapping>
           <div>
             <button mat-button matStepperPrevious>Back</button>
             <button mat-button matStepperNext>Next</button>
