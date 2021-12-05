@@ -2,6 +2,7 @@ package com.ads.services;
 
 import com.ads.dto.ScheduleDTO;
 import com.ads.models.ClassRoom;
+import com.ads.utils.constants.GeneralConst;
 import com.ads.utils.mapper.ClassRoomMapper;
 import com.ads.utils.validators.TimetableValidator;
 import lombok.NonNull;
@@ -23,5 +24,13 @@ public class TimetablesService {
             List<ClassRoom> classRooms = ClassRoomMapper.toClassRoom(scheduleDTO.getClassDTOS());
         }
 
+    }
+
+    public String[] getClassRoomHeaders() {
+        return GeneralConst.CLASS_FIELD_MAPPING;
+    }
+
+    public String[] getTimetableHeaders() {
+        return GeneralConst.TIMETABLE_FIELD_MAPPING;
     }
 }

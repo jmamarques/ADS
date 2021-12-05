@@ -1,31 +1,13 @@
 package com.ads.configuration;
 
-import com.ads.dto.ClassDTO;
-import com.ads.dto.TimetableDTO;
 import com.ads.models.ClassRoom;
 import com.ads.models.Timetable;
-import com.ads.utils.algorithms.FeatureAlgorithm;
-import com.ads.utils.algorithms.FifoAlgorithm;
-import com.ads.utils.mapper.ClassRoomMapper;
-import com.ads.utils.mapper.TimetableMapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.opencsv.bean.ColumnPositionMappingStrategy;
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-import java.io.InputStream;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * JMA - 24/2/2021 17:20
@@ -39,7 +21,7 @@ public class StartUp implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        InputStream inputStream = new ClassPathResource("static/ADS_Caracterizacao_das_salas.csv").getInputStream();
+       /* InputStream inputStream = new ClassPathResource("static/ADS_Caracterizacao_das_salas.csv").getInputStream();
         ColumnPositionMappingStrategy<ClassDTO> ms = new ColumnPositionMappingStrategy();
         ms.setType(ClassDTO.class);
 
@@ -83,7 +65,7 @@ public class StartUp implements CommandLineRunner {
 
         FeatureAlgorithm featureAlgorithm = new FeatureAlgorithm();
         List<Timetable> apply1 = featureAlgorithm.apply(classRooms, timetables, new ArrayList<>());
-        apply1.stream().forEach(System.out::println);
+        apply1.stream().forEach(System.out::println);*/
 
         /*SWRLAPIService swrlapiService = new SWRLAPIService();
         swrlapiService.algorithm(3);*/
