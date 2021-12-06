@@ -8,7 +8,11 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * JMA - 07/11/2021 18:38
+ * generic class withe the caracterization of room
+ * strings: building, roomName, error
+ * list string: features
+ * int: normal capacity, exam capacity, features number
+ * boolean: if has an error
  **/
 @Data
 @Builder
@@ -25,6 +29,10 @@ public class ClassRoom {
     private boolean hasError;
     private String error;
 
+    /**
+     * returns if is an error
+     * @return boolean
+     */
     public boolean isNotError() {
         return !hasError;
     }

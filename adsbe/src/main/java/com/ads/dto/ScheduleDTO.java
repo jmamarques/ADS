@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**
- * JMA - 17/11/2021 22:59
+ * class that is a shedule with the caracterization of the rooms and timetables serializable
  **/
 @Data
 @AllArgsConstructor

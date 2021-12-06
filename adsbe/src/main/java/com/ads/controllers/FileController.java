@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 /**
- * JMA - 25/10/2021 21:17
+ * Control the timetable servixe and the service of file
  **/
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -25,11 +25,20 @@ public class FileController {
     private final TimetablesService timetablesService;
     private final FileService fileService;
 
+    /**
+     * constructor of class FileController
+     * @param timetablesService
+     * @param fileService
+     */
     public FileController(TimetablesService timetablesService, FileService fileService) {
         this.timetablesService = timetablesService;
         this.fileService = fileService;
     }
 
+    /**
+     * select a file with the timetables to upload
+     * @param file
+     */
     @GetMapping("/file/timetable")
     @ApiOperation(value = "Upload timetables to process (File)",
             produces = "application/json", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -39,6 +48,10 @@ public class FileController {
 
     }
 
+    /**
+     * process timetable to JSON
+     * @param scheduleDTO
+     */
     @GetMapping("/json/timetable")
     @ApiOperation(value = "Upload timetables to process (Json)",
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -47,6 +60,11 @@ public class FileController {
         timetablesService.processJsonTimetable(scheduleDTO);
     }
 
+    /**
+     * process a csv file to get the headers
+     * @param file
+     * @return headers
+     */
     @PostMapping("/headers")
     @ApiOperation(value = "Upload csv file to get headers file",
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -56,12 +74,20 @@ public class FileController {
         return fileService.getHeadersFromFile(file);
     }
 
+    /**
+     * obtains the headers of the classroom
+     * @return timetablesService
+     */
     @GetMapping("/headers/classroom")
     @ApiOperation(value = "Get headers for Classroom", produces = MediaType.APPLICATION_JSON_VALUE)
     public String[] getClassroomHeaders() {
         return timetablesService.getClassRoomHeaders();
     }
 
+    /**
+     * obtains the timetable headers
+     * @return the timetablesservice with the headers
+     */
     @GetMapping("/headers/timetable")
     @ApiOperation(value = "Get headers for Timetable", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value = {

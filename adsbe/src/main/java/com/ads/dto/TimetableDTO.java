@@ -23,7 +23,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * JMA - 16/11/2021 22:39
+ * class that serialize objects to convert its state to a byte stream (this byte stream can be reverted too)
+ * in this case the complete object with timetable
  **/
 @Data
 @AllArgsConstructor

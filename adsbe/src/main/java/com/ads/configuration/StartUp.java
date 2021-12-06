@@ -19,6 +19,10 @@ public class StartUp implements CommandLineRunner {
     public static List<ClassRoom> classRooms = new ArrayList<>();
     public static List<Timetable> timetables = new ArrayList<>();
 
+    /**
+     * @param args
+     * @throws Exception
+     */
     @Override
     public void run(String... args) throws Exception {
        /* InputStream inputStream = new ClassPathResource("static/ADS_Caracterizacao_das_salas.csv").getInputStream();

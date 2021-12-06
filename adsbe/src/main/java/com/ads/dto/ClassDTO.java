@@ -18,7 +18,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * JMA - 25/10/2021 21:20
+ * class that serialize objects to convert its state to a byte stream (this byte stream can be reverted too)
+ * in this case the complete object with room caracterization
  **/
 @Data
 @AllArgsConstructor

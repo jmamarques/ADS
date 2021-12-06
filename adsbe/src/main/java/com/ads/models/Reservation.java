@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
- * JMA - 21/11/2021 10:23
+ * class that define a reservation of a room with the specified time interval
+ * variables LocalDateTime: begin and end
  **/
 @Data
 @AllArgsConstructor

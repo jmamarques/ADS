@@ -11,7 +11,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * JMA - 17/11/2021 23:05
+ * class that characterizes a timetable
+ * Objects like : course, unit, classnumber, dayof week, capacity etc.
  **/
 @Data
 @Builder
@@ -36,6 +37,10 @@ public class Timetable {
     private boolean hasError;
     private String error;
 
+    /**
+     * returns if is an error
+     * @return boolean
+     */
     public boolean isNotError() {
         return !hasError;
     }

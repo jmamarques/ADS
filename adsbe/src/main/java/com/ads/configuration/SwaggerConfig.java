@@ -13,10 +13,18 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
 
+/**
+ *  Configuration of swagger
+ */
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
 
+    /**
+     * After defining Docket bean, the select() method returns an instance of ApiSelector Builder
+     * controls the endpoints exposed by swagger
+     * @return Docket
+     */
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -28,6 +36,10 @@ public class SwaggerConfig {
                 .pathMapping("/");
     }
 
+    /**
+     * Contains custom information about the APU
+     * @return ApiInfo - info about the project such as name, description, version, terms, contact, licence
+     */
     private ApiInfo metaData() {
 
         Contact contact = new Contact("Group 13", "https://<TBD>/",
