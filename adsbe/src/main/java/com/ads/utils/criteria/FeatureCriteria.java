@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * JMA - 27/11/2021 09:36
+ * Class that feature the criteria applies if it needs of classroom
  **/
 public class FeatureCriteria implements Criteria {
     @Override

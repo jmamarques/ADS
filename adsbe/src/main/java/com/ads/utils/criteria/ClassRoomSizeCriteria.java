@@ -8,9 +8,21 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 
 /**
- * JMA - 27/11/2021 18:44
+ * class based in the criteria classroom size
  **/
 public class ClassRoomSizeCriteria implements Criteria {
+    /**
+     * objective : apply the criteria classroom size based on the classroom list, timetable, solution
+     * First, process the solution and for each solution get the classroom and the timetable associated to the solution.
+     * Inside of the loop for verify if the occupation is registered
+     * Give pontuaction in case of the persons is higher or lower
+     * If the capacity > 0 we must multiply by 10
+     * else just return the value
+     * @param classRoomList
+     * @param timetableList
+     * @param solution
+     * @return integer of result
+     */
     @Override
     public double applyCriteria(@NonNull List<ClassRoom> classRoomList, @NonNull List<Timetable> timetableList, List<Integer> solution) {
         double result = 0.0;

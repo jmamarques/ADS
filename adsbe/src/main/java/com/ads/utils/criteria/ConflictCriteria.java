@@ -22,6 +22,12 @@ import static com.ads.utils.algorithms.AlgorithmUtil.populateOccupation;
  **/
 public class ConflictCriteria implements Criteria {
 
+    /**
+     * @param classRoomList
+     * @param timetableList
+     * @param solution
+     * @return
+     */
     @Override
     public double applyCriteria(@NonNull List<ClassRoom> classRoomList, @NonNull List<Timetable> timetableList, List<Integer> solution) {
         double result = 0.0;

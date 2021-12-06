@@ -19,7 +19,7 @@ import java.util.stream.IntStream;
 
 /**
  * JMA - 23/11/2021 22:15
- * Structure for our problem
+ * Structure for the generic problem of project 3
  **/
 @Log4j2
 public class TimetableProblem extends AbstractIntegerProblem {
@@ -31,6 +31,16 @@ public class TimetableProblem extends AbstractIntegerProblem {
     public TimetableProblem() {
     }
 
+    /**
+     * associates the values of length, classroom list, timetable list and objectives class to the variables
+     * This method also, created two list's
+     * One list consists in a mapping and returns a colection consisting of the elements of the stream, in this case range until range and mapping by the operand
+     * Second list consists in a mapping and returns a colection consisting of the elements of the stream, in this case range until range and mapping by the classroom size
+     * @param length
+     * @param classRoomList
+     * @param timetableList
+     * @param objectivesClass
+     */
     public TimetableProblem(int length,
                             @NonNull List<ClassRoom> classRoomList,
                             @NonNull List<Timetable> timetableList,
@@ -51,10 +61,21 @@ public class TimetableProblem extends AbstractIntegerProblem {
         setName("ads");
     }
 
+    /**
+     * @param length
+     * @param classRoomList
+     * @param timetableList
+     */
     public TimetableProblem(int length, List<ClassRoom> classRoomList, List<Timetable> timetableList) {
         this(length, classRoomList, timetableList, List.of(AllocationCriteria.class, ClassRoomSizeCriteria.class));
     }
 
+    /**
+     * evaluates the objectives class
+     * apply the criteria to each one of the objectives class based on the classroom and timetable lists.
+     * @param solution
+     * @return solution
+     */
     @Override
     public IntegerSolution evaluate(IntegerSolution solution) {
         for (int i = 0; i < objectivesClass.size(); i++) {
@@ -70,10 +91,17 @@ public class TimetableProblem extends AbstractIntegerProblem {
         return solution;
     }
 
+    /**
+     *
+     * @param solution
+     */
     public void evaluateConstraints(IntegerSolution solution) {
         solution.constraints()[0] = new ConflictCriteria().applyCriteria(classRoomList, timetableList, solution.variables());
     }
 
+    /**
+     * @return
+     */
     @Override
     public IntegerSolution createSolution() {
         return new DefaultIntegerSolution(getNumberOfObjectives(), getNumberOfConstraints(), getBoundsForVariables());

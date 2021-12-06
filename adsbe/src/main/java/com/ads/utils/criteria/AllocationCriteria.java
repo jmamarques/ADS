@@ -18,9 +18,20 @@ import java.util.stream.Collectors;
 import static com.ads.utils.algorithms.AlgorithmUtil.populateOccupation;
 
 /**
- * JMA - 27/11/2021 09:38
+ * class based in the criteria allocation
  **/
 public class AllocationCriteria implements Criteria {
+    /**
+     * objective : apply the criteria allocation of a room based on the classroom list, timetable, solution
+     * For each solution get the index of the classroom, in case of having the occupation registered we keep continuing
+     * After that we build the reservation according to the given time
+     * After build the reservation, this method validated from an algorithm if the class is free
+     * Also, this method counts the number of allocations
+     * @param classRoomList
+     * @param timetableList
+     * @param solution
+     * @return
+     */
     @Override
     public double applyCriteria(@NonNull List<ClassRoom> classRoomList, @NonNull List<Timetable> timetableList, List<Integer> solution) {
         int numberWithoutAllocation = 0;

@@ -42,6 +42,12 @@ public class AlgorithmUtil {
         return isValid;
     }
 
+    /**
+     * validate a valid class tolerance based on the capacity of a room destined to a timetable compared with the max size of the room
+     * @param timetable
+     * @param classRoom
+     * @return boolean
+     */
     public static boolean isValidClassTolerance(@NonNull Timetable timetable, @NonNull ClassRoom classRoom) {
         boolean isValid = false;
         double max = classRoom.getNormalCapacity() * 1.25;
