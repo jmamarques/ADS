@@ -11,10 +11,12 @@ import java.util.stream.Collectors;
 
 /**
  * JMA - 07/11/2021 20:53
+ * class that validates the timetable
  **/
 public class TimetableValidator {
 
     /**
+     * verify if is valid class
      * @param classDTOs
      * @return
      */
@@ -24,6 +26,7 @@ public class TimetableValidator {
     }
 
     /**
+     * verify if is valid class
      * @param classDTO
      * @return
      */
@@ -43,10 +46,20 @@ public class TimetableValidator {
     }
 
 
+    /**
+     * verify if is valid timetable
+     * @param timetable
+     * @return
+     */
     public static boolean isValidTimetable(Timetable timetable) {
         return timetable != null && timetable.getEnd() != null && timetable.getBegin() != null && timetable.getDay() != null;
     }
 
+    /**
+     * verify if is valid timetable
+     * @param timetables
+     * @return
+     */
     public static List<Timetable> validationTimetables(@NonNull List<Timetable> timetables) {
         return timetables.stream().peek(timetable -> {
             if (!TimetableValidator.isValidTimetable(timetable)) {
@@ -56,10 +69,19 @@ public class TimetableValidator {
         }).collect(Collectors.toList());
     }
 
+    /**
+     * verify if is valid class
+     * @param classRoom
+     * @return
+     */
     public static boolean isValidClassRoom(ClassRoom classRoom) {
         return classRoom != null && StringUtils.isNotBlank(classRoom.getRoomName());
     }
 
+    /**
+     * @param classRooms
+     * @return
+     */
     public static List<ClassRoom> validationClassRooms(@NonNull List<ClassRoom> classRooms) {
         return classRooms.stream().peek(classRoom -> {
             if (!TimetableValidator.isValidClassRoom(classRoom)) {

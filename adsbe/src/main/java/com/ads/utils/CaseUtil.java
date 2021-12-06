@@ -19,6 +19,10 @@ import java.util.stream.Collectors;
  **/
 @Log4j2
 public class CaseUtil {
+    /**
+     * returns the classrooms
+     * @return arraylist
+     */
     public static List<ClassRoom> getClassRooms() {
         ObjectMapper obj = new ObjectMapper();
         obj.registerModule(new JavaTimeModule());
@@ -33,6 +37,10 @@ public class CaseUtil {
         return new ArrayList<>();
     }
 
+    /**
+     * returns the timetables
+     * @return arraylist
+     */
     public static List<Timetable> getTimetables() {
         ObjectMapper obj = new ObjectMapper();
         obj.registerModule(new JavaTimeModule());
