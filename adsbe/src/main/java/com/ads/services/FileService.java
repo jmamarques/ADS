@@ -5,11 +5,13 @@ import com.ads.utils.exceptions.InvalidFileException;
 import com.ads.utils.exceptions.InvalidFormatException;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,8 +37,10 @@ public class FileService {
     public List<String> getHeadersFromFile(MultipartFile file) {
         try {
             String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-            if (Arrays.stream(GeneralConst.EXCEL_EXTENSION).anyMatch(s -> StringUtils.equalsIgnoreCase(s, extension))) {
+            if (StringUtils.equalsIgnoreCase(extension, GeneralConst.EXCEL_EXTENSION)) {
                 return processExcel(file);
+            } else if (StringUtils.equalsIgnoreCase(extension, GeneralConst.EXCEL_EXTENSION_XLSX)) {
+                return processExcelXlsx(file);
             } else if (StringUtils.equalsIgnoreCase(extension, GeneralConst.CSV_EXTENSION)) {
                 return processCsv(file);
             } else {
@@ -81,20 +85,41 @@ public class FileService {
         try {
             DataFormatter formatter = new DataFormatter(java.util.Locale.US);
             Workbook workbook = new HSSFWorkbook(file.getInputStream());
-            Sheet sheet = workbook.getSheetAt(0);
-            FormulaEvaluator evaluator = sheet.getWorkbook().getCreationHelper().createFormulaEvaluator();
-            int headerRowNum = sheet.getFirstRowNum();
-
-            // collecting the column headers as a Map of header names to column indexes
-            ArrayList<String> headers = new ArrayList<>();
-            Row row = sheet.getRow(headerRowNum);
-            for (Cell cell : row) {
-                String value = formatter.formatCellValue(cell, evaluator);
-                headers.add(value);
-            }
-            return headers;
+            return processGenericExcel(formatter, workbook);
         } catch (IOException e) {
             throw new InvalidFileException("Problems to Read the Excel file", e);
         }
+    }
+
+    /**
+     * list of headers
+     *
+     * @param file - Excel file XLSX
+     * @return List of headers
+     */
+    private List<String> processExcelXlsx(MultipartFile file) {
+        try {
+            DataFormatter formatter = new DataFormatter(java.util.Locale.US);
+            Workbook workbook = new XSSFWorkbook(file.getInputStream());
+            return processGenericExcel(formatter, workbook);
+        } catch (IOException e) {
+            throw new InvalidFileException("Problems to Read the Excel file", e);
+        }
+    }
+
+    @NonNull
+    private List<String> processGenericExcel(DataFormatter formatter, Workbook workbook) {
+        Sheet sheet = workbook.getSheetAt(0);
+        FormulaEvaluator evaluator = sheet.getWorkbook().getCreationHelper().createFormulaEvaluator();
+        int headerRowNum = sheet.getFirstRowNum();
+
+        // collecting the column headers as a Map of header names to column indexes
+        ArrayList<String> headers = new ArrayList<>();
+        Row row = sheet.getRow(headerRowNum);
+        for (Cell cell : row) {
+            String value = formatter.formatCellValue(cell, evaluator);
+            headers.add(value);
+        }
+        return headers;
     }
 }

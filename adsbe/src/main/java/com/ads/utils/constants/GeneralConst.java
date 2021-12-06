@@ -87,6 +87,7 @@ public class GeneralConst {
             "  \"Outros\"\n" +
             "]";
     // Excel Const
-    public final static String[] EXCEL_EXTENSION = new String[]{"xlsx", "xls"};
+    public final static String EXCEL_EXTENSION = "xls";
+    public final static String EXCEL_EXTENSION_XLSX = "xlsx";
     public final static String CSV_EXTENSION = "csv";
 }

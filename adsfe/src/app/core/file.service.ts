@@ -6,7 +6,7 @@ import {Observable, of} from "rxjs";
   providedIn: 'root'
 })
 export class FileService {
-  public static readonly BASE_URL_BACK_END = 'https://localhost:8080';
+  public static readonly BASE_URL_BACK_END = 'http://localhost:8080';
 
   constructor(private http: HttpClient) {
   }
@@ -17,26 +17,6 @@ export class FileService {
 
     const req = new HttpRequest('GET', `${FileService.BASE_URL_BACK_END}/ads/headers`, formData, {reportProgress: true, responseType: 'json'});
     return this.http.request(req);
-  }
-
-  headers_be(file: any): Observable<String[]> {
-    return of([
-      "Curso",
-      "Unidade de execução",
-      "Turno",
-      "Turma",
-      "Inscritos no turno (no 1º semestre é baseado em estimativas)",
-      "Turnos com capacidade superior à capacidade das características das salas",
-      "Turno com inscrições superiores à capacidade das salas",
-      "Dia da Semana",
-      "Início",
-      "Fim",
-      "Dia",
-      "Características da sala pedida para a aula",
-      "Sala da aula",
-      "Lotação",
-      "Características reais da sala"
-    ]);
   }
 
   headersClassroom(): String[]{
@@ -100,5 +80,16 @@ export class FileService {
       "Características reais da sala",
       "Outros"
     ];
+  }
+
+  headersExcel(classFile: File | undefined):Observable<String[]> {
+    if(classFile != undefined){
+      const formData: FormData = new FormData();
+      formData.append('file', classFile);
+
+      // @ts-ignore
+      return this.http.post(`${FileService.BASE_URL_BACK_END}/ads/headers`, formData);
+    }
+    return of([]);
   }
 }

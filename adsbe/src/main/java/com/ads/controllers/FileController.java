@@ -15,6 +15,7 @@ import java.util.List;
 /**
  * JMA - 25/10/2021 21:17
  **/
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @Api(tags = {"Timetable"})
 @RequestMapping("/ads")

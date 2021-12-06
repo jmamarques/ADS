@@ -10,7 +10,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  accept: string = '.xlsx,.csv';
+  accept: string = '.xlsx,.csv,.xls';
   loading = true;
   classFile: File | undefined;
   timetableFile: File | undefined;
@@ -62,7 +62,7 @@ export class AppComponent implements OnInit {
     if (events && events.target && events.target.files) {
       this.classFile = events.target.files[0];
       this.firstFormGroup.controls['firstCtrl'].setValue(this.classFile);
-      this.excelClassHeaders$ = this.fileService.headers_be(this.classFile);
+      this.excelClassHeaders$ = this.fileService.headersExcel(this.classFile);
     }
   }
 
@@ -75,7 +75,7 @@ export class AppComponent implements OnInit {
     if (events && events.target && events.target.files) {
       this.timetableFile = events.target.files[0];
       this.thirdFormGroup.controls['thirdCtrl'].setValue(this.timetableFile);
-      this.excelTimetableHeaders$ = this.fileService.headers_be(this.timetableFile);
+      this.excelTimetableHeaders$ = this.fileService.headersExcel(this.timetableFile);
     }
   }
 

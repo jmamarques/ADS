@@ -47,7 +47,6 @@ export class MappingComponent implements OnInit, OnChanges {
     }
   }
 
-
   changedValues() {
     if (this.formGroup.valid) {
       this.isValid.emit(true);
