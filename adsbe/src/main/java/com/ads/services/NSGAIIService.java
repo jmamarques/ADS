@@ -31,6 +31,10 @@ public class NSGAIIService {
         log.info(process);
     }
 
+    /**
+     * process the tests basead in the solutions from the defined method process
+     * @return population list
+     */
     public List<DefaultIntegerSolution> processTest() {
         List<ClassRoom> classRooms = CaseUtil.getClassRooms();
         List<Timetable> timetables = CaseUtil.getTimetables();

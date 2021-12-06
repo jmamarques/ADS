@@ -22,15 +22,18 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * JMA - 24/11/2021 22:40
+ * class thath will be essentially for get the headers of a file
+ * In the methods to get the headers, the param will be of type MultipartFile
+ * (A representation of an uploaded file received in a multipart request.
+ * The file contents are either stored in memory or temporarily on disk.)
+ *
  **/
 @Service
 @Log4j2
 public class FileService {
 
     /**
-     * list of headers
-     *
+     * list of headers of a csv/excel file
      * @param file - file(excel or csv)
      * @return List of headers
      */
@@ -52,8 +55,7 @@ public class FileService {
     }
 
     /**
-     * list of headers
-     *
+     * list of headers csv file
      * @param file - Csv file
      * @return List of headers
      */
@@ -76,7 +78,7 @@ public class FileService {
     }
 
     /**
-     * list of headers
+     * list of headers of excel file
      *
      * @param file - Excel file
      * @return List of headers
@@ -92,7 +94,7 @@ public class FileService {
     }
 
     /**
-     * list of headers
+     * list of headers of xlsx file
      *
      * @param file - Excel file XLSX
      * @return List of headers
@@ -107,6 +109,12 @@ public class FileService {
         }
     }
 
+    /**
+     * process the format of data and returns the headers
+     * @param formatter
+     * @param workbook
+     * @return
+     */
     @NonNull
     private List<String> processGenericExcel(DataFormatter formatter, Workbook workbook) {
         Sheet sheet = workbook.getSheetAt(0);

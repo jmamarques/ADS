@@ -12,10 +12,15 @@ import java.util.List;
 
 /**
  * JMA - 07/11/2021 17:06
+ * class that process data json from timetable
  **/
 @Service
 public class TimetablesService {
 
+    /**
+     * process json timetable
+     * @param scheduleDTO
+     */
     public void processJsonTimetable(@NonNull ScheduleDTO scheduleDTO) {
         // validate data received
         boolean validClassDTO = TimetableValidator.isValidClassDTO(scheduleDTO.getClassDTOS());
@@ -26,10 +31,14 @@ public class TimetablesService {
 
     }
 
-    public String[] getClassRoomHeaders() {
-        return GeneralConst.CLASS_FIELD_MAPPING;
-    }
+    /**
+     * @return mapping of the class field
+     */
+    public String[] getClassRoomHeaders() {return GeneralConst.CLASS_FIELD_MAPPING;}
 
+    /**
+     * @return mapping of the class field
+     */
     public String[] getTimetableHeaders() {
         return GeneralConst.TIMETABLE_FIELD_MAPPING;
     }

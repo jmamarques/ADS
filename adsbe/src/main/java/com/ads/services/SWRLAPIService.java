@@ -19,11 +19,21 @@ import java.util.List;
 
 /**
  * JMA - 22/11/2021 20:14
+ * SWRL - language that incorporates the mechanisms to identy semantic relationships between individuals
+ * class based on rule expressions providing the OWL-based ontologies
  **/
 @Log4j2
 @Service
 public class SWRLAPIService {
 
+    /**
+     * First, creates the OWL ontoloy from the OWLManager() and loads an ontology from an ontology document contained in a local file(ADS.owl)
+     * Second, create SQWRL query engine using the SWRLAPI
+     * After that, run and execute the query
+     * Finally, process the results to a list of strings results
+     * @param numberOfObjectives
+     * @return
+     */
     public List<String> algorithm(int numberOfObjectives) {
         ArrayList<String> result = new ArrayList<>();
         try {
