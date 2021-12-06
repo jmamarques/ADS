@@ -18,7 +18,7 @@
           <ng-template matStepLabel>Carregamento do ficheiro das Salas de Aula</ng-template>
           <div class="col-12 mt-3 mb-3">
             <label for="classFile" class="form-label">Ficheiro de sala de aulas:</label>
-            <input class="form-control" [multiple]="false" type="file" id="classFile" accept="{{accept}}"
+            <input class="form-control" [multiple]="false" type="file" id="classFile" accept=".xlsx,.csv,.xls"
                    (change)="uploadClassFile($event)">
           </div>
           <div>
