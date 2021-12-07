@@ -4,6 +4,7 @@ import {FileService} from "./core/file.service";
 import {Observable, of} from "rxjs";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatListOption} from "@angular/material/list";
+import {MatStepper} from "@angular/material/stepper";
 
 @Component({
   selector: 'app-root',
@@ -36,11 +37,15 @@ export class AppComponent implements OnInit {
   excelClassHeaders$: Observable<String[]> = of([]);
   headerTimetable: String[] = [];
   excelTimetableHeaders$: Observable<String[]> = of([]);
-
-  // Constructor
+  // Auxiliary variables
   timetableValid: boolean = false;
   classValid: boolean = false;
+  // fast attribute
+  isChecked = true;
+  // final check
+  isDone: boolean = false;
 
+  // Constructor
   constructor(private router: Router,
               private fileService: FileService,
               private fb: FormBuilder) {
@@ -158,5 +163,14 @@ export class AppComponent implements OnInit {
     if (result && result.length > 0) {
       this.fifthFormGroup.controls['fifthCtrl'].setValue(result);
     }
+  }
+
+  toggle() {
+    this.isChecked = !this.isChecked;
+  }
+
+  reset(stepper: MatStepper) {
+    stepper.reset();
+    this.isDone = false;
   }
 }

@@ -26,6 +26,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import { MappingComponent } from './components/mapping/mapping.component';
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 const material = [
   MatCardModule,
@@ -54,16 +55,17 @@ const material = [
     AppComponent,
     MappingComponent
   ],
-  imports: [
-    ...material,
-    ReactiveFormsModule,
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    CommonModule,
-    FormsModule,
-  ],
+    imports: [
+        ...material,
+        ReactiveFormsModule,
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        CommonModule,
+        FormsModule,
+        MatSlideToggleModule,
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

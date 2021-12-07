@@ -67,6 +67,11 @@
       </mat-step>
       <mat-step [stepControl]="fifthFormGroup">
         <form [formGroup]="fifthFormGroup">
+          <div class="alert alert-warning mt-3" role="alert">
+            Quanto mais critérios forem selecionados maior poderá ser o tempo de execução.
+          </div>
+          <mat-slide-toggle class="mt-3 mb-3" [checked]="isChecked" (toggleChange)="toggle()">Rápida
+            geração: {{isChecked ? 'ligado' : 'desligado'}}</mat-slide-toggle>
           <ng-template matStepLabel>Critérios de qualidade</ng-template>
           <mat-selection-list #quality (selectionChange)="updateCriterias(quality.selectedOptions.selected)">
             <mat-list-option *ngFor="let quality of typeofQuality" [value]="quality">
@@ -84,10 +89,20 @@
       </mat-step>
       <mat-step>
         <ng-template matStepLabel>Done</ng-template>
-        <p>You are now done.</p>
+        <div *ngIf="isDone; else loadingDone">
+          O Horário foi gerado!
+        </div>
+        <ng-template #loadingDone>
+          <div class="container">
+            <div class="alert alert-warning mt-3 blink-1" role="alert">
+              Por favor aguarde, esta acção pode demorar um pouco. Obrigado.
+            </div>
+            <img id="loading-image" src="assets/loading.gif" alt="Loading..."/>
+          </div>
+        </ng-template>
         <div>
           <button mat-button matStepperPrevious>Back</button>
-          <button mat-button (click)="stepper.reset()">Reset</button>
+          <button mat-button (click)="reset(stepper)">Reset</button>
         </div>
       </mat-step>
     </mat-stepper>
