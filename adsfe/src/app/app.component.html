@@ -66,6 +66,18 @@
         <form [formGroup]="fifthFormGroup">
           <ng-template matStepLabel>Critérios de qualidade</ng-template>
 
+          <mat-selection-list #quality>
+            <mat-list-option *ngFor="let quality of TypeofQuality" [value]="quality">
+              {{quality}}
+            </mat-list-option>
+          </mat-selection-list>
+
+          <p>
+            Critérios de Qualidade selecionados: {{quality.selectedOptions.selected.length}}
+          </p>
+
+
+
           <div>
             <button mat-button matStepperPrevious>Back</button>
             <button mat-button matStepperNext>Next</button>

@@ -114,4 +114,15 @@ export class AppComponent implements OnInit {
     this.classValid = isValid;
     console.log(this.classValid);
   }
+
+
+  TypeofQuality:
+    string[] = [
+      'Tolerância na quantidade de alunos alocados nas salas',
+      'O menor número de aulas sem salas alocadas',
+      'O menor número de mudanças de salas em conjuntos de aulas',
+      'O menor número de mudanças de edifícios em conjuntos de aulas',
+      'Maior número de auditórios, com várias horas seguidas, sem alocação de aulas',
+      'O menor número de horas entre aulas'];
+
 }
