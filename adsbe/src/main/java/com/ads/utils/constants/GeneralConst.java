@@ -90,4 +90,12 @@ public class GeneralConst {
     public final static String EXCEL_EXTENSION = "xls";
     public final static String EXCEL_EXTENSION_XLSX = "xlsx";
     public final static String CSV_EXTENSION = "csv";
+    // Criterias
+    public final static String CRITERIA_1 = "Tolerância na quantidade de alunos alocados nas salas";
+    public final static String CRITERIA_2 = "O menor número de aulas sem salas alocadas";
+    public final static String CRITERIA_3 = "O menor número de mudanças de salas em conjuntos de aulas";
+    public final static String CRITERIA_4 = "O menor número de mudanças de edifícios em conjuntos de aulas";
+    public final static String CRITERIA_5 = "Maior número de auditórios, com várias horas seguidas, sem alocação de aulas";
+    public final static String CRITERIA_6 = "O menor número de horas entre aulas";
+    public final static String[] LIST_CRITERIA = new String[]{CRITERIA_1, CRITERIA_2, CRITERIA_3, CRITERIA_4, CRITERIA_5, CRITERIA_6};
 }

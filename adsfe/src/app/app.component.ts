@@ -3,6 +3,7 @@ import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Route
 import {FileService} from "./core/file.service";
 import {Observable, of} from "rxjs";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {MatListOption} from "@angular/material/list";
 
 @Component({
   selector: 'app-root',
@@ -39,6 +40,7 @@ export class AppComponent implements OnInit {
   // Constructor
   timetableValid: boolean = false;
   classValid: boolean = false;
+
   constructor(private router: Router,
               private fileService: FileService,
               private fb: FormBuilder) {
@@ -58,12 +60,14 @@ export class AppComponent implements OnInit {
    * @param events
    */
   uploadClassFile(events: any) {
+    this.loading = true;
     console.log("I'm here class File upload");
     if (events && events.target && events.target.files) {
       this.classFile = events.target.files[0];
       this.firstFormGroup.controls['firstCtrl'].setValue(this.classFile);
       this.excelClassHeaders$ = this.fileService.headersExcel(this.classFile);
     }
+    this.loading = false;
   }
 
   /**
@@ -71,12 +75,14 @@ export class AppComponent implements OnInit {
    * @param events
    */
   uploadTimetableFile(events: any) {
+    this.loading = true;
     console.log("I'm here Timetable File upload");
     if (events && events.target && events.target.files) {
       this.timetableFile = events.target.files[0];
       this.thirdFormGroup.controls['thirdCtrl'].setValue(this.timetableFile);
       this.excelTimetableHeaders$ = this.fileService.headersExcel(this.timetableFile);
     }
+    this.loading = false;
   }
 
   /**
@@ -95,34 +101,62 @@ export class AppComponent implements OnInit {
     }
   }
 
+  /**
+   * Update final form group
+   * @param result - results
+   */
   updateMappingClass(result: any) {
-    if(result && this.classValid){
+    if (result && this.classValid) {
       this.secondFormGroup.controls['secondCtrl'].setValue(result);
     }
   }
 
+  /**
+   * Update final form group
+   * @param result - results
+   */
   updateMappingTimetable(result: any) {
-    if(result && this.timetableValid) {
+    if (result && this.timetableValid) {
       this.fourthFormGroup.controls['fourthCtrl'].setValue(result);
     }
   }
+
+  /**
+   * Auxiliary variable to control data assign to form group
+   * @param isValid - true if it is valid
+   */
   changeTimetableValid(isValid: boolean) {
     this.timetableValid = isValid;
-    console.log(this.timetableValid);
   }
+
+  /**
+   * Auxiliary variable to control data assign to form group
+   * @param isValid - true if it is valid
+   */
   changeClassValid(isValid: boolean) {
     this.classValid = isValid;
-    console.log(this.classValid);
   }
 
-
-  TypeofQuality:
+  /**
+   * List of qualities
+   */
+  typeofQuality:
     string[] = [
-      'Tolerância na quantidade de alunos alocados nas salas',
-      'O menor número de aulas sem salas alocadas',
-      'O menor número de mudanças de salas em conjuntos de aulas',
-      'O menor número de mudanças de edifícios em conjuntos de aulas',
-      'Maior número de auditórios, com várias horas seguidas, sem alocação de aulas',
-      'O menor número de horas entre aulas'];
+    'Tolerância na quantidade de alunos alocados nas salas',
+    'O menor número de aulas sem salas alocadas',
+    'O menor número de mudanças de salas em conjuntos de aulas',
+    'O menor número de mudanças de edifícios em conjuntos de aulas',
+    'Maior número de auditórios, com várias horas seguidas, sem alocação de aulas',
+    'O menor número de horas entre aulas'];
 
+  /**
+   * Update the form group with correct value
+   * @param listOptions - list of options
+   */
+  updateCriterias(listOptions: MatListOption[]) {
+    let result = listOptions.map(v => v.value);
+    if (result && result.length > 0) {
+      this.fifthFormGroup.controls['fifthCtrl'].setValue(result);
+    }
+  }
 }

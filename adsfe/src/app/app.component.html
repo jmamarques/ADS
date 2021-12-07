@@ -1,4 +1,5 @@
-<span *ngIf="loading" class="fa fa-spinner spinner"></span>
+<div *ngIf="loading" class="spinner-border spinner" role="status">
+</div>
 <div *ngIf="loading" class="background-spinner"></div>
 <header class="bd-header bg-dark py-3 d-flex align-items-stretch border-bottom border-dark">
   <div class="container-fluid d-flex align-items-center">
@@ -18,7 +19,7 @@
           <ng-template matStepLabel>Carregamento do ficheiro das Salas de Aula</ng-template>
           <div class="col-12 mt-3 mb-3">
             <label for="classFile" class="form-label">Ficheiro de sala de aulas:</label>
-            <input class="form-control" [multiple]="false" type="file" id="classFile" accept=".xlsx,.csv,.xls"
+            <input class="form-control" [multiple]="false" type="file" id="classFile" accept="{{accept}}"
                    (change)="uploadClassFile($event)">
           </div>
           <div>
@@ -29,7 +30,8 @@
       <mat-step [stepControl]="secondFormGroup">
         <form [formGroup]="secondFormGroup">
           <ng-template matStepLabel>Mapeamento das salas de aula</ng-template>
-          <app-mapping (isValid)="changeClassValid($event)" [headers]="headerClassroom" [excelHeaders]="excelClassHeaders$ | async"
+          <app-mapping (isValid)="changeClassValid($event)" [headers]="headerClassroom"
+                       [excelHeaders]="excelClassHeaders$ | async"
                        (mappingValue)="updateMappingClass($event)"></app-mapping>
           <div>
             <button mat-button matStepperPrevious>Back</button>
@@ -54,7 +56,8 @@
       <mat-step [stepControl]="fourthFormGroup">
         <form [formGroup]="fourthFormGroup">
           <ng-template matStepLabel>Mapeamento dos horários</ng-template>
-          <app-mapping (isValid)="changeTimetableValid($event)" [headers]="headerTimetable" [excelHeaders]="excelTimetableHeaders$ | async"
+          <app-mapping (isValid)="changeTimetableValid($event)" [headers]="headerTimetable"
+                       [excelHeaders]="excelTimetableHeaders$ | async"
                        (mappingValue)="updateMappingTimetable($event)"></app-mapping>
           <div>
             <button mat-button matStepperPrevious>Back</button>
@@ -65,19 +68,14 @@
       <mat-step [stepControl]="fifthFormGroup">
         <form [formGroup]="fifthFormGroup">
           <ng-template matStepLabel>Critérios de qualidade</ng-template>
-
-          <mat-selection-list #quality>
-            <mat-list-option *ngFor="let quality of TypeofQuality" [value]="quality">
+          <mat-selection-list #quality (selectionChange)="updateCriterias(quality.selectedOptions.selected)">
+            <mat-list-option *ngFor="let quality of typeofQuality" [value]="quality">
               {{quality}}
             </mat-list-option>
           </mat-selection-list>
-
           <p>
             Critérios de Qualidade selecionados: {{quality.selectedOptions.selected.length}}
           </p>
-
-
-
           <div>
             <button mat-button matStepperPrevious>Back</button>
             <button mat-button matStepperNext>Next</button>
