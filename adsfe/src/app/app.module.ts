@@ -27,6 +27,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import { MappingComponent } from './components/mapping/mapping.component';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {DialogError} from "./components/dialog-error";
 
 const material = [
   MatCardModule,
@@ -53,7 +54,8 @@ const material = [
 @NgModule({
   declarations: [
     AppComponent,
-    MappingComponent
+    MappingComponent,
+    DialogError
   ],
     imports: [
         ...material,

@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpEvent, HttpRequest} from "@angular/common/http";
 import {Observable, of} from "rxjs";
+import {RequestDto} from "../interfaces/request-dto";
 
 @Injectable({
   providedIn: 'root'
@@ -91,5 +92,9 @@ export class FileService {
       return this.http.post(`${FileService.BASE_URL_BACK_END}/ads/headers`, formData);
     }
     return of([]);
+  }
+
+  submit(result: RequestDto) {
+
   }
 }

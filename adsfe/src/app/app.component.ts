@@ -5,6 +5,9 @@ import {Observable, of} from "rxjs";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatListOption} from "@angular/material/list";
 import {MatStepper} from "@angular/material/stepper";
+import {RequestDto} from "./interfaces/request-dto";
+import {MatDialog} from "@angular/material/dialog";
+import {DialogError} from "./components/dialog-error";
 
 @Component({
   selector: 'app-root',
@@ -48,7 +51,8 @@ export class AppComponent implements OnInit {
   // Constructor
   constructor(private router: Router,
               private fileService: FileService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              public dialog: MatDialog) {
     // analyse all the request - spinner
     router.events.subscribe((routerEvent: any) => {
       this.checkRouterEvent(routerEvent);
@@ -162,15 +166,59 @@ export class AppComponent implements OnInit {
     let result = listOptions.map(v => v.value);
     if (result && result.length > 0) {
       this.fifthFormGroup.controls['fifthCtrl'].setValue(result);
+    }else{
+      this.fifthFormGroup.controls['fifthCtrl'].setValue('');
     }
   }
 
+  /**
+   * Choose if you want a fast generation or not
+   */
   toggle() {
     this.isChecked = !this.isChecked;
   }
 
+  /**
+   * Reset the stepper change variable isDone to not finished
+   * @param stepper
+   */
   reset(stepper: MatStepper) {
     stepper.reset();
     this.isDone = false;
+  }
+
+  finalForm(stepper: MatStepper) {
+    if (!this.classFile) {
+      this.dialog.open(DialogError, {data: { errors: ['O ficheiro das aulas deve ser carregado, verifique que está tudo bem']}});
+    } else if (!this.timetableFile) {
+      this.dialog.open(DialogError, {data: { errors: ['O ficheiro dos horários deve ser carregado, verifique que está tudo bem']}});
+    } else if (!this.secondFormGroup.controls['secondCtrl'].value) {
+      this.dialog.open(DialogError, {data: { errors: ['Por favor verifique que está tudo bem com o mapping das aulas']}});
+    } else if (!this.fourthFormGroup.controls['fourthCtrl'].value) {
+      this.dialog.open(DialogError, {data: { errors: ['Por favor verifique que está tudo bem com o mapping dos horários']}});
+    } else if (!this.fifthFormGroup.controls['fifthCtrl'].value) {
+      this.dialog.open(DialogError, {data: { errors: ['Selecione pelo menos um critério']}});
+    } else if (
+      this.classFile &&
+      this.timetableFile &&
+      this.secondFormGroup.controls['secondCtrl'].value &&
+      this.fourthFormGroup.controls['fourthCtrl'].value &&
+      this.fifthFormGroup.controls['fifthCtrl'].value
+    ) {
+      stepper.next();
+      // final object to send to BE
+      let result: RequestDto = {
+        fast: this.isChecked,
+        classFile: this.classFile,
+        timetableFile: this.timetableFile,
+        mappingClass: this.secondFormGroup.controls['secondCtrl'].value,
+        mappingTimetable: this.fourthFormGroup.controls['fourthCtrl'].value,
+        qualities: this.fifthFormGroup.controls['fifthCtrl'].value
+      };
+      this.fileService.submit(result);
+      this.isDone=true;
+    } else {
+      console.log("Final Form with problems");
+    }
   }
 }
