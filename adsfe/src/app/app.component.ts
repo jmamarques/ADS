@@ -215,8 +215,14 @@ export class AppComponent implements OnInit {
         mappingTimetable: this.fourthFormGroup.controls['fourthCtrl'].value,
         qualities: this.fifthFormGroup.controls['fifthCtrl'].value
       };
-      this.fileService.submit(result);
-      this.isDone=true;
+      this.fileService.submit(result).subscribe(value => {
+        console.log(value);
+        this.isDone=true;
+      }, error => {
+        console.log(error);
+        this.isDone=true;
+      });
+
     } else {
       console.log("Final Form with problems");
     }

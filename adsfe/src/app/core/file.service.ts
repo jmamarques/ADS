@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpEvent, HttpRequest} from "@angular/common/http";
+import {HttpClient, HttpEvent, HttpParams, HttpRequest} from "@angular/common/http";
 import {Observable, of} from "rxjs";
 import {RequestDto} from "../interfaces/request-dto";
 
@@ -16,11 +16,14 @@ export class FileService {
     const formData: FormData = new FormData();
     formData.append('file', file);
 
-    const req = new HttpRequest('GET', `${FileService.BASE_URL_BACK_END}/ads/headers`, formData, {reportProgress: true, responseType: 'json'});
+    const req = new HttpRequest('GET', `${FileService.BASE_URL_BACK_END}/ads/headers`, formData, {
+      reportProgress: true,
+      responseType: 'json'
+    });
     return this.http.request(req);
   }
 
-  headersClassroom(): String[]{
+  headersClassroom(): String[] {
     return [
       "Edifício",
       "Nome sala",
@@ -83,8 +86,8 @@ export class FileService {
     ];
   }
 
-  headersExcel(classFile: File | undefined):Observable<String[]> {
-    if(classFile != undefined){
+  headersExcel(classFile: File | undefined): Observable<String[]> {
+    if (classFile != undefined) {
       const formData: FormData = new FormData();
       formData.append('file', classFile);
 
@@ -94,7 +97,20 @@ export class FileService {
     return of([]);
   }
 
-  submit(result: RequestDto) {
+  submit(result: RequestDto): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('classFile', result.classFile);
+    formData.append('timetableFile', result.timetableFile);
+    let qualities = '';
+    result.qualities.forEach(value => qualities += value + ';')
+    qualities = qualities.substr(0, qualities.length - 1)
+    const params = new HttpParams()
+      .set('mappingClass', JSON.stringify(result.mappingClass))
+      .set('mappingTimetable', JSON.stringify(result.mappingTimetable))
+      .set('qualities', qualities)
+      .set('fast', result.fast);
 
+    // @ts-ignore
+    return this.http.post(`${FileService.BASE_URL_BACK_END}/ads/execute`, formData, {params});
   }
 }

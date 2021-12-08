@@ -1,5 +1,6 @@
 package com.ads.controllers;
 
+import com.ads.dto.RequestDTO;
 import com.ads.dto.ScheduleDTO;
 import com.ads.services.FileService;
 import com.ads.services.TimetablesService;
@@ -27,6 +28,7 @@ public class FileController {
 
     /**
      * constructor of class FileController
+     *
      * @param timetablesService
      * @param fileService
      */
@@ -37,6 +39,7 @@ public class FileController {
 
     /**
      * select a file with the timetables to upload
+     *
      * @param file
      */
     @GetMapping("/file/timetable")
@@ -50,6 +53,7 @@ public class FileController {
 
     /**
      * process timetable to JSON
+     *
      * @param scheduleDTO
      */
     @GetMapping("/json/timetable")
@@ -62,6 +66,7 @@ public class FileController {
 
     /**
      * process a csv file to get the headers
+     *
      * @param file
      * @return headers
      */
@@ -76,6 +81,7 @@ public class FileController {
 
     /**
      * obtains the headers of the classroom
+     *
      * @return timetablesService
      */
     @GetMapping("/headers/classroom")
@@ -86,6 +92,7 @@ public class FileController {
 
     /**
      * obtains the timetable headers
+     *
      * @return the timetablesservice with the headers
      */
     @GetMapping("/headers/timetable")
@@ -97,6 +104,26 @@ public class FileController {
             @ApiResponse(code = 404, message = "Not found")})
     public String[] getTimetableHeaders() {
         return timetablesService.getTimetableHeaders();
+    }
+
+
+    /**
+     * select a file with the timetables to upload
+     *
+     * @param file
+     */
+    @PostMapping("/execute")
+    @ApiOperation(value = "Upload timetables to process (File)",
+            produces = "application/json", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public byte[] processTimetable(
+            @ApiParam(name = "classFile", value = "Select the file to Upload", required = true)
+            @RequestPart(value = "classFile")
+                    MultipartFile classFile,
+            @ApiParam(name = "timetableFile", value = "Select the file to Upload", required = true)
+            @RequestPart(value = "timetableFile")
+                    MultipartFile timetableFile,
+            @ModelAttribute RequestDTO requestDTO) {
+        return new byte[0];
     }
 
 }
