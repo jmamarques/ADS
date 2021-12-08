@@ -90,7 +90,16 @@
       <mat-step>
         <ng-template matStepLabel>Done</ng-template>
         <div *ngIf="isDone; else loadingDone">
-          O Horário foi gerado!
+          <p>O Horário foi gerado!</p>
+          <div class="container-fluid align-items-center">
+            <mat-form-field appearance="fill" class="me-3">
+              <mat-label>Tipo do ficheiro</mat-label>
+              <mat-select (valueChange)="formatChange($event)" [value]="'csv'">
+                <mat-option *ngFor="let format of formats" [value]="format">{{format}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button class="btn btn-primary" (click)="download()">Download</button>
+          </div>
         </div>
         <ng-template #loadingDone>
           <div class="container">

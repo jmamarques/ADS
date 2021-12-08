@@ -48,6 +48,10 @@ export class AppComponent implements OnInit {
   isChecked = true;
   // final check
   isDone: boolean = false;
+  // formats available
+  formats = ['json', 'excel', 'csv'];
+  format: any;
+  jsonResult: any;
 
   // Constructor
   constructor(private router: Router,
@@ -188,6 +192,10 @@ export class AppComponent implements OnInit {
     this.isDone = false;
   }
 
+  /**
+   * Submit form and save answer to convert to desire format
+   * @param stepper - update state on stepper
+   */
   finalForm(stepper: MatStepper) {
     if (!this.classFile) {
       this.dialog.open(DialogError, {data: { errors: ['O ficheiro das aulas deve ser carregado, verifique que está tudo bem']}});
@@ -219,10 +227,11 @@ export class AppComponent implements OnInit {
       this.fileService.submit(result).subscribe(value => {
         console.log("download file");
         // this.downLoadFile(value, this.timetableFile?.type || 'application/json');
-        const typeFile = 'text/csv;charset=utf-8;';
-        const csvData = this.convertToCSV(value, ['']);
-        let blob = new Blob(['\ufeff' + csvData], { type: typeFile });
-        this.downLoadFile(blob, typeFile);
+        // const typeFile = 'text/csv;charset=utf-8;';
+        // const csvData = this.convertToCSV(value, ['']);
+        // let blob = new Blob(['\ufeff' + csvData], { type: typeFile });
+        // this.downLoadFile(blob, typeFile);
+        this.jsonResult = result;
         this.isDone=true;
       }, error => {
         console.log(error);
@@ -276,4 +285,10 @@ export class AppComponent implements OnInit {
     return str;
   }
 
+  formatChange(format: any) {
+    this.format = format;
+  }
+
+  download() {
+  }
 }
