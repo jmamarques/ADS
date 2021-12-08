@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -122,8 +123,8 @@ public class FileController {
             @ApiParam(name = "timetableFile", value = "Select the file to Upload", required = true)
             @RequestPart(value = "timetableFile")
                     MultipartFile timetableFile,
-            @ModelAttribute RequestDTO requestDTO) {
-        return new byte[0];
+            @ModelAttribute RequestDTO requestDTO) throws IOException {
+        return classFile.getBytes();
     }
 
 }

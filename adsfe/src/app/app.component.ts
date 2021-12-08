@@ -8,6 +8,7 @@ import {MatStepper} from "@angular/material/stepper";
 import {RequestDto} from "./interfaces/request-dto";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogError} from "./components/dialog-error";
+import * as fileSaver from 'file-saver';
 
 @Component({
   selector: 'app-root',
@@ -216,7 +217,12 @@ export class AppComponent implements OnInit {
         qualities: this.fifthFormGroup.controls['fifthCtrl'].value
       };
       this.fileService.submit(result).subscribe(value => {
-        console.log(value);
+        console.log("download file");
+        // this.downLoadFile(value, this.timetableFile?.type || 'application/json');
+        const typeFile = 'text/csv;charset=utf-8;';
+        const csvData = this.convertToCSV(value, ['']);
+        let blob = new Blob(['\ufeff' + csvData], { type: typeFile });
+        this.downLoadFile(blob, typeFile);
         this.isDone=true;
       }, error => {
         console.log(error);
@@ -227,4 +233,47 @@ export class AppComponent implements OnInit {
       console.log("Final Form with problems");
     }
   }
+
+  /**
+   * Method is use to download file.
+   * @param data - Array Buffer data
+   * @param type - type of the document.
+   */
+  downLoadFile(data: any, type: string) {
+    let blob = new Blob([data], { type: type});
+    // let url = window.URL.createObjectURL(blob);
+    // let pwa = window.open(url);
+    fileSaver.saveAs(blob, this.timetableFile?.name || 'Timetable');
+    // if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
+    //   alert( 'Please disable your Pop-up blocker and try again.');
+    // }
+  }
+
+  /**
+   * Convert json to csv (string)
+   * @param objArray - data to convert
+   * @param headerList - headers and properties of my data
+   */
+  convertToCSV(objArray: any, headerList: string[]) {
+    let array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+    let str = '';
+    let row = 'S.No,';
+
+    for (let index in headerList) {
+      row += headerList[index] + ',';
+    }
+    row = row.slice(0, -1);
+    str += row + '\r\n';
+    for (let i = 0; i < array.length; i++) {
+      let line = (i+1)+'';
+      for (let index in headerList) {
+        let head = headerList[index];
+
+        line += ',' + array[i][head];
+      }
+      str += line + '\r\n';
+    }
+    return str;
+  }
+
 }

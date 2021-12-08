@@ -102,15 +102,36 @@ export class FileService {
     formData.append('classFile', result.classFile);
     formData.append('timetableFile', result.timetableFile);
     let qualities = '';
+    let mappingCstr = '';
+    let mappingFstr = '';
     result.qualities.forEach(value => qualities += value + ';')
     qualities = qualities.substr(0, qualities.length - 1)
+    const mappingC = this.mapToList(result.mappingClass);
+    mappingC.forEach(value => mappingCstr += value + ';')
+    mappingCstr = mappingCstr.substr(0, mappingCstr.length - 1)
+    const mappingF = this.mapToList(result.mappingTimetable);
+    mappingF.forEach(value => mappingFstr += value + ';')
+    mappingFstr = mappingFstr.substr(0, mappingFstr.length - 1)
+
     const params = new HttpParams()
-      .set('mappingClass', JSON.stringify(result.mappingClass))
-      .set('mappingTimetable', JSON.stringify(result.mappingTimetable))
+      .set('mappingClass', mappingCstr)
+      .set('mappingTimetable', mappingFstr)
       .set('qualities', qualities)
       .set('fast', result.fast);
 
     // @ts-ignore
-    return this.http.post(`${FileService.BASE_URL_BACK_END}/ads/execute`, formData, {params});
+    return this.http.post(`${FileService.BASE_URL_BACK_END}/ads/execute`, formData, {params, responseType: 'arraybuffer'});
+  }
+
+  private mapToList(list: any) {
+    const mapping = [];
+    for (let j = 0; j < 100; j++) {
+      if (list[j]) {
+        mapping.push(list[j])
+      } else {
+        break;
+      }
+    }
+    return mapping;
   }
 }
