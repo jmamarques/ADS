@@ -1,11 +1,11 @@
-package com.ads.utils.algorithms;
+package com.ads.manager.algorithms;
 
-import com.ads.models.ClassRoom;
-import com.ads.models.Timetable;
-import com.ads.utils.criteria.AllocationCriteria;
-import com.ads.utils.criteria.ClassRoomSizeCriteria;
-import com.ads.utils.criteria.ConflictCriteria;
-import com.ads.utils.criteria.Criteria;
+import com.ads.manager.criteria.AllocationCriteria;
+import com.ads.manager.criteria.ClassRoomSizeCriteria;
+import com.ads.manager.criteria.ConflictCriteria;
+import com.ads.manager.criteria.Criteria;
+import com.ads.models.internal.ClassRoom;
+import com.ads.models.internal.Timetable;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.uma.jmetal.problem.integerproblem.impl.AbstractIntegerProblem;

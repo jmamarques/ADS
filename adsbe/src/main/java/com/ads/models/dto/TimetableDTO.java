@@ -1,4 +1,4 @@
-package com.ads.dto;
+package com.ads.models.dto;
 
 import com.ads.utils.enums.DayOfWeek;
 import com.ads.utils.enums.GenericType;

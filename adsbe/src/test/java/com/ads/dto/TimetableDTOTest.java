@@ -1,5 +1,6 @@
 package com.ads.dto;
 
+import com.ads.models.dto.TimetableDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;

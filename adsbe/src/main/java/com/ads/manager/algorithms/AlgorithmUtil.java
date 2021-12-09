@@ -1,8 +1,8 @@
-package com.ads.utils.algorithms;
+package com.ads.manager.algorithms;
 
-import com.ads.models.ClassRoom;
-import com.ads.models.Reservation;
-import com.ads.models.Timetable;
+import com.ads.models.internal.ClassRoom;
+import com.ads.models.internal.Reservation;
+import com.ads.models.internal.Timetable;
 import com.ads.utils.converter.TimeUtils;
 import lombok.NonNull;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;

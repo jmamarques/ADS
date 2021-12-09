@@ -1,4 +1,4 @@
-package com.ads.models;
+package com.ads.models.internal;
 
 import com.ads.utils.enums.DayOfWeek;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * class that characterizes a timetable
- * Objects like : course, unit, classnumber, dayof week, capacity etc.
+ * Objects like : course, unit, class number, day of week, capacity etc.
  **/
 @Data
 @Builder

@@ -1,7 +1,7 @@
 package com.ads.utils.mapper;
 
-import com.ads.dto.ClassDTO;
-import com.ads.models.ClassRoom;
+import com.ads.models.dto.ClassDTO;
+import com.ads.models.internal.ClassRoom;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;

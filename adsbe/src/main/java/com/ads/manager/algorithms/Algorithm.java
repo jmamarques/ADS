@@ -1,7 +1,7 @@
-package com.ads.utils.algorithms;
+package com.ads.manager.algorithms;
 
-import com.ads.models.ClassRoom;
-import com.ads.models.Timetable;
+import com.ads.models.internal.ClassRoom;
+import com.ads.models.internal.Timetable;
 import lombok.NonNull;
 
 import java.util.List;

@@ -1,11 +1,11 @@
 package com.ads.services;
 
-import com.ads.models.ClassRoom;
-import com.ads.models.Timetable;
+import com.ads.manager.algorithms.TimetableProblem;
+import com.ads.manager.criteria.ConflictCriteria;
+import com.ads.manager.criteria.Criteria;
+import com.ads.models.internal.ClassRoom;
+import com.ads.models.internal.Timetable;
 import com.ads.utils.CaseUtil;
-import com.ads.utils.algorithms.TimetableProblem;
-import com.ads.utils.criteria.ConflictCriteria;
-import com.ads.utils.criteria.Criteria;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAII;

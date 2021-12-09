@@ -1,7 +1,7 @@
 package com.ads.utils.mapper;
 
-import com.ads.dto.TimetableDTO;
-import com.ads.models.Timetable;
+import com.ads.models.dto.TimetableDTO;
+import com.ads.models.internal.Timetable;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 

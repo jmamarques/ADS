@@ -1,4 +1,4 @@
-package com.ads.models;
+package com.ads.models.internal;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

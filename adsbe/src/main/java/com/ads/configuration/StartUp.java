@@ -1,7 +1,7 @@
 package com.ads.configuration;
 
-import com.ads.models.ClassRoom;
-import com.ads.models.Timetable;
+import com.ads.models.internal.ClassRoom;
+import com.ads.models.internal.Timetable;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,7 @@
 package com.ads.utils;
 
-import com.ads.models.ClassRoom;
-import com.ads.models.Timetable;
+import com.ads.models.internal.ClassRoom;
+import com.ads.models.internal.Timetable;
 import com.ads.utils.validators.TimetableValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

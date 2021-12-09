@@ -1,4 +1,4 @@
-package com.ads.dto;
+package com.ads.models.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

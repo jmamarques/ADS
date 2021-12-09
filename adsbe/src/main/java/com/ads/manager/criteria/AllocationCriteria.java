@@ -1,9 +1,9 @@
-package com.ads.utils.criteria;
+package com.ads.manager.criteria;
 
-import com.ads.models.ClassRoom;
-import com.ads.models.Reservation;
-import com.ads.models.Timetable;
-import com.ads.utils.algorithms.AlgorithmUtil;
+import com.ads.manager.algorithms.AlgorithmUtil;
+import com.ads.models.internal.ClassRoom;
+import com.ads.models.internal.Reservation;
+import com.ads.models.internal.Timetable;
 import com.ads.utils.converter.TimeUtils;
 import com.ads.utils.mapper.TimetableMapper;
 import lombok.NonNull;
@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static com.ads.utils.algorithms.AlgorithmUtil.populateOccupation;
 
 /**
  * class based in the criteria allocation
@@ -39,7 +37,7 @@ public class AllocationCriteria implements Criteria {
         List<Timetable> timetables = TimetableMapper.toTimetableList(timetableList);
         //populate initial occupation Map
         Map<String, ClassRoom> classRoomMap = classRoomList.stream().collect(Collectors.toMap(ClassRoom::getRoomName, Function.identity()));
-        populateOccupation(timetableList, occupation, classRoomMap);
+        AlgorithmUtil.populateOccupation(timetableList, occupation, classRoomMap);
         // calculation
         for (int i = 0; i < solution.size(); i++) {
             int classRoomIndex = solution.get(i);

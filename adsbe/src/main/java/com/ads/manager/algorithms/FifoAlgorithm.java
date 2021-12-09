@@ -1,8 +1,8 @@
-package com.ads.utils.algorithms;
+package com.ads.manager.algorithms;
 
-import com.ads.models.ClassRoom;
-import com.ads.models.Reservation;
-import com.ads.models.Timetable;
+import com.ads.models.internal.ClassRoom;
+import com.ads.models.internal.Reservation;
+import com.ads.models.internal.Timetable;
 import com.ads.utils.converter.TimeUtils;
 import com.ads.utils.mapper.TimetableMapper;
 import lombok.NonNull;
@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static com.ads.utils.algorithms.AlgorithmUtil.populateOccupation;
 
 /**
  * JMA - 21/11/2021 09:18
@@ -41,7 +39,7 @@ public class FifoAlgorithm implements Algorithm {
         // clone all list
         List<Timetable> timetables = TimetableMapper.toTimetableList(timetableList);
         //populate initial occupation Map
-        populateOccupation(timetables, occupation, classRoomMap);
+        AlgorithmUtil.populateOccupation(timetables, occupation, classRoomMap);
         // iterate and change the classroom
         timetables.stream()
                 .filter(timetable -> !timetable.isHasError() && StringUtils.isBlank(timetable.getClassRoom()))

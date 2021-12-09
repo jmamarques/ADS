@@ -1,7 +1,6 @@
 package com.ads.controllers;
 
-import com.ads.dto.RequestDTO;
-import com.ads.dto.ScheduleDTO;
+import com.ads.models.dto.RequestDTO;
 import com.ads.services.FileService;
 import com.ads.services.TimetablesService;
 import com.ads.utils.constants.GeneralConst;
@@ -39,37 +38,10 @@ public class FileController {
     }
 
     /**
-     * select a file with the timetables to upload
-     *
-     * @param file
-     */
-    @GetMapping("/file/timetable")
-    @ApiOperation(value = "Upload timetables to process (File)",
-            produces = "application/json", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void processTimetable(
-            @ApiParam(name = "file", value = "Select the file to Upload", required = true)
-            @RequestPart(value = "file") MultipartFile file) {
-
-    }
-
-    /**
-     * process timetable to JSON
-     *
-     * @param scheduleDTO
-     */
-    @GetMapping("/json/timetable")
-    @ApiOperation(value = "Upload timetables to process (Json)",
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public void processJsonTimetable(@RequestBody ScheduleDTO scheduleDTO) {
-        log.info("Process Schedule JSON version");
-        timetablesService.processJsonTimetable(scheduleDTO);
-    }
-
-    /**
      * process a csv file to get the headers
      *
-     * @param file
-     * @return headers
+     * @param file - generic file to give the headers
+     * @return headers inside of file (excel or csv, json TBD)
      */
     @PostMapping("/headers")
     @ApiOperation(value = "Upload csv file to get headers file",
@@ -83,7 +55,7 @@ public class FileController {
     /**
      * obtains the headers of the classroom
      *
-     * @return timetablesService
+     * @return headers for classroom file
      */
     @GetMapping("/headers/classroom")
     @ApiOperation(value = "Get headers for Classroom", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -92,9 +64,8 @@ public class FileController {
     }
 
     /**
-     * obtains the timetable headers
-     *
-     * @return the timetablesservice with the headers
+     * Obtains the timetable headers
+     * @return headers for timetable file
      */
     @GetMapping("/headers/timetable")
     @ApiOperation(value = "Get headers for Timetable", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -109,9 +80,11 @@ public class FileController {
 
 
     /**
-     * select a file with the timetables to upload
-     *
-     * @param file
+     * Submit form - receives a classroom file and timetable file  and returns a new timetable json
+     * @param classFile - classroom file
+     * @param timetableFile - timetable file
+     * @param requestDTO - additional parameters as mappings, criteria and execution speed
+     * @return timetable json -> based on validations and criteria pass through initial request
      */
     @PostMapping("/execute")
     @ApiOperation(value = "Upload timetables to process (File)",

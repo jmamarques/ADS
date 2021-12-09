@@ -1,7 +1,7 @@
 package com.ads.utils.mapper;
 
-import com.ads.dto.ClassDTO;
-import com.ads.models.ClassRoom;
+import com.ads.models.dto.ClassDTO;
+import com.ads.models.internal.ClassRoom;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

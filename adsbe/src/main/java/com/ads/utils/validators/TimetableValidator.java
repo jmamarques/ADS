@@ -1,8 +1,8 @@
 package com.ads.utils.validators;
 
-import com.ads.dto.ClassDTO;
-import com.ads.models.ClassRoom;
-import com.ads.models.Timetable;
+import com.ads.models.dto.ClassDTO;
+import com.ads.models.internal.ClassRoom;
+import com.ads.models.internal.Timetable;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
