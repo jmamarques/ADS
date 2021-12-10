@@ -2,12 +2,12 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpEvent, HttpParams, HttpRequest} from "@angular/common/http";
 import {Observable, of} from "rxjs";
 import {RequestDto} from "../interfaces/request-dto";
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FileService {
-  public static readonly BASE_URL_BACK_END = 'http://localhost:8080';
 
   constructor(private http: HttpClient) {
   }
@@ -16,7 +16,7 @@ export class FileService {
     const formData: FormData = new FormData();
     formData.append('file', file);
 
-    const req = new HttpRequest('GET', `${FileService.BASE_URL_BACK_END}/ads/headers`, formData, {
+    const req = new HttpRequest('GET', `${environment.API_URL}/ads/headers`, formData, {
       reportProgress: true,
       responseType: 'json'
     });
@@ -92,7 +92,7 @@ export class FileService {
       formData.append('file', classFile);
 
       // @ts-ignore
-      return this.http.post(`${FileService.BASE_URL_BACK_END}/ads/headers`, formData);
+      return this.http.post(`${environment.API_URL}/ads/headers`, formData);
     }
     return of([]);
   }
@@ -120,7 +120,7 @@ export class FileService {
       .set('fast', result.fast);
     // , responseType: 'arraybuffer'
     // @ts-ignore
-    return this.http.post(`${FileService.BASE_URL_BACK_END}/ads/execute`, formData, {params});
+    return this.http.post(`${environment.API_URL}/ads/execute`, formData, {params});
   }
 
   mapToList(list: any) {
