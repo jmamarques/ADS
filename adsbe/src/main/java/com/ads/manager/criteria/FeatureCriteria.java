@@ -1,9 +1,11 @@
 package com.ads.manager.criteria;
 
 import com.ads.models.internal.ClassRoom;
+import com.ads.models.internal.Reservation;
 import com.ads.models.internal.Timetable;
 import com.ads.utils.mapper.TimetableMapper;
 import lombok.NonNull;
+import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.List;
  **/
 public class FeatureCriteria implements Criteria {
     @Override
-    public double applyCriteria(@NonNull List<ClassRoom> classRoomList, @NonNull List<Timetable> timetableList, List<Integer> solution) {
+    public double applyCriteria(@NonNull List<ClassRoom> classRoomList, @NonNull List<Timetable> timetableList, List<Integer> solution, ArrayListValuedHashMap<ClassRoom, Reservation> basedOccupation) {
         double result = 0;
         List<Timetable> timetables = TimetableMapper.toTimetableList(timetableList);
         //populate initial occupation Map

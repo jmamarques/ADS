@@ -1,13 +1,13 @@
 package com.ads.manager.algorithms;
 
-import com.ads.manager.criteria.AllocationCriteria;
-import com.ads.manager.criteria.ClassRoomSizeCriteria;
 import com.ads.manager.criteria.ConflictCriteria;
 import com.ads.manager.criteria.Criteria;
 import com.ads.models.internal.ClassRoom;
+import com.ads.models.internal.Reservation;
 import com.ads.models.internal.Timetable;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.uma.jmetal.problem.integerproblem.impl.AbstractIntegerProblem;
 import org.uma.jmetal.solution.integersolution.IntegerSolution;
 import org.uma.jmetal.solution.integersolution.impl.DefaultIntegerSolution;
@@ -23,28 +23,28 @@ import java.util.stream.IntStream;
  **/
 @Log4j2
 public class TimetableProblem extends AbstractIntegerProblem {
-    private int length;
-    private List<ClassRoom> classRoomList;
-    private List<Timetable> timetableList;
-    private List<Class<? extends Criteria>> objectivesClass;
-
-    public TimetableProblem() {
-    }
+    private final int length;
+    private final List<ClassRoom> classRoomList;
+    private final List<Timetable> timetableList;
+    private final List<Class<? extends Criteria>> objectivesClass;
+    private final ArrayListValuedHashMap<ClassRoom, Reservation> occupation;
 
     /**
      * associates the values of length, classroom list, timetable list and objectives class to the variables
      * This method also, created two list's
      * One list consists in a mapping and returns a colection consisting of the elements of the stream, in this case range until range and mapping by the operand
      * Second list consists in a mapping and returns a colection consisting of the elements of the stream, in this case range until range and mapping by the classroom size
-     * @param length
-     * @param classRoomList
-     * @param timetableList
-     * @param objectivesClass
+     *
+     * @param length          - size
+     * @param classRoomList   - classroom list
+     * @param timetableList   - timetable list
+     * @param objectivesClass - objectives list
      */
     public TimetableProblem(int length,
                             @NonNull List<ClassRoom> classRoomList,
                             @NonNull List<Timetable> timetableList,
-                            @NonNull List<Class<? extends Criteria>> objectivesClass) {
+                            @NonNull List<Class<? extends Criteria>> objectivesClass,
+                            @NonNull ArrayListValuedHashMap<ClassRoom, Reservation> occupation) {
         this.length = length;
         this.classRoomList = classRoomList;
         this.timetableList = timetableList;
@@ -59,21 +59,14 @@ public class TimetableProblem extends AbstractIntegerProblem {
         setNumberOfObjectives(objectivesClass.size());
         setNumberOfConstraints(1);
         setName("ads");
-    }
-
-    /**
-     * @param length
-     * @param classRoomList
-     * @param timetableList
-     */
-    public TimetableProblem(int length, List<ClassRoom> classRoomList, List<Timetable> timetableList) {
-        this(length, classRoomList, timetableList, List.of(AllocationCriteria.class, ClassRoomSizeCriteria.class));
+        this.occupation = new ArrayListValuedHashMap<>(occupation);
     }
 
     /**
      * evaluates the objectives class
      * apply the criteria to each one of the objectives class based on the classroom and timetable lists.
-     * @param solution
+     *
+     * @param solution - Integer solution
      * @return solution
      */
     @Override
@@ -82,7 +75,7 @@ public class TimetableProblem extends AbstractIntegerProblem {
             Class<? extends Criteria> aClass = objectivesClass.get(i);
             try {
                 Criteria criteria = aClass.getDeclaredConstructor().newInstance();
-                solution.objectives()[i] = criteria.applyCriteria(classRoomList, timetableList, solution.variables());
+                solution.objectives()[i] = criteria.applyCriteria(classRoomList, timetableList, solution.variables(), occupation);
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 log.error(e.getMessage());
             }
@@ -91,17 +84,10 @@ public class TimetableProblem extends AbstractIntegerProblem {
         return solution;
     }
 
-    /**
-     *
-     * @param solution
-     */
     public void evaluateConstraints(IntegerSolution solution) {
-        solution.constraints()[0] = new ConflictCriteria().applyCriteria(classRoomList, timetableList, solution.variables());
+        solution.constraints()[0] = new ConflictCriteria().applyCriteria(classRoomList, timetableList, solution.variables(), occupation);
     }
 
-    /**
-     * @return
-     */
     @Override
     public IntegerSolution createSolution() {
         return new DefaultIntegerSolution(getNumberOfObjectives(), getNumberOfConstraints(), getBoundsForVariables());

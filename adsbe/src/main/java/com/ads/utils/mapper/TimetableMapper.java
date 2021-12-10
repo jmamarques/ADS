@@ -82,14 +82,16 @@ public class TimetableMapper {
                 .capacity(timetable.getCapacity())
                 .classRoom(timetable.getClassRoom())
                 .realFeatures(timetable.getRealFeatures())
+                .error(timetable.getError())
+                .hasError(timetable.isHasError())
                 .build();
     }
 
     /**
-     * list of timetable mapped
+     * list of timetable mapped - copy
      *
      * @param timetableList timetable list
-     * @return List of timetable without classroon filled
+     * @return List of timetable
      */
     public static List<Timetable> toTimetableList(@NonNull List<Timetable> timetableList) {
         return timetableList.stream().map(TimetableMapper::toTimetable).collect(Collectors.toList());

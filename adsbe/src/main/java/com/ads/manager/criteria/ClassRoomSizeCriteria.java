@@ -1,8 +1,10 @@
 package com.ads.manager.criteria;
 
 import com.ads.models.internal.ClassRoom;
+import com.ads.models.internal.Reservation;
 import com.ads.models.internal.Timetable;
 import lombok.NonNull;
+import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -24,7 +26,7 @@ public class ClassRoomSizeCriteria implements Criteria {
      * @return integer of result
      */
     @Override
-    public double applyCriteria(@NonNull List<ClassRoom> classRoomList, @NonNull List<Timetable> timetableList, List<Integer> solution) {
+    public double applyCriteria(@NonNull List<ClassRoom> classRoomList, @NonNull List<Timetable> timetableList, List<Integer> solution, ArrayListValuedHashMap<ClassRoom, Reservation> basedOccupation) {
         double result = 0.0;
         // process solution
         for (int i = 0; i < solution.size(); i++) {
