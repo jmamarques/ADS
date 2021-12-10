@@ -8,21 +8,16 @@ services:
     networks: # Networks to join (Services on the same network can communicate with each other using their name)
       - backend
   adsfe:
-    image: 'adsfe:lastest'
+    image: 'adsfe:latest'
     ports:
       - '4200:4200'
     links:
       - 'ads'
     depends_on:
       - 'ads'
-
     networks:
-      - backend
-
-# Volumes
-volumes:
-  db:
+      - backend1
 
 # Networks to be created to facilitate communication between containers
 networks:
-  backend:
+  backend1:
