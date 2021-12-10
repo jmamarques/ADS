@@ -1,7 +1,7 @@
 version: '3.3'
 
 services:
-  localhost:
+  ads:
     image: 'ads:latest'
     ports:
       - '8080:8080'
@@ -12,7 +12,7 @@ services:
     ports:
       - '4200:80'
     depends_on:
-      - 'localhost'
+      - 'ads'
     networks:
       - backend1
 
