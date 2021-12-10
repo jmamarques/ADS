@@ -9,6 +9,8 @@ services:
       - backend1
   adsfe:
     image: 'adsfe:latest'
+    ports:
+      - "80:80"
     depends_on:
       - 'ads'
     networks:
