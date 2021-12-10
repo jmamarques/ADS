@@ -1,0 +1,27 @@
+version: '3.3'
+
+services:
+  ads:
+    image: 'ads:latest'
+    ports:
+      - '8080:8080'
+    networks: # Networks to join (Services on the same network can communicate with each other using their name)
+      - backend
+  adsfe:
+    build: ./CRUD/
+    links:
+      - "ads"
+    depends_on:
+      - "ads"
+    ports:
+      - "80:80"
+    networks:
+      - backend
+
+# Volumes
+volumes:
+  db:
+
+# Networks to be created to facilitate communication between containers
+networks:
+  backend:

@@ -14,7 +14,7 @@
     <name>ADS</name>
     <description>ADS</description>
     <properties>
-        <java.version>17</java.version>
+        <java.version>11</java.version>
         <springfox-swagger.version>3.0.0</springfox-swagger.version>
         <swrlapi.version>2.0.10</swrlapi.version>
         <swrlapi.drools.version>2.0.10</swrlapi.drools.version>
