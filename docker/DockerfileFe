@@ -14,4 +14,4 @@ FROM nginx:1.21.4-alpine
 # Copy the build output to replace the default nginx contents.
 COPY --from=build /usr/local/app/dist/adsfe /usr/share/nginx/html
 
-
+EXPOSE 4200
