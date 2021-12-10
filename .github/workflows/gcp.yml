@@ -9,7 +9,7 @@ jobs:
     name: Setup Gcloud Account
     runs-on: ubuntu-latest
     
-    env: gcr.io/${{ secrets.GCP_PROJECT_ID }}/site:latest
+    env: gcr.io/${{ secrets.GCP_PROJECT_ID }}/site:latest 
     
     steps:
       # Git checkout
@@ -20,7 +20,7 @@ jobs:
       - uses: google-github-actions/setup-gcloud@v0.2.0
         with:
           service_account_key: ${{ secrets.GCP_CREDENTIALS }}
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          project_id: projeto-ads-3
 
       # gcloud configure docker
       - name: Configure Docker
