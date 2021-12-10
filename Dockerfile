@@ -8,12 +8,11 @@ COPY adsbe/src src
 RUN mvn -f pom.xml -DskipTests package
 
 FROM openjdk:17.0-oraclelinux7
-RUN apt-get update; apt-get install -y fontconfig libfreetype6
-COPY --from=build /ads/target/ads-1.0.0.jar /usr/local/lib/ads.jar
+COPY --from=build /ads/target/ads-0.0.1-SNAPSHOT.jar /usr/local/lib/ads.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/usr/local/lib/ads.jar"]
 
-FROM node:16-alpine3.12 as build
+FROM node:16-alpine3.12 as buildfe
 
 WORKDIR /usr/local/app
 
@@ -27,4 +26,4 @@ RUN npm run build
 FROM nginx:1.21.4-alpine
 
 # Copy the build output to replace the default nginx contents.
-COPY --from=build /usr/local/app/dist/adsfe /usr/share/nginx/html
+COPY --from=buildfe /usr/local/app/dist/adsfe /usr/share/nginx/html
