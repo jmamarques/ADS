@@ -97,6 +97,6 @@ public class GeneralConst {
     public final static String CRITERIA_3 = "O menor número de mudanças de salas em conjuntos de aulas";
     public final static String CRITERIA_4 = "O menor número de mudanças de edifícios em conjuntos de aulas";
     public final static String CRITERIA_5 = "Maior número de auditórios, com várias horas seguidas, sem alocação de aulas";
-    public final static String CRITERIA_6 = "O menor número de horas entre aulas";
+    public final static String CRITERIA_6 = "Maior correspondêndia das características das salas de aula com a aula";
     public final static String[] LIST_CRITERIA = new String[]{CRITERIA_1, CRITERIA_2, CRITERIA_3, CRITERIA_4, CRITERIA_5, CRITERIA_6};
 }

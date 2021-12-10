@@ -52,10 +52,10 @@ export class AppComponent implements OnInit {
   isDone: boolean = false;
   // formats available
   formats = ['json', 'excel', 'csv'];
-  formatFormGroup: FormGroup = this.fb.group({
-    format: ['', Validators.required],
-  });
   format = 'csv';
+  formatFormGroup: FormGroup = this.fb.group({
+    format: [this.format, Validators.required],
+  });
   jsonResult: any;
   currentExcelHeaders: any;
 
@@ -167,7 +167,7 @@ export class AppComponent implements OnInit {
     'O menor número de mudanças de salas em conjuntos de aulas',
     'O menor número de mudanças de edifícios em conjuntos de aulas',
     'Maior número de auditórios, com várias horas seguidas, sem alocação de aulas',
-    'O menor número de horas entre aulas'];
+    'Maior correspondêndia das características das salas de aula com a aula'];
 
 
   /**
@@ -253,12 +253,7 @@ export class AppComponent implements OnInit {
    */
   downLoadFile(data: any, type: string) {
     let blob = new Blob([data], { type: type});
-    // let url = window.URL.createObjectURL(blob);
-    // let pwa = window.open(url);
     fileSaver.saveAs(blob, 'Timetable');
-    // if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
-    //   alert( 'Please disable your Pop-up blocker and try again.');
-    // }
   }
 
   /**
@@ -283,8 +278,9 @@ export class AppComponent implements OnInit {
       let line = '';
       for (let index in headersServer) {
         let head = mapHeadersServer[headersServer[index]];
-
-        line += array[i][head]+ splitter;
+        let c_value = array[i][head];
+        if(c_value === 'null' || c_value === null || c_value === undefined) c_value = '';
+        line += c_value+ splitter;
       }
       str += line.slice(0, -1) + '\r\n';
     }
@@ -307,8 +303,9 @@ export class AppComponent implements OnInit {
           const list: any[] = this.jsonResult
           for (let i = 0; i < list.length; i++) {
             const dataJson = JSON.stringify(list[i]);
-            const typeJson = 'application/json';
-            this.downLoadFile(dataJson, typeJson);
+            type = 'application/json';
+            let blob = new Blob([dataJson], { type: type});
+            this.downLoadFile(dataJson, type);
           }
         }
         break;
@@ -332,7 +329,9 @@ export class AppComponent implements OnInit {
           const list: any[] = this.jsonResult
           for (let i = 0; i < list.length; i++) {
             const csvData = this.convertToCSV(list[i], headersServer, headersExcel, mapHeadersServer);
+            type = 'text/csv;charset=utf-8;';
             const data = '\ufeff' + csvData;
+            let blob = new Blob([data], { type: type});
             this.downLoadFile(data, type);
           }
         }
@@ -355,6 +354,11 @@ export class AppComponent implements OnInit {
     return rawExcel
   }
 
+  /**
+   * convert base64 to blob
+   * @param base64Data
+   * @param contentType
+   */
   base64toBlob = (base64Data:any, contentType:any) => {
     contentType = contentType || '';
     let sliceSize = 1024;
@@ -373,5 +377,40 @@ export class AppComponent implements OnInit {
       byteArrays[sliceIndex] = new Uint8Array(bytes);
     }
     return new Blob(byteArrays, { type: contentType });
+  }
+
+  downloadToTab(jj: any) {
+    this.isDone = false;
+    let headersServer = this.fileService.mapToList(this.fourthFormGroup.controls['fourthCtrl'].value);
+    let headersExcel = this.currentExcelHeaders;
+    let mapHeadersServer = this.fileService.mapHeadersTimetable();
+    let type = 'text/csv;charset=utf-8;';
+    let blob = null;
+    if(!this.format){
+      this.format = 'csv';
+    }
+    switch (this.format) {
+      case 'json':
+            const dataJson = JSON.stringify(jj);
+            type = 'application/json';
+            blob = new Blob([dataJson], { type: type});
+        break;
+      case 'excel':
+            const csvData1 = this.convertToCSV(jj, headersServer, headersExcel, mapHeadersServer);
+            let rawExcel = this.convertCsvToExcelBuffer(csvData1);
+            blob = this.base64toBlob(rawExcel, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+
+        break;
+      case 'csv':
+            const csvData = this.convertToCSV(jj, headersServer, headersExcel, mapHeadersServer);
+            type = 'text/csv;charset=utf-8;';
+            const data = '\ufeff' + csvData;
+            blob = new Blob([data], { type: type});
+    }
+    // let url = window.URL.createObjectURL(blob);
+    // let pwa = window.open(url, '_blank');
+    // if(pwa) pwa.focus();
+    if(blob) fileSaver.saveAs(blob, 'Timetable');
+    this.isDone = true;
   }
 }

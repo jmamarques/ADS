@@ -96,11 +96,16 @@
           <div class="container-fluid align-items-center">
             <mat-form-field [formGroup]="formatFormGroup" appearance="fill" class="me-3">
               <mat-label>Tipo do ficheiro</mat-label>
-              <mat-select [formControlName]="'format'" [value]="format" (selectionChange)="formatChange($event)">
+              <mat-select [formControlName]="'format'" (selectionChange)="formatChange($event)">
                 <mat-option *ngFor="let formati of formats" [value]="formati">{{formati}}</mat-option>
               </mat-select>
             </mat-form-field>
-            <button class="btn btn-primary" (click)="download()">Download</button>
+            <button class="btn btn-primary" (click)="download()">Download All</button>
+          </div>
+          <div *ngIf="jsonResult" class="container">
+            <button mat-fab color="primary" *ngFor="let jj of jsonResult; index as i" (click)="downloadToTab(jj)">
+              File {{i+1}}
+            </button>
           </div>
         </div>
         <ng-template #loadingDone>
