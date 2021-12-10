@@ -52,151 +52,151 @@ public class ClassDTO implements Serializable {
     @Feature(name = "Anfiteatro aulas")
     @CsvCustomBindByPosition(position = 5, converter = CsvBooleanField.class)
     @ExcelColumn(index = 5, type = GenericType.BOOLEAN)
-    private boolean amphitheaterClasses;
+    private Boolean amphitheaterClasses;
     @XmlElement
     @Feature(name = "Apoio técnico eventos")
     @CsvCustomBindByPosition(position = 6, converter = CsvBooleanField.class)
     @ExcelColumn(index = 6, type = GenericType.BOOLEAN)
-    private boolean technicalSupportForEvents;
+    private Boolean technicalSupportForEvents;
     @XmlElement
     @Feature(name = "Arq 1")
     @CsvCustomBindByPosition(position = 7, converter = CsvBooleanField.class)
     @ExcelColumn(index = 7, type = GenericType.BOOLEAN)
-    private boolean arq1;
+    private Boolean arq1;
     @XmlElement
     @Feature(name = "Arq 2")
     @CsvCustomBindByPosition(position = 8, converter = CsvBooleanField.class)
     @ExcelColumn(index = 8, type = GenericType.BOOLEAN)
-    private boolean arq2;
+    private Boolean arq2;
     @XmlElement
     @Feature(name = "Arq 3")
     @CsvCustomBindByPosition(position = 9, converter = CsvBooleanField.class)
     @ExcelColumn(index = 9, type = GenericType.BOOLEAN)
-    private boolean arq3;
+    private Boolean arq3;
     @XmlElement
     @Feature(name = "Arq 4")
     @CsvCustomBindByPosition(position = 10, converter = CsvBooleanField.class)
     @ExcelColumn(index = 10, type = GenericType.BOOLEAN)
-    private boolean arch4;
+    private Boolean arch4;
     @XmlElement
     @Feature(name = "Arq 5")
     @CsvCustomBindByPosition(position = 11, converter = CsvBooleanField.class)
     @ExcelColumn(index = 11, type = GenericType.BOOLEAN)
-    private boolean arch5;
+    private Boolean arch5;
     @XmlElement
     @Feature(name = "Arq 6")
     @CsvCustomBindByPosition(position = 12, converter = CsvBooleanField.class)
     @ExcelColumn(index = 12, type = GenericType.BOOLEAN)
-    private boolean arq6;
+    private Boolean arq6;
     @XmlElement
     @Feature(name = "Arq 9")
     @CsvCustomBindByPosition(position = 13, converter = CsvBooleanField.class)
     @ExcelColumn(index = 13, type = GenericType.BOOLEAN)
-    private boolean arq9;
+    private Boolean arq9;
     @XmlElement
     @Feature(name = "BYOD (Bring Your Own Device)")
     @CsvCustomBindByPosition(position = 14, converter = CsvBooleanField.class)
     @ExcelColumn(index = 14, type = GenericType.BOOLEAN)
-    private boolean byod;
+    private Boolean byod;
     @XmlElement
     @Feature(name = "Focus Group")
     @CsvCustomBindByPosition(position = 15, converter = CsvBooleanField.class)
     @ExcelColumn(index = 15, type = GenericType.BOOLEAN)
-    private boolean focusGroup;
+    private Boolean focusGroup;
     @XmlElement
     @Feature(name = "Horário sala visível portal público")
     @CsvCustomBindByPosition(position = 16, converter = CsvBooleanField.class)
     @ExcelColumn(index = 16, type = GenericType.BOOLEAN)
-    private boolean scheduleVisiblePublicPortalRoom;
+    private Boolean scheduleVisiblePublicPortalRoom;
     @XmlElement
     @Feature(name = "Laboratório de Arquitectura de Computadores I")
     @CsvCustomBindByPosition(position = 17, converter = CsvBooleanField.class)
     @ExcelColumn(index = 17, type = GenericType.BOOLEAN)
-    private boolean computerArchLab1;
+    private Boolean computerArchLab1;
     @XmlElement
     @Feature(name = "Laboratório de Arquitectura de Computadores II")
     @CsvCustomBindByPosition(position = 18, converter = CsvBooleanField.class)
     @ExcelColumn(index = 18, type = GenericType.BOOLEAN)
-    private boolean computerArchLab2;
+    private Boolean computerArchLab2;
     @XmlElement
     @Feature(name = "Laboratório de Bases de Engenharia")
     @CsvCustomBindByPosition(position = 19, converter = CsvBooleanField.class)
     @ExcelColumn(index = 19, type = GenericType.BOOLEAN)
-    private boolean engineeringBasesLab;
+    private Boolean engineeringBasesLab;
     @XmlElement
     @Feature(name = "Laboratório de Electrónica")
     @CsvCustomBindByPosition(position = 20, converter = CsvBooleanField.class)
     @ExcelColumn(index = 20, type = GenericType.BOOLEAN)
-    private boolean electronicsLab;
+    private Boolean electronicsLab;
     @XmlElement
     @Feature(name = "Laboratório de Informática")
     @CsvCustomBindByPosition(position = 21, converter = CsvBooleanField.class)
     @ExcelColumn(index = 21, type = GenericType.BOOLEAN)
-    private boolean computerLab;
+    private Boolean computerLab;
     @XmlElement
     @Feature(name = "Laboratório de Jornalismo")
     @CsvCustomBindByPosition(position = 22, converter = CsvBooleanField.class)
     @ExcelColumn(index = 22, type = GenericType.BOOLEAN)
-    private boolean journalismLab;
+    private Boolean journalismLab;
     @XmlElement
     @Feature(name = "Laboratório de Redes de Computadores I")
     @CsvCustomBindByPosition(position = 23, converter = CsvBooleanField.class)
     @ExcelColumn(index = 23, type = GenericType.BOOLEAN)
-    private boolean computerNetworksLab1;
+    private Boolean computerNetworksLab1;
     @XmlElement
     @Feature(name = "Laboratório de Redes de Computadores II")
     @CsvCustomBindByPosition(position = 24, converter = CsvBooleanField.class)
     @ExcelColumn(index = 24, type = GenericType.BOOLEAN)
-    private boolean computerNetworksLab3;
+    private Boolean computerNetworksLab3;
     @XmlElement
     @Feature(name = "Laboratório de Telecomunicações")
     @CsvCustomBindByPosition(position = 25, converter = CsvBooleanField.class)
     @ExcelColumn(index = 25, type = GenericType.BOOLEAN)
-    private boolean telecommunicationsLab;
+    private Boolean telecommunicationsLab;
     @XmlElement
     @Feature(name = "Sala Aulas Mestrado")
     @CsvCustomBindByPosition(position = 26, converter = CsvBooleanField.class)
     @ExcelColumn(index = 26, type = GenericType.BOOLEAN)
-    private boolean masterClassroom;
+    private Boolean masterClassroom;
     @XmlElement
     @Feature(name = "Sala Aulas Mestrado Plus")
     @CsvCustomBindByPosition(position = 27, converter = CsvBooleanField.class)
     @ExcelColumn(index = 27, type = GenericType.BOOLEAN)
-    private boolean masterPlusClassroom;
+    private Boolean masterPlusClassroom;
     @XmlElement
     @Feature(name = "Sala NEE")
     @CsvCustomBindByPosition(position = 28, converter = CsvBooleanField.class)
     @ExcelColumn(index = 28, type = GenericType.BOOLEAN)
-    private boolean senRoom;
+    private Boolean senRoom;
     @XmlElement
     @Feature(name = "Sala Provas")
     @CsvCustomBindByPosition(position = 29, converter = CsvBooleanField.class)
     @ExcelColumn(index = 29, type = GenericType.BOOLEAN)
-    private boolean evidenceRoom;
+    private Boolean evidenceRoom;
     @XmlElement
     @Feature(name = "Sala Reunião")
     @CsvCustomBindByPosition(position = 30, converter = CsvBooleanField.class)
     @ExcelColumn(index = 30, type = GenericType.BOOLEAN)
-    private boolean meetingRoom;
+    private Boolean meetingRoom;
     @XmlElement
     @Feature(name = "Sala de Arquitectura")
     @CsvCustomBindByPosition(position = 31, converter = CsvBooleanField.class)
     @ExcelColumn(index = 31, type = GenericType.BOOLEAN)
-    private boolean architectureRoom;
+    private Boolean architectureRoom;
     @XmlElement
     @Feature(name = "Sala de Aulas normal")
     @CsvCustomBindByPosition(position = 32, converter = CsvBooleanField.class)
     @ExcelColumn(index = 32, type = GenericType.BOOLEAN)
-    private boolean normalClassroom;
+    private Boolean normalClassroom;
     @XmlElement
     @Feature(name = "videoconferencia")
     @CsvCustomBindByPosition(position = 33, converter = CsvBooleanField.class)
     @ExcelColumn(index = 33, type = GenericType.BOOLEAN)
-    private boolean videoConference;
+    private Boolean videoConference;
     @XmlElement
     @Feature(name = "Átrio")
     @CsvCustomBindByPosition(position = 34, converter = CsvBooleanField.class)
     @ExcelColumn(index = 34, type = GenericType.BOOLEAN)
-    private boolean atrium;
+    private Boolean atrium;
     private List<String> otherFeatures;
 }

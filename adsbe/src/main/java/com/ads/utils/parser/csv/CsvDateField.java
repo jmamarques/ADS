@@ -10,17 +10,22 @@ import java.util.Date;
  **/
 public class CsvDateField extends AbstractBeanField<String, Date> {
 
-    /**
-     * parses a string representing a date
-     * @param string
-     * @return string date
-     */
-    @Override
-    protected Date convert(String s) {
+    public static Date parseTo(String s) {
         try {
             return DateUtils.parseDate(s, "dd/MM/yyyy", "dd-MM-yyyy");
         } catch (Exception e) {
             return null;
         }
+    }
+
+    /**
+     * parses a string representing a date
+     *
+     * @param s
+     * @return string date
+     */
+    @Override
+    protected Date convert(String s) {
+        return parseTo(s);
     }
 }

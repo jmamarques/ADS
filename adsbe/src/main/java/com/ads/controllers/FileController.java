@@ -1,6 +1,7 @@
 package com.ads.controllers;
 
 import com.ads.models.dto.RequestDTO;
+import com.ads.models.internal.Timetable;
 import com.ads.services.FileService;
 import com.ads.services.TimetablesService;
 import com.ads.utils.constants.GeneralConst;
@@ -81,15 +82,16 @@ public class FileController {
 
     /**
      * Submit form - receives a classroom file and timetable file  and returns a new timetable json
-     * @param classFile - classroom file
+     *
+     * @param classFile     - classroom file
      * @param timetableFile - timetable file
-     * @param requestDTO - additional parameters as mappings, criteria and execution speed
+     * @param requestDTO    - additional parameters as mappings, criteria and execution speed
      * @return timetable json -> based on validations and criteria pass through initial request
      */
     @PostMapping("/execute")
     @ApiOperation(value = "Upload timetables to process (File)",
             produces = "application/json", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public byte[] processTimetable(
+    public List<Timetable> processTimetable(
             @ApiParam(name = "classFile", value = "Select the file to Upload", required = true)
             @RequestPart(value = "classFile")
                     MultipartFile classFile,
@@ -97,7 +99,7 @@ public class FileController {
             @RequestPart(value = "timetableFile")
                     MultipartFile timetableFile,
             @ModelAttribute RequestDTO requestDTO) throws IOException {
-        return classFile.getBytes();
+        return fileService.processForm(requestDTO, classFile, timetableFile);
     }
 
 }

@@ -2,13 +2,19 @@ package com.ads.utils.mapper;
 
 import com.ads.models.dto.TimetableDTO;
 import com.ads.models.internal.Timetable;
+import com.ads.utils.Tuple;
+import com.ads.utils.parser.csv.*;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.ads.utils.constants.GeneralConst.*;
 
 /**
  * JMA - 17/11/2021 23:07
@@ -29,8 +35,8 @@ public class TimetableMapper {
                 .shift(timetableDTO.getShift())
                 .classNumber(timetableDTO.getClassNumber())
                 .registeredShift(timetableDTO.getRegisteredShift())
-                .overflowShift(timetableDTO.isOverflowShift())
-                .overflowEnrollment(timetableDTO.isOverflowEnrollment())
+                .overflowShift(timetableDTO.getOverflowShift())
+                .overflowEnrollment(timetableDTO.getOverflowEnrollment())
                 .dayOfWeek(timetableDTO.getDayOfWeek())
                 .begin(timetableDTO.getBegin())
                 .end(timetableDTO.getEnd())
@@ -130,5 +136,56 @@ public class TimetableMapper {
                     }
                 });
         return resultList;
+    }
+
+    /**
+     * Create TimetableDTO based on mapping configurations
+     *
+     * @param mapping - configurations
+     * @return TimetableDTO with values based on configuration
+     */
+    public static TimetableDTO createObj(Tuple<String[], List<String>> mapping) {
+        String[] t1 = mapping.t1;
+        List<String> v1 = mapping.v1;
+        TimetableDTO.TimetableDTOBuilder builder = TimetableDTO.builder();
+        if (v1.size() <= t1.length) {
+            for (int i = 0; i < v1.size(); i++) {
+                String attribute = v1.get(i);
+                if (StringUtils.equalsIgnoreCase(F_T_1, attribute)) {
+                    builder.course(t1[i]);
+                } else if (StringUtils.equalsIgnoreCase(F_T_2, attribute)) {
+                    builder.unit(t1[i]);
+                } else if (StringUtils.equalsIgnoreCase(F_T_3, attribute)) {
+                    builder.shift(t1[i]);
+                } else if (StringUtils.equalsIgnoreCase(F_T_4, attribute)) {
+                    builder.classNumber(t1[i]);
+                } else if (StringUtils.equalsIgnoreCase(F_T_5, attribute)) {
+                    builder.registeredShift(CsvIntegerField.parseToInt(t1[i]));
+                } else if (StringUtils.equalsIgnoreCase(F_T_6, attribute)) {
+                    builder.overflowShift(CsvBooleanStringField.parseToBoolean(t1[i]));
+                } else if (StringUtils.equalsIgnoreCase(F_T_7, attribute)) {
+                    builder.overflowEnrollment(CsvBooleanStringField.parseToBoolean(t1[i]));
+                } else if (StringUtils.equalsIgnoreCase(F_T_8, attribute)) {
+                    builder.dayOfWeek(CsvDayOfWeekField.parseTo(t1[i]));
+                } else if (StringUtils.equalsIgnoreCase(F_T_9, attribute)) {
+                    builder.begin(CsvLocalTimeField.parseTo(t1[i]));
+                } else if (StringUtils.equalsIgnoreCase(F_T_10, attribute)) {
+                    builder.end(CsvLocalTimeField.parseTo(t1[i]));
+                } else if (StringUtils.equalsIgnoreCase(F_T_11, attribute)) {
+                    builder.day(CsvDateField.parseTo(t1[i]));
+                } else if (StringUtils.equalsIgnoreCase(F_T_12, attribute)) {
+                    builder.features(t1[i]);
+                } else if (StringUtils.equalsIgnoreCase(F_T_13, attribute)) {
+                    builder.classRoom(t1[i]);
+                } else if (StringUtils.equalsIgnoreCase(F_T_14, attribute)) {
+                    builder.capacity(CsvIntegerField.parseToInt(t1[i]));
+                } else if (StringUtils.equalsIgnoreCase(F_T_15, attribute)) {
+                    builder.realFeatures(Arrays.stream(StringUtils.split(t1[i], ",")).map(String::trim).toList());
+                } else if (StringUtils.equalsIgnoreCase(F_T_OTHERS, attribute)) {
+                    builder.realFeatures(Arrays.stream(StringUtils.split(t1[i], ",")).map(String::trim).toList());
+                }
+            }
+        }
+        return builder.build();
     }
 }
