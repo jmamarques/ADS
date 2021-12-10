@@ -3,6 +3,7 @@ package com.ads.services;
 import com.ads.models.dto.ClassDTO;
 import com.ads.models.dto.RequestDTO;
 import com.ads.models.dto.TimetableDTO;
+import com.ads.models.internal.ClassRoom;
 import com.ads.models.internal.Timetable;
 import com.ads.utils.Tuple;
 import com.ads.utils.constants.GeneralConst;
@@ -13,6 +14,7 @@ import com.ads.utils.mapper.ClassRoomMapper;
 import com.ads.utils.mapper.TimetableMapper;
 import com.ads.utils.parser.csv.CsvPOJOUtils;
 import com.ads.utils.parser.excel.PoiPOJOUtils;
+import com.ads.utils.validators.TimetableValidator;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import lombok.NonNull;
@@ -42,6 +44,11 @@ import java.util.function.Function;
 @Service
 @Log4j2
 public class FileService {
+    private final AlgorithmService algorithmService;
+
+    public FileService(AlgorithmService algorithmService) {
+        this.algorithmService = algorithmService;
+    }
 
     /**
      * Generic parser from file to a list of DTO's
@@ -199,20 +206,34 @@ public class FileService {
         }
     }
 
-    public List<Timetable> processForm(RequestDTO requestDTO, MultipartFile classFile, MultipartFile timetableFile) {
+    /**
+     * Validate, transform and compute algorithms on input values
+     *
+     * @param requestDTO    - mapping configurations
+     * @param classFile     - class file
+     * @param timetableFile - timetable file
+     * @return Timetable list based on algorithms
+     */
+    public List<List<Timetable>> processForm(RequestDTO requestDTO, MultipartFile classFile, MultipartFile timetableFile) {
         String error = validateRequest(requestDTO, classFile, timetableFile);
         if (!StringUtils.isEmpty(error)) {
             throw new InvalidFileException(error);
         }
-        ArrayList<Timetable> timetables = new ArrayList<>();
         try {
+            // load from file
             List<ClassDTO> classRoomDTOList = loadClassFile(classFile, requestDTO.getMappingClass());
             List<TimetableDTO> timetableDTOList = loadTimetableFile(timetableFile, requestDTO.getMappingTimetable());
+            // map to internal object and validate the data
+            List<ClassRoom> classRoomList = TimetableValidator.validationClassRooms(ClassRoomMapper.toClassRoom(classRoomDTOList));
+            List<Timetable> timetablesList = TimetableValidator.validationTimetables(TimetableMapper.toTimetable(timetableDTOList));
+            // parser qualities
+            String[] qualities = StringUtils.split(requestDTO.getQualities(), ";");
+            boolean fast = requestDTO.getFast();
+            // get results
+            return algorithmService.process(classRoomList, timetablesList, qualities, fast);
         } catch (Throwable e) {
             throw new InvalidFormException(e);
         }
-
-        return timetables;
     }
 
     private List<ClassDTO> loadClassFile(MultipartFile classFile, String mappingClass) {

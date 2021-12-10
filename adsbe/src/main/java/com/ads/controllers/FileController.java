@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -91,14 +90,14 @@ public class FileController {
     @PostMapping("/execute")
     @ApiOperation(value = "Upload timetables to process (File)",
             produces = "application/json", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public List<Timetable> processTimetable(
+    public List<List<Timetable>> processTimetable(
             @ApiParam(name = "classFile", value = "Select the file to Upload", required = true)
             @RequestPart(value = "classFile")
                     MultipartFile classFile,
             @ApiParam(name = "timetableFile", value = "Select the file to Upload", required = true)
             @RequestPart(value = "timetableFile")
                     MultipartFile timetableFile,
-            @ModelAttribute RequestDTO requestDTO) throws IOException {
+            @ModelAttribute RequestDTO requestDTO) {
         return fileService.processForm(requestDTO, classFile, timetableFile);
     }
 
