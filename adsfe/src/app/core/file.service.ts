@@ -123,7 +123,7 @@ export class FileService {
     return this.http.post(`${FileService.BASE_URL_BACK_END}/ads/execute`, formData, {params});
   }
 
-  private mapToList(list: any) {
+  mapToList(list: any) {
     const mapping = [];
     for (let j = 0; j < 100; j++) {
       if (list[j]) {
@@ -133,5 +133,26 @@ export class FileService {
       }
     }
     return mapping;
+  }
+
+  mapHeadersTimetable() {
+    return {
+      "Curso": 'course',
+      "Unidade de execução": 'unit',
+      "Turno": 'shift',
+      "Turma": 'classNumber',
+      "Inscritos no turno (no 1º semestre é baseado em estimativas)": 'registeredShift',
+      "Turnos com capacidade superior à capacidade das características das salas": 'overflowShift',
+      "Turno com inscrições superiores à capacidade das salas": 'overflowEnrollment',
+      "Dia da Semana": 'dayOfWeek',
+      "Início": 'begin',
+      "Fim": 'end',
+      "Dia": 'day',
+      "Características da sala pedida para a aula": 'features',
+      "Sala da aula": 'classRoom',
+      "Lotação": 'capacity',
+      "Características reais da sala": 'realFeatures',
+      "Outros": 'error'
+    };
   }
 }

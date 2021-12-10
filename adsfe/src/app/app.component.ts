@@ -9,6 +9,8 @@ import {RequestDto} from "./interfaces/request-dto";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogError} from "./components/dialog-error";
 import * as fileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+import {MatSelectChange} from "@angular/material/select";
 
 @Component({
   selector: 'app-root',
@@ -50,8 +52,12 @@ export class AppComponent implements OnInit {
   isDone: boolean = false;
   // formats available
   formats = ['json', 'excel', 'csv'];
-  format: any;
+  formatFormGroup: FormGroup = this.fb.group({
+    format: ['', Validators.required],
+  });
+  format = 'csv';
   jsonResult: any;
+  currentExcelHeaders: any;
 
   // Constructor
   constructor(private router: Router,
@@ -163,6 +169,7 @@ export class AppComponent implements OnInit {
     'Maior número de auditórios, com várias horas seguidas, sem alocação de aulas',
     'O menor número de horas entre aulas'];
 
+
   /**
    * Update the form group with correct value
    * @param listOptions - list of options
@@ -248,7 +255,7 @@ export class AppComponent implements OnInit {
     let blob = new Blob([data], { type: type});
     // let url = window.URL.createObjectURL(blob);
     // let pwa = window.open(url);
-    fileSaver.saveAs(blob, this.timetableFile?.name || 'Timetable');
+    fileSaver.saveAs(blob, 'Timetable');
     // if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
     //   alert( 'Please disable your Pop-up blocker and try again.');
     // }
@@ -257,41 +264,112 @@ export class AppComponent implements OnInit {
   /**
    * Convert json to csv (string)
    * @param objArray - data to convert
-   * @param headerList - headers and properties of my data
+   * @param headersServer - headers from server
+   * @param headersExcel - headers from file
+   * @param mapHeadersServer - mapping
+   * @param splitter - splitter on csv
    */
-  convertToCSV(objArray: any, headerList: string[]) {
+  convertToCSV(objArray: any, headersServer: string[], headersExcel: any,  mapHeadersServer:any, splitter=';') {
     let array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
     let str = '';
-    let row = 'S.No,';
+    let row = '';
 
-    for (let index in headerList) {
-      row += headerList[index] + ',';
+    for (let header in headersExcel) {
+      row += headersExcel[header] + splitter;
     }
     row = row.slice(0, -1);
     str += row + '\r\n';
     for (let i = 0; i < array.length; i++) {
-      let line = (i+1)+'';
-      for (let index in headerList) {
-        let head = headerList[index];
+      let line = '';
+      for (let index in headersServer) {
+        let head = mapHeadersServer[headersServer[index]];
 
-        line += ',' + array[i][head];
+        line += array[i][head]+ splitter;
       }
-      str += line + '\r\n';
+      str += line.slice(0, -1) + '\r\n';
     }
     return str;
   }
 
-  formatChange(format: any) {
-    this.format = format;
+  formatChange(format: MatSelectChange) {
+    this.format = format.value;
   }
 
   download() {
+    let headersServer = this.fileService.mapToList(this.fourthFormGroup.controls['fourthCtrl'].value);
+    let headersExcel = this.currentExcelHeaders;
+    let mapHeadersServer = this.fileService.mapHeadersTimetable();
+    let type = 'text/csv;charset=utf-8;';
     switch (this.format) {
       case 'json':
+        if(Array.isArray(this.jsonResult)) {
+          const list: any[] = this.jsonResult
+          for (let i = 0; i < list.length; i++) {
+            const dataJson = JSON.stringify(list[i]);
+            const typeJson = 'application/json';
+            this.downLoadFile(dataJson, typeJson);
+          }
+        }
         break;
       case 'excel':
+        if(Array.isArray(this.jsonResult)){
+          const list: any[] = this.jsonResult
+          for (let i = 0; i < list.length; i++) {
+            const csvData = this.convertToCSV(list[i], headersServer, headersExcel, mapHeadersServer);
+            let rawExcel = this.convertCsvToExcelBuffer(csvData);
+            let blob = this.base64toBlob(rawExcel, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            fileSaver.saveAs(blob, 'Timetable.xlsx');
+          }
+        }
         break;
       case 'csv':
+        headersServer = this.fileService.mapToList(this.fourthFormGroup.controls['fourthCtrl'].value);
+        headersExcel = this.currentExcelHeaders;
+        mapHeadersServer = this.fileService.mapHeadersTimetable();
+        type = 'text/csv;charset=utf-8;';
+        if(Array.isArray(this.jsonResult)){
+          const list: any[] = this.jsonResult
+          for (let i = 0; i < list.length; i++) {
+            const csvData = this.convertToCSV(list[i], headersServer, headersExcel, mapHeadersServer);
+            const data = '\ufeff' + csvData;
+            this.downLoadFile(data, type);
+          }
+        }
     }
+  }
+
+  updateCurrentHeader(header: any) {
+    this.currentExcelHeaders = header;
+  }
+
+  convertCsvToExcelBuffer = (csvString: string, splitter=';') => {
+    const arrayOfArrayCsv = csvString.split("\r\n").map((row: string) => {
+      return row.split(splitter)
+    });
+    const wb = XLSX.utils.book_new();
+    const newWs = XLSX.utils.aoa_to_sheet(arrayOfArrayCsv);
+    XLSX.utils.book_append_sheet(wb, newWs);
+    const rawExcel = XLSX.write(wb, { type: 'base64' })
+    return rawExcel
+  }
+
+  base64toBlob = (base64Data:any, contentType:any) => {
+    contentType = contentType || '';
+    let sliceSize = 1024;
+    let byteCharacters = atob(base64Data);
+    let bytesLength = byteCharacters.length;
+    let slicesCount = Math.ceil(bytesLength / sliceSize);
+    let byteArrays = new Array(slicesCount);
+    for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+      let begin = sliceIndex * sliceSize;
+      let end = Math.min(begin + sliceSize, bytesLength);
+
+      let bytes = new Array(end - begin);
+      for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+        bytes[i] = byteCharacters[offset].charCodeAt(0);
+      }
+      byteArrays[sliceIndex] = new Uint8Array(bytes);
+    }
+    return new Blob(byteArrays, { type: contentType });
   }
 }

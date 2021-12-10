@@ -14,6 +14,7 @@ export class MappingComponent implements OnInit, OnChanges {
   @Output() mappingValue: EventEmitter<any> = new EventEmitter<any>();
   @Output() isValid: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Input("excelHeaders") excelHeaders: String[] | null = [];
+  @Output() excelHeaderOut: EventEmitter<any> = new EventEmitter<any>();
   classFile: File | undefined;
   timetableFile: File | undefined;
   formGroup = this.fb.group({});
@@ -35,6 +36,7 @@ export class MappingComponent implements OnInit, OnChanges {
 
   private loadControllers() {
     if (this.excelHeaders && this.excelHeaders.length > 0) {
+      this.excelHeaderOut.emit(this.excelHeaders);
       this.formGroup = this.fb.group({});
       // initialization of form controls
       for (let i = 0; i < this.excelHeaders.length; i++) {

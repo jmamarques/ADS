@@ -58,7 +58,9 @@
           <ng-template matStepLabel>Mapeamento dos horários</ng-template>
           <app-mapping (isValid)="changeTimetableValid($event)" [headers]="headerTimetable"
                        [excelHeaders]="excelTimetableHeaders$ | async"
-                       (mappingValue)="updateMappingTimetable($event)"></app-mapping>
+                       (mappingValue)="updateMappingTimetable($event)"
+                       (excelHeaderOut)="updateCurrentHeader($event)"
+          ></app-mapping>
           <div>
             <button mat-button matStepperPrevious>Back</button>
             <button mat-button matStepperNext>Next</button>
@@ -92,10 +94,10 @@
         <div *ngIf="isDone; else loadingDone">
           <p>O Horário foi gerado!</p>
           <div class="container-fluid align-items-center">
-            <mat-form-field appearance="fill" class="me-3">
+            <mat-form-field [formGroup]="formatFormGroup" appearance="fill" class="me-3">
               <mat-label>Tipo do ficheiro</mat-label>
-              <mat-select (valueChange)="formatChange($event)" [value]="'csv'">
-                <mat-option *ngFor="let format of formats" [value]="format">{{format}}</mat-option>
+              <mat-select [formControlName]="'format'" [value]="format" (selectionChange)="formatChange($event)">
+                <mat-option *ngFor="let formati of formats" [value]="formati">{{formati}}</mat-option>
               </mat-select>
             </mat-form-field>
             <button class="btn btn-primary" (click)="download()">Download</button>
