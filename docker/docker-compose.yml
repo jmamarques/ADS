@@ -11,8 +11,6 @@ services:
     image: 'adsfe:latest'
     ports:
       - '4200:4200'
-    links:
-      - 'ads'
     depends_on:
       - 'ads'
     networks:
