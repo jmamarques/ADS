@@ -5,6 +5,7 @@ import com.ads.manager.algorithms.FifoAlgorithm;
 import com.ads.manager.criteria.*;
 import com.ads.models.internal.ClassRoom;
 import com.ads.models.internal.Timetable;
+import com.ads.utils.exceptions.InvalidAlgorithmException;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -57,10 +58,22 @@ public class AlgorithmService {
         // get Objective functions
         List<Class<? extends Criteria>> qualitiesClass = getQualities(qualities);
         List<String> algorithmList = swrlapiService.algorithm(timetables.size());
-        /*for (String alg : algorithmList) {
-            switch ():
-            case:
-        }*/
+        for (String alg : algorithmList) {
+            try {
+                switch (alg) {
+                    case ":nsgaiii":
+                        nsgaiiService.process(classRooms, timetables, maxGenerations, populationSize, qualitiesClass);
+                        break;
+                    case ":nsgaii":
+                        nsgaiiiService.process(classRooms, timetables, maxGenerations, populationSize, qualitiesClass);
+                        break;
+                    case ":smsemoa":
+                        smsemoaService.process(classRooms, timetables, maxGenerations, populationSize, qualitiesClass);
+                }
+            } catch (Throwable e) {
+                throw new InvalidAlgorithmException("Algorithm " + alg + " with error", e);
+            }
+        }
 //        return this.process(classRooms, timetables, maxGenerations, populationSize, List.of(ConflictCriteria.class));
         return result;
     }
