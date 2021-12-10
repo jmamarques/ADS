@@ -156,9 +156,9 @@ public class ClassRoomMapper {
                 } else if (StringUtils.equalsIgnoreCase(F_C_35, attribute)) {
                     builder.atrium(CsvBooleanField.parseToBoolean(t1[i]));
                 } else if (StringUtils.equalsIgnoreCase(F_C_36, attribute)) {
-                    builder.otherFeatures(Arrays.stream(StringUtils.split(t1[i], ",")).toList());
+                    builder.otherFeatures(Arrays.stream(StringUtils.split(t1[i], StringUtils.contains(t1[i], ";") ? ";" : ",")).toList());
                 } else if (StringUtils.equalsIgnoreCase(F_C_OTHERS, attribute)) {
-                    builder.otherFeatures(Arrays.stream(StringUtils.split(t1[i], ",")).toList());
+                    // nothing to add - new feature needed
                 }
             }
         }

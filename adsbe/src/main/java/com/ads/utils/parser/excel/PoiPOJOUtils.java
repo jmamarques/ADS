@@ -1,6 +1,7 @@
 package com.ads.utils.parser.excel;
 
 import com.ads.utils.enums.GenericType;
+import com.ads.utils.parser.csv.CsvDateField;
 import com.ads.utils.parser.csv.CsvDayOfWeekField;
 import com.ads.utils.parser.csv.CsvIntegerField;
 import com.ads.utils.parser.csv.CsvLocalTimeField;
@@ -275,6 +276,8 @@ public class PoiPOJOUtils {
                                 f.set(bean, StringUtils.isNoneBlank(cellValue));
                             } else if (GenericType.INT == ec.type()) {
                                 f.set(bean, CsvIntegerField.parseToInt(cellValue));
+                            } else if (GenericType.LOCAL_DATE == ec.type()) {
+                                f.set(bean, CsvDateField.parseTo(cellValue));
                             } else if (f.getType() == String.class) {
                                 f.set(bean, cellValue);
                             } else if (f.getType() == Double.class) {
@@ -288,7 +291,9 @@ public class PoiPOJOUtils {
                             } else if (f.getType() == Boolean.class) {
                                 f.set(bean, Boolean.parseBoolean(cellValue));
                             } else if (f.getType() == java.util.List.class) {
-                                f.set(bean, Arrays.stream(StringUtils.split(cellValue, splitter)).map(String::trim).toList());
+                                f.set(bean, Arrays.stream(StringUtils.split(cellValue,
+                                        StringUtils.equalsIgnoreCase(splitter, ";") ? "," : ";"
+                                )).map(String::trim).toList());
                             } else if (f.getType() == com.ads.utils.enums.DayOfWeek.class) {
                                 f.set(bean, CsvDayOfWeekField.parseTo(cellValue));
                             } else { // this is for all other; Integer, Boolean, ...

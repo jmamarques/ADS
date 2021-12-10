@@ -221,15 +221,21 @@ public class FileService {
         }
         try {
             // load from file
+            log.info("Creating classDTO");
             List<ClassDTO> classRoomDTOList = loadClassFile(classFile, requestDTO.getMappingClass());
+            log.info("Creating TimetableDTO");
             List<TimetableDTO> timetableDTOList = loadTimetableFile(timetableFile, requestDTO.getMappingTimetable());
             // map to internal object and validate the data
+            log.info("Mapping classDTO to classroom");
             List<ClassRoom> classRoomList = TimetableValidator.validationClassRooms(ClassRoomMapper.toClassRoom(classRoomDTOList));
+            log.info("Mapping TimetableDTO to Timetable");
             List<Timetable> timetablesList = TimetableValidator.validationTimetables(TimetableMapper.toTimetable(timetableDTOList));
             // parser qualities
+            log.info("Prepare Qualities");
             String[] qualities = StringUtils.split(requestDTO.getQualities(), ";");
             boolean fast = requestDTO.getFast();
             // get results
+            log.info("Prepare Algorithms");
             return algorithmService.process(classRoomList, timetablesList, qualities, fast);
         } catch (Throwable e) {
             throw new InvalidFormException(e);

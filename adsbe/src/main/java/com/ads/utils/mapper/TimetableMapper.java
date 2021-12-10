@@ -182,9 +182,9 @@ public class TimetableMapper {
                 } else if (StringUtils.equalsIgnoreCase(F_T_14, attribute)) {
                     builder.capacity(CsvIntegerField.parseToInt(t1[i]));
                 } else if (StringUtils.equalsIgnoreCase(F_T_15, attribute)) {
-                    builder.realFeatures(Arrays.stream(StringUtils.split(t1[i], ",")).map(String::trim).toList());
+                    builder.realFeatures(Arrays.stream(StringUtils.split(t1[i], StringUtils.contains(t1[i], ";") ? ";" : ",")).map(String::trim).toList());
                 } else if (StringUtils.equalsIgnoreCase(F_T_OTHERS, attribute)) {
-                    builder.realFeatures(Arrays.stream(StringUtils.split(t1[i], ",")).map(String::trim).toList());
+                    // nothing to add - new feature needed
                 }
             }
         }

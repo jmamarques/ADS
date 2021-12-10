@@ -1,6 +1,7 @@
 package com.ads.utils.parser.csv;
 
 import com.opencsv.bean.AbstractBeanField;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
 import java.util.Date;
@@ -12,7 +13,11 @@ public class CsvDateField extends AbstractBeanField<String, Date> {
 
     public static Date parseTo(String s) {
         try {
-            return DateUtils.parseDate(s, "dd/MM/yyyy", "dd-MM-yyyy");
+            String date = s;
+            if (StringUtils.contains(s, "T")) {
+                date = StringUtils.split(s, "T")[0];
+            }
+            return DateUtils.parseDate(date, "dd/MM/yyyy", "dd-MM-yyyy", "yyyy-MM-dd", "yyyy/MM/dd", "yyyy-MM-ddTHH:mm:ss.SSS", "yyyy/MM/ddTHH:mm:ss.SSS");
         } catch (Exception e) {
             return null;
         }

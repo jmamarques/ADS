@@ -50,14 +50,17 @@ public class AlgorithmService {
     public List<List<Timetable>> process(List<ClassRoom> classRoomList, List<Timetable> timetablesList, String[] qualities, boolean fast) {
         ArrayList<List<Timetable>> result = new ArrayList<>();
         List<String> qualitiesList = Arrays.stream(qualities).toList();
+        log.info("Run basic algorithms");
         // base algorithms, the most simple
         result.add(fifoAlgorithm.apply(classRoomList, timetablesList, qualitiesList));
         result.add(featureAlgorithm.apply(classRoomList, timetablesList, qualitiesList));
+        log.info("Prepare variables auxiliaries");
         // complex
         List<ClassRoom> classRooms = classRoomList.stream().filter(ClassRoom::isNotError).toList();
         List<Timetable> timetables = timetablesList.stream().filter(v -> v.isNotError() && StringUtils.isBlank(v.getClassRoom())).toList();
         List<Timetable> timetablesFilled = timetablesList.stream().filter(v -> !(v.isNotError() && StringUtils.isBlank(v.getClassRoom()))).toList();
         // occupation
+        log.info("Prepare Occupation");
         ArrayListValuedHashMap<ClassRoom, Reservation> occupation = new ArrayListValuedHashMap<>();
         AlgorithmUtil.populateOccupation(
                 timetablesList.stream().filter(v -> v.isNotError() && StringUtils.isNotBlank(v.getClassRoom())).toList(),
@@ -73,7 +76,9 @@ public class AlgorithmService {
         }
         // get Objective functions
         List<Class<? extends Criteria>> qualitiesClass = getQualities(qualities);
+        log.info("Query to database to search best algorithm");
         List<String> algorithmList = swrlapiService.algorithm(timetables.size());
+        log.info("run algorithms:" + algorithmList.toString());
         for (String alg : algorithmList) {
             try {
                 switch (alg) {
@@ -90,6 +95,7 @@ public class AlgorithmService {
                 throw new InvalidAlgorithmException("Algorithm " + alg + " with error", e);
             }
         }
+        log.info("Return " + result.size() + " timetables");
         return result;
     }
 

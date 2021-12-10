@@ -296,6 +296,7 @@ export class AppComponent implements OnInit {
   }
 
   download() {
+    this.isDone = false;
     let headersServer = this.fileService.mapToList(this.fourthFormGroup.controls['fourthCtrl'].value);
     let headersExcel = this.currentExcelHeaders;
     let mapHeadersServer = this.fileService.mapHeadersTimetable();
@@ -336,6 +337,7 @@ export class AppComponent implements OnInit {
           }
         }
     }
+    this.isDone = true;
   }
 
   updateCurrentHeader(header: any) {
