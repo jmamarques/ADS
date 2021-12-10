@@ -9,6 +9,7 @@ import com.ads.utils.exceptions.InvalidAlgorithmException;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.uma.jmetal.solution.integersolution.impl.DefaultIntegerSolution;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,20 +63,24 @@ public class AlgorithmService {
             try {
                 switch (alg) {
                     case ":nsgaiii":
-                        nsgaiiService.process(classRooms, timetables, maxGenerations, populationSize, qualitiesClass);
+                        result.addAll(convertSolution(nsgaiiService.process(classRooms, timetables, maxGenerations, populationSize, qualitiesClass), classRooms, timetables));
                         break;
                     case ":nsgaii":
-                        nsgaiiiService.process(classRooms, timetables, maxGenerations, populationSize, qualitiesClass);
+                        result.addAll(convertSolution(nsgaiiiService.process(classRooms, timetables, maxGenerations, populationSize, qualitiesClass), classRooms, timetables));
                         break;
                     case ":smsemoa":
-                        smsemoaService.process(classRooms, timetables, maxGenerations, populationSize, qualitiesClass);
+                        result.addAll(convertSolution(smsemoaService.process(classRooms, timetables, maxGenerations, populationSize, qualitiesClass), classRooms, timetables));
                 }
             } catch (Throwable e) {
                 throw new InvalidAlgorithmException("Algorithm " + alg + " with error", e);
             }
         }
-//        return this.process(classRooms, timetables, maxGenerations, populationSize, List.of(ConflictCriteria.class));
         return result;
+    }
+
+    private List<List<Timetable>> convertSolution(List<DefaultIntegerSolution> solutions, List<ClassRoom> classRooms, List<Timetable> timetables) {
+        // TODO URGENT
+        return null;
     }
 
     private List<Class<? extends Criteria>> getQualities(String[] qualities) {
