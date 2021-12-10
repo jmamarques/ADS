@@ -224,14 +224,10 @@ export class AppComponent implements OnInit {
         mappingTimetable: this.fourthFormGroup.controls['fourthCtrl'].value,
         qualities: this.fifthFormGroup.controls['fifthCtrl'].value
       };
+      this.isDone=false;
       this.fileService.submit(result).subscribe(value => {
-        console.log("download file");
-        // this.downLoadFile(value, this.timetableFile?.type || 'application/json');
-        // const typeFile = 'text/csv;charset=utf-8;';
-        // const csvData = this.convertToCSV(value, ['']);
-        // let blob = new Blob(['\ufeff' + csvData], { type: typeFile });
-        // this.downLoadFile(blob, typeFile);
-        this.jsonResult = result;
+        console.log("Save json response");
+        this.jsonResult = value;
         this.isDone=true;
       }, error => {
         console.log(error);
@@ -290,5 +286,12 @@ export class AppComponent implements OnInit {
   }
 
   download() {
+    switch (this.format) {
+      case 'json':
+        break;
+      case 'excel':
+        break;
+      case 'csv':
+    }
   }
 }

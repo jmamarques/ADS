@@ -2,6 +2,7 @@ package com.ads.utils.parser.excel;
 
 import com.ads.utils.enums.GenericType;
 import com.ads.utils.parser.csv.CsvDayOfWeekField;
+import com.ads.utils.parser.csv.CsvIntegerField;
 import com.ads.utils.parser.csv.CsvLocalTimeField;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
@@ -273,7 +274,7 @@ public class PoiPOJOUtils {
                             if (GenericType.BOOLEAN == ec.type()) {
                                 f.set(bean, StringUtils.isNoneBlank(cellValue));
                             } else if (GenericType.INT == ec.type()) {
-                                f.set(bean, Integer.valueOf(cellValue));
+                                f.set(bean, CsvIntegerField.parseToInt(cellValue));
                             } else if (f.getType() == String.class) {
                                 f.set(bean, cellValue);
                             } else if (f.getType() == Double.class) {
@@ -283,7 +284,7 @@ public class PoiPOJOUtils {
                             } else if (f.getType() == java.time.LocalTime.class) {
                                 f.set(bean, CsvLocalTimeField.parseTo(cellValue));
                             } else if (f.getType() == Integer.class) {
-                                f.set(bean, Integer.valueOf(cellValue));
+                                f.set(bean, CsvIntegerField.parseToInt(cellValue));
                             } else if (f.getType() == Boolean.class) {
                                 f.set(bean, Boolean.parseBoolean(cellValue));
                             } else if (f.getType() == java.util.List.class) {

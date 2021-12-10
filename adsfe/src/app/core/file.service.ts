@@ -118,9 +118,9 @@ export class FileService {
       .set('mappingTimetable', mappingFstr)
       .set('qualities', qualities)
       .set('fast', result.fast);
-
+    // , responseType: 'arraybuffer'
     // @ts-ignore
-    return this.http.post(`${FileService.BASE_URL_BACK_END}/ads/execute`, formData, {params, responseType: 'arraybuffer'});
+    return this.http.post(`${FileService.BASE_URL_BACK_END}/ads/execute`, formData, {params});
   }
 
   private mapToList(list: any) {

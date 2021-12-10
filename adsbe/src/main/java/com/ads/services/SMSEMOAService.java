@@ -1,6 +1,5 @@
 package com.ads.services;
 
-import com.ads.manager.algorithms.AlgorithmUtil;
 import com.ads.manager.algorithms.TimetableProblem;
 import com.ads.manager.criteria.Criteria;
 import com.ads.models.internal.ClassRoom;
@@ -18,8 +17,6 @@ import org.uma.jmetal.solution.integersolution.impl.DefaultIntegerSolution;
 
 import java.util.List;
 import java.util.Random;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * JMA - 27/11/2021 20:15
@@ -39,10 +36,8 @@ public class SMSEMOAService {
      * @param objectives     - objectives of algorithm
      * @return List of Solution after each run
      */
-    public List<DefaultIntegerSolution> process(List<ClassRoom> classRooms, List<Timetable> timetables, int maxGenerations, int populationSize, List<Class<? extends Criteria>> objectives) {
+    public List<DefaultIntegerSolution> process(List<ClassRoom> classRooms, List<Timetable> timetables, int maxGenerations, int populationSize, List<Class<? extends Criteria>> objectives, ArrayListValuedHashMap<ClassRoom, Reservation> occupation) {
         log.info("Started " + getClass().getName() + " Algorithm");
-        ArrayListValuedHashMap<ClassRoom, Reservation> occupation = new ArrayListValuedHashMap<>();
-        AlgorithmUtil.populateOccupation(timetables, occupation, classRooms.stream().collect(Collectors.toMap(ClassRoom::getRoomName, Function.identity())));
         SMSEMOABuilder integerSolutionSMSEMOABuilder = new SMSEMOABuilder<>(
                 new TimetableProblem(timetables.size(), classRooms, timetables, objectives, occupation),
                 new IntegerSBXCrossover(new Random().nextDouble(0, 1), 2.0),
