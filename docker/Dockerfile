@@ -8,7 +8,6 @@ COPY adsbe/src src
 RUN mvn -f pom.xml -DskipTests package
 
 FROM openjdk:17.0-oraclelinux7
-RUN apt-get update; apt-get install -y fontconfig libfreetype6
 COPY --from=build /ads/target/ads-1.0.0.jar /usr/local/lib/ads.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/usr/local/lib/ads.jar"]
