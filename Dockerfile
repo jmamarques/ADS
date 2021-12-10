@@ -12,3 +12,19 @@ RUN apt-get update; apt-get install -y fontconfig libfreetype6
 COPY --from=build /ads/target/ads-1.0.0.jar /usr/local/lib/ads.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/usr/local/lib/ads.jar"]
+
+FROM node:16-alpine3.12 as build
+
+WORKDIR /usr/local/app
+
+COPY adsfe/. /usr/local/app/
+
+RUN npm install
+
+# Generate the build of the application
+RUN npm run build
+
+FROM nginx:1.21.4-alpine
+
+# Copy the build output to replace the default nginx contents.
+COPY --from=build /usr/local/app/dist/adsfe /usr/share/nginx/html
