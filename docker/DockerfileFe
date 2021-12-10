@@ -1,20 +1,17 @@
-# Stage 1
-
 FROM node:16-alpine3.12 as builder
 
-RUN mkdir -p /app
+WORKDIR /usr/local/app
 
-WORKDIR /app
-
-COPY adsfe/package.json /app
+COPY adsfe/. /usr/local/app/
 
 RUN npm install
 
-COPY . /app
-
-RUN npm run build --prod
-
+# Generate the build of the application
+RUN npm run build
 
 FROM nginx:1.21.4-alpine
 
-COPY --from=build-step /app/docs /usr/share/nginx/html
+# Copy the build output to replace the default nginx contents.
+COPY --from=build /usr/local/app/dist/adsfe /usr/share/nginx/html
+
+

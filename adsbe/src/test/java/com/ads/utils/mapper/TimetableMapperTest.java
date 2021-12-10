@@ -12,16 +12,7 @@ import java.util.Arrays;
  **/
 class TimetableMapperTest {
 
-    /**
-     *
-     */
     @Test
     void toTimetable() {
-        ClassDTO roomTest = ClassDTO.builder().roomName("room test").examCapacity(99).arq1(true).atrium(true).build();
-        ClassRoom timetable = ClassRoomMapper.toClassRoom(roomTest);
-        Assertions.assertNotNull(timetable.getFeatures());
-        Assertions.assertIterableEquals(Arrays.asList("arq1", "atrium"), timetable.getFeatures());
-        Assertions.assertEquals(roomTest.getRoomName(), timetable.getRoomName());
-        Assertions.assertEquals(roomTest.getExamCapacity(), timetable.getExamCapacity());
     }
 }
