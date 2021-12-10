@@ -8,6 +8,6 @@ COPY adsbe/src src
 RUN mvn -f pom.xml -DskipTests package
 
 FROM openjdk:17.0-oraclelinux7
-COPY --from=build /ads/target/ads-1.0.0.jar /usr/local/lib/ads.jar
+COPY --from=build /ads/target/ads-0.0.1-SNAPSHOT.jar /usr/local/lib/ads.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/usr/local/lib/ads.jar"]
