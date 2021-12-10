@@ -7,17 +7,22 @@ import com.opencsv.bean.AbstractBeanField;
  * Convert string into integer for CSV parser
  **/
 public class CsvIntegerField extends AbstractBeanField<String, Integer> {
-    /**
-     * Convert string into integer for CSV parser
-     * @param string
-     * @return integer
-     */
-    @Override
-    protected Integer convert(String s) {
+    public static int parseToInt(String s) {
         try {
             return Integer.valueOf(s);
         } catch (Exception e) {
             return 0;
         }
+    }
+
+    /**
+     * Convert string into integer for CSV parser
+     *
+     * @param s
+     * @return integer
+     */
+    @Override
+    protected Integer convert(String s) {
+        return parseToInt(s);
     }
 }

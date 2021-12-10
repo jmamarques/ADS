@@ -69,12 +69,12 @@ public class StartUp implements CommandLineRunner {
 
         FeatureAlgorithm featureAlgorithm = new FeatureAlgorithm();
         List<Timetable> apply1 = featureAlgorithm.apply(classRooms, timetables, new ArrayList<>());
-        apply1.stream().forEach(System.out::println);*/
+        apply1.stream().forEach(System.out::println);
 
-        /*SWRLAPIService swrlapiService = new SWRLAPIService();
-        swrlapiService.algorithm(3);*/
+        *//*SWRLAPIService swrlapiService = new SWRLAPIService();
+        swrlapiService.algorithm(3);*//*
 //        Workbook workbook = WorkbookFactory.create(new ClassPathResource("static/ADS_Caracterizacao_das_salas.xls").getInputStream());
 //        Sheet sheet = workbook.getSheetAt(0);
-//        List<ClassObj> cars = PoiPOJOUtils.sheetToPOJO(sheet, ClassObj.class);
+//        List<ClassObj> cars = PoiPOJOUtils.sheetToPOJO(sheet, ClassObj.class);*/
     }
 }

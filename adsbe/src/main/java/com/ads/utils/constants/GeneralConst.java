@@ -66,7 +66,7 @@ public class GeneralConst {
     public static final String C3 = "Características dentro das especificações ";
     // General Consts
     public final static String[] CRITERIA = new String[]{C1, C2, C3};
-    public final static String[] CLASS_FIELD_MAPPING = new String[]{F_C_1, F_C_2, F_C_3, F_C_4, F_C_5, F_C_6, F_C_7, F_C_8, F_C_9, F_C_10, F_C_11, F_C_12, F_C_13, F_C_14, F_C_15, F_C_16, F_C_17, F_C_18, F_C_19, F_C_20, F_C_21, F_C_22, F_C_23, F_C_24, F_C_25, F_C_26, F_C_27, F_C_28, F_C_29, F_C_30, F_C_31, F_C_32, F_C_33, F_C_34, F_C_35, F_C_36, F_C_OTHERS};
+    public final static String[] CLASS_FIELD_MAPPING = new String[]{F_C_1, F_C_2, F_C_3, F_C_4, F_C_5, F_C_6, F_C_7, F_C_8, F_C_9, F_C_10, F_C_11, F_C_12, F_C_13, F_C_14, F_C_15, F_C_16, F_C_17, F_C_18, F_C_19, F_C_20, F_C_21, F_C_22, F_C_23, F_C_24, F_C_25, F_C_26, F_C_27, F_C_28, F_C_29, F_C_30, F_C_31, F_C_32, F_C_33, F_C_34, F_C_35};
     public final static String[] TIMETABLE_FIELD_MAPPING = new String[]{F_T_1, F_T_2, F_T_3, F_T_4, F_T_5, F_T_6, F_T_7, F_T_8, F_T_9, F_T_10, F_T_11, F_T_12, F_T_13, F_T_14, F_T_15, F_T_OTHERS};
     public final static String TIMETABLE_FIELD_MAPPING_STR = "[\n" +
             "  \"Curso\",\n" +
@@ -90,6 +90,7 @@ public class GeneralConst {
     public final static String EXCEL_EXTENSION = "xls";
     public final static String EXCEL_EXTENSION_XLSX = "xlsx";
     public final static String CSV_EXTENSION = "csv";
+    public final static String[] EXTENSION_ALLOWED = new String[]{EXCEL_EXTENSION, EXCEL_EXTENSION_XLSX, CSV_EXTENSION};
     // Criterias
     public final static String CRITERIA_1 = "Tolerância na quantidade de alunos alocados nas salas";
     public final static String CRITERIA_2 = "O menor número de aulas sem salas alocadas";
