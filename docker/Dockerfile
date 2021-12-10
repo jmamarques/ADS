@@ -5,7 +5,7 @@ COPY adsbe/pom.xml .
 RUN mvn dependency:go-offline -B
 # copy source files and build the project
 COPY adsbe/src src
-RUN mvn -f ads/pom.xml -DskipTests package
+RUN mvn -f pom.xml -DskipTests package
 
 FROM openjdk:11-jre-slim
 RUN apt-get update; apt-get install -y fontconfig libfreetype6
