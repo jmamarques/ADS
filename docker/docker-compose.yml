@@ -1,9 +1,12 @@
 version: '3.3'
 
-services:
+# Networks to be created to facilitate communication between containers
+networks:
   ads:
+
+services:
+  adsbe:
     image: 'ads:latest'
-    container_name: "ads"
     ports:
       - '8080:8080'
     networks: # Networks to join (Services on the same network can communicate with each other using their name)
@@ -12,13 +15,5 @@ services:
     image: 'adsfe:latest'
     ports:
       - '4200:80'
-    depends_on:
-      - ads
     networks:
       - ads
-    links:
-      - ads
-
-# Networks to be created to facilitate communication between containers
-networks:
-  ads:
