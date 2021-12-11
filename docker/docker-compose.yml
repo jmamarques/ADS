@@ -13,8 +13,10 @@ services:
     ports:
       - '4200:80'
     depends_on:
-      - 'ads'
+      - ads
     networks:
+      - ads
+    links:
       - ads
 
 # Networks to be created to facilitate communication between containers
