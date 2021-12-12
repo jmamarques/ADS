@@ -3,13 +3,24 @@ version: '3.3'
 services:
   ads:
     image: 'ads:latest'
+    container_name: 'ads'
     ports:
       - '8080:8080'
+    expose:
+      - '8080'
+    networks:
+      - app-network
   adsfe:
     image: 'adsfe:latest'
+    container_name: 'fe'
     ports:
       - '4200:80'
-    links:
-      - 'ads'
+    expose:
+      - '4200'
     depends_on:
-      - 'ads'
+      - ads
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
