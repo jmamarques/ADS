@@ -1,6 +1,6 @@
 {
   "/*": {
-    "target": "http://ads:8080",
+    "target": "http://192.168.1.99:8080",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug",
@@ -9,7 +9,7 @@
     }
   },
   "/ads/*": {
-    "target": "http://ads:8080",
+    "target": "http://192.168.1.99:8080",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug",
