@@ -26,7 +26,11 @@ jobs:
 
       # gcloud configure docker
       - name: Configure Docker
-        run: gcloud auth configure-docker --quiet
+        run: gcloud auth activate-service-account --key-file new-service-account-credentials.json  
+        
+      # gcloud configure docker1
+      - name: Configure Docker1
+        run: docker-credential-gcr configure-docker
 
       # build image
       - name: Build Docker image
