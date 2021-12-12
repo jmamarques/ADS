@@ -97,7 +97,8 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "adsfe:build:production"
+              "browserTarget": "adsfe:build:production",
+              "proxyConfig": "src/proxy-prod.config.json"
             },
             "development": {
               "browserTarget": "adsfe:build:development"
@@ -105,7 +106,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "proxyConfig": "src/proxy.config.json"
+            "proxyConfig": "src/proxy-local.config.json"
           }
         },
         "extract-i18n": {

@@ -3,6 +3,7 @@ version: '3.3'
 # Networks to be created to facilitate communication between containers
 networks:
   ads:
+    driver: bridge
 
 services:
   adsbe:
