@@ -7,7 +7,7 @@ fi
 
 VERSION_TAG=$1
 LATEST_IMAGE_NAME="jmam93/ads-group13:latest"
-CURRENT_IMAGE_NAME="jmam93/ads-group13:latest"
+CURRENT_IMAGE_NAME="jmam93/ads-group13:$VERSION_TAG"
 
 docker build \
     --file docker/Dockerfile \
