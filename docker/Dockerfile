@@ -1,5 +1,6 @@
 FROM maven:3.8.4-openjdk-17 AS build
 WORKDIR /ads
+COPY adsfe/. ../adsfe/.
 COPY adsbe/pom.xml .
 # build all dependencies
 RUN mvn dependency:go-offline -B
