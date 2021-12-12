@@ -1,20 +1,7 @@
 version: '3.3'
 
-# Networks to be created to facilitate communication between containers
-networks:
-  ads:
-    driver: bridge
-
 services:
-  adsbe:
+  ads:
     image: 'ads:latest'
     ports:
       - '8080:8080'
-    networks: # Networks to join (Services on the same network can communicate with each other using their name)
-      - ads
-  adsfe:
-    image: 'adsfe:latest'
-    ports:
-      - '4200:80'
-    networks:
-      - ads
