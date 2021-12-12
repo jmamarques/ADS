@@ -2,6 +2,6 @@ version: '3.3'
 
 services:
   ads:
-    image: 'ads:latest'
+    image: 'jmam93/ads-group13:latest'
     ports:
       - '8080:8080'
