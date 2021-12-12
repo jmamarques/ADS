@@ -2,7 +2,7 @@ name: GCP
 
 on:
   push:
-    branches: [main]
+    branches: [angular-on-maven]
 
 jobs:
   deploy:
