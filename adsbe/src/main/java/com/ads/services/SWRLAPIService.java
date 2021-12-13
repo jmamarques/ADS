@@ -39,7 +39,7 @@ public class SWRLAPIService {
         try {
             // Create an OWL ontology using the OWLAPI
             OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
-            OWLOntology ontology = ontologyManager.loadOntologyFromOntologyDocument(new ClassPathResource("static/ADS.owl").getInputStream());
+            OWLOntology ontology = ontologyManager.loadOntologyFromOntologyDocument(new ClassPathResource("/static/ADS.owl").getInputStream());
 
             // Create SQWRL query engine using the SWRLAPI
             SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
