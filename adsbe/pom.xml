@@ -132,16 +132,22 @@
     <build>
         <resources>
             <resource>
-                <directory>../adsfe/dist/adsfe</directory>
-                <targetPath>static</targetPath>
-            </resource>
-            <resource>
                 <directory>src/main/resources/</directory>
                 <filtering>true</filtering>
                 <includes>
                     <include>**/*.properties</include>
-                    <include>static/*.owl</include>
                 </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources/</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/*.properties</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>../adsfe/dist/adsfe</directory>
+                <targetPath>static</targetPath>
             </resource>
         </resources>
         <plugins>
