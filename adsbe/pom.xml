@@ -135,6 +135,14 @@
                 <directory>../adsfe/dist/adsfe</directory>
                 <targetPath>static</targetPath>
             </resource>
+            <resource>
+                <directory>src/main/resources/</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>static/*.owl</include>
+                </includes>
+            </resource>
         </resources>
         <plugins>
             <plugin>
