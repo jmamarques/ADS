@@ -5,7 +5,6 @@ import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.swrlapi.factory.SWRLAPIFactory;
 import org.swrlapi.parser.SWRLParseException;
@@ -13,7 +12,6 @@ import org.swrlapi.sqwrl.SQWRLQueryEngine;
 import org.swrlapi.sqwrl.SQWRLResult;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +37,7 @@ public class SWRLAPIService {
         try {
             // Create an OWL ontology using the OWLAPI
             OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
-            OWLOntology ontology = ontologyManager.loadOntologyFromOntologyDocument(new ClassPathResource("/static/ADS.owl").getInputStream());
+            OWLOntology ontology = ontologyManager.loadOntologyFromOntologyDocument(getClass().getResourceAsStream("/static/ADS.owl"));
 
             // Create SQWRL query engine using the SWRLAPI
             SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
@@ -60,7 +58,7 @@ public class SWRLAPIService {
                 result.add(sqwrlResult.getNamedIndividual("alg").getShortName());
             }
 
-        } catch (OWLOntologyCreationException | IOException e) {
+        } catch (OWLOntologyCreationException e) {
             log.error("Error creating OWL ontology: " + e.getMessage());
         } catch (SWRLParseException e) {
             log.error("Error parsing SWRL rule or SQWRL query: " + e.getMessage());
