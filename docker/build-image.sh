@@ -5,28 +5,56 @@ if [[ $# -eq 0 ]] ; then
     exit 1
 fi
 
-VERSION_TAG=$1 
+VERSION_TAG=$1
+LATEST_IMAGE_NAME="jmam93/ads-be:latest"
+CURRENT_IMAGE_NAME="jmam93/ads-be:$VERSION_TAG"
 
 docker build \
-    --build-arg USERNAME=$(id -un) \
-    --build-arg USERID=$(id -u) \
-    --build-arg GROUPID=$(id -g) \
     --file docker/Dockerfile \
-    --tag ads:$VERSION_TAG .
+    --tag "$CURRENT_IMAGE_NAME" .
 
-docker tag ads:$VERSION_TAG ads:latest
+docker tag "$CURRENT_IMAGE_NAME" $LATEST_IMAGE_NAME
 
-echo ads:$VERSION_TAG
-echo ads:latest
+if [ $? -ne 0 ]; then
+    echo FAIL
+    exit 1
+fi
+
+docker login
+docker push "$CURRENT_IMAGE_NAME"
+docker push $LATEST_IMAGE_NAME
+
+if [ $? -ne 0 ]; then
+    echo FAIL
+    exit 1
+fi
+
+echo "$CURRENT_IMAGE_NAME"
+echo "$LATEST_IMAGE_NAME"
+
+LATEST_IMAGE_NAME="jmam93/ads-fe:latest"
+CURRENT_IMAGE_NAME="jmam93/ads-fe:$VERSION_TAG"
+
 
 docker build \
-    --build-arg USERNAME=$(id -un) \
-    --build-arg USERID=$(id -u) \
-    --build-arg GROUPID=$(id -g) \
-    --file docker/DockerfileFe \
-    --tag adsfe:$VERSION_TAG .
+    --file docker/Dockerfile \
+    --tag "$CURRENT_IMAGE_NAME" .
 
-docker tag adsfe:$VERSION_TAG adsfe:latest
+docker tag "$CURRENT_IMAGE_NAME" $LATEST_IMAGE_NAME
 
-echo adsfe:$VERSION_TAG
-echo adsfe:latest
+if [ $? -ne 0 ]; then
+    echo FAIL
+    exit 1
+fi
+
+docker login
+docker push "$CURRENT_IMAGE_NAME"
+docker push $LATEST_IMAGE_NAME
+
+if [ $? -ne 0 ]; then
+    echo FAIL
+    exit 1
+fi
+
+echo "$CURRENT_IMAGE_NAME"
+echo "$LATEST_IMAGE_NAME"

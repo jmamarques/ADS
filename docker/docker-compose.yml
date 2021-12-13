@@ -1,24 +1,20 @@
 version: '3.3'
 
 services:
-  ads:
-    image: 'ads:latest'
-    container_name: 'ads'
+  adsbe:
+    image: 'jmam93/ads-be:latest'
+    container_name: 'adsbe'
     ports:
       - '8080:8080'
-    expose:
-      - '8080'
     networks:
       - app-network
   adsfe:
-    image: 'adsfe:latest'
-    container_name: 'fe'
+    image: 'jmam93/ads-fe:latest'
+    container_name: 'adsfe'
     ports:
-      - '4200:80'
-    expose:
-      - '4200'
+      - '80:80'
     depends_on:
-      - ads
+      - adsbe
     networks:
       - app-network
 networks:
