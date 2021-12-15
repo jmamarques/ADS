@@ -59,7 +59,7 @@ export class FileService {
       "Sala de Arquitectura",
       "Sala de Aulas normal",
       "videoconferencia",
-      "Átrio",
+      "Atrio",
       "Características reais da sala",
       "Outros"
     ];

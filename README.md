@@ -38,7 +38,29 @@ Present the user with room allocation strategies through:
 
 The user will be able to choose the schedule he prefers according to the weight he attributes to each quality criterion.
 
-#Programming language used: JAVA
+# Docker
+  - [Docker overview](docker/README.md)
+
+### Installing Prerequisites
+* [Docker - installation](https://docs.docker.com/engine/install/ubuntu/)
+* [Docker Compose - installation](https://docs.docker.com/compose/install/)
+
+#### How to run
+1) On project root execute the following [script](docker/build-image.sh) ```docker/./build-image.sh 1.0.0``` to build images from FrontEnd and BackEnd. You also have individual scripts each server.
+2) Normal run: ```docker-compose -f docker/docker-compose.yml up``` Detached
+   run: ```docker-compose -f docker/docker-compose.yml up -d```
+3) Go to the home page or execute the following command: ```curl http://<domain>/```
+4) Swagger is available ```curl http://<domain>/swagger-ui/```
+
+#Project Overview
+![img.png](assets/project_page.png)
+
+#Programming language used: JAVA and TypeScript
+
+#Application framework used
+![logos](assets/440-4406517_spring-boot-websockets-angular-angular-js-icon-png.png)
+* [Angular](https://angular.io/)
+* [Spring Boot](https://spring.io/projects/spring-boot)
 
 #Backend support library: POI
 
@@ -47,3 +69,7 @@ The user will be able to choose the schedule he prefers according to the weight 
 #Other APIs used: Angular and Docker
 
 #Deploy : Google Cloud Plataform
+
+# Documentation
+## JavaDoc
+[Documentation](javadoc/index.html)

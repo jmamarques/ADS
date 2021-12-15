@@ -31,30 +31,3 @@ fi
 
 echo "$CURRENT_IMAGE_NAME"
 echo "$LATEST_IMAGE_NAME"
-
-LATEST_IMAGE_NAME="jmam93/ads-fe:latest"
-CURRENT_IMAGE_NAME="jmam93/ads-fe:$VERSION_TAG"
-
-
-docker build \
-    --file docker/DockerfileFe \
-    --tag "$CURRENT_IMAGE_NAME" .
-
-docker tag "$CURRENT_IMAGE_NAME" $LATEST_IMAGE_NAME
-
-if [ $? -ne 0 ]; then
-    echo FAIL
-    exit 1
-fi
-
-docker login
-docker push "$CURRENT_IMAGE_NAME"
-docker push $LATEST_IMAGE_NAME
-
-if [ $? -ne 0 ]; then
-    echo FAIL
-    exit 1
-fi
-
-echo "$CURRENT_IMAGE_NAME"
-echo "$LATEST_IMAGE_NAME"
