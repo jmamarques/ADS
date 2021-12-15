@@ -1,21 +1,6 @@
 # ADS
 
-Arquitetura e desenho de software liberdade na escolha de ferramentas não é necessario aviso prévio
-
-Projeto:
-Trazer dúvidas/ interpretação do problemas sugestões de como vamos fazer visão sobre o problema Estratégia para resolver
-o problema
-
-deploy and host - soluções
-
-ter o mapeamento em memoria o carregamento das salas de aulas -> estrutura criterios de qualidade estrategia simples
-
-a nossa app gera mutiplos horarios criterios qualidade -> dos horários
-
-tipos de salas <- atributos criterios de qualidade:
-furos numeros de aulas nao alocadas horarios do professor movimentacoes entre edificios
-
-Project 3: Dynamic selection and invocation of scheduling/timetabling algorithms
+#Project 3: Dynamic selection and invocation of scheduling/timetabling algorithms
 
 - Flexible import Reading (from user and from schedule/timetable initial CSV, XML, Json, BD, Web Services data) and
   computing scheduling/timetabling problem properties
@@ -30,21 +15,35 @@ Project 3: Dynamic selection and invocation of scheduling/timetabling algorithms
 - Compute generated schedules/timetables quality metrics
 - Export the generated (best) schedules/timetables (CSV, XML, Json, DB, Web Service)
 
-Cirérios de qualidade Irão ser escolhidos os diferentes algoritmos que melhor cumpram os critérios de qualidade
-definidos, porque não irá existir um algoritmo que resolva de forma perfeita a alocação de todas as aulas às salas.​
-Definição dos critérios de qualidade:
+#Problem Case
+Present the user with room allocation strategies through:
+  - Quality criteria;
+  - One or more room allocation suggestions.
 
-* O menor número de faltas de alocação de aulas às salas
-* O menor número de mudanças de salas em conjuntos de aulas
-* O menor número de mudanças de edifícios em conjuntos de aulas
-* Maior número de auditórios, com várias horas seguidas, sem alocação de aulas
-* O menor número de horas entre aulas
-* O utilizador irá poder optar pelo horário que prefere conforme o peso que atribui a cada critério de qualidade.
+#Procedures
+  - Import the file "ADS - Caracterizacao das salas.xls";
+  - Consult the knowledge base and search for the most suitable algorithm (API SWRL) capable of solving the problem of room allocation;
+  - Perform dynamic invocation of the most suitable algorithm, taking into account the extraction of the knowledge base;
+  - Define quality metrics for allocations;
+  - Compare the metrics with the result of allocations;
+  - View more than one allocation suggestion, if the user wishes.
 
-o que falta fazer é:
-FE:
-pagina para upload do ficheiro csv, json, excel adição do mapeamento chamada da API Escolher criterios de qualidades
-mais relevantes antes da chamada da API (extra)
-Apresentar resultados BE:
-Completar documentação Docker Criação de testes Implementação dos algoritmos Chamada aos pedidos do projecto 1 criação
-do ficheiro final com os horarios error handling
+#Quality criteria:
+  - Tolerance in the number of students allocated in the classrooms;
+  - The smallest number of classes without allocated rooms;
+  - The smallest number of room changes in sets of classes;
+  - The least number of building changes in sets of classes;
+  - Greater number of auditoriums, with several hours in a row, without class allocation;
+  - Greater correspondence of the characteristics of the classrooms with the class.
+
+The user will be able to choose the schedule he prefers according to the weight he attributes to each quality criterion.
+
+#Programming language used: JAVA
+
+#Backend support library: POI
+
+#UI Interface: HTML and CSS
+
+#Other APIs used: Angular and Docker
+
+#Deploy : Google Cloud Plataform
