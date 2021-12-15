@@ -1,0 +1,17 @@
+com.ads
+com.ads.configuration
+com.ads.controllers
+com.ads.manager.algorithms
+com.ads.manager.criteria
+com.ads.models.dto
+com.ads.models.internal
+com.ads.services
+com.ads.utils
+com.ads.utils.constants
+com.ads.utils.converter
+com.ads.utils.enums
+com.ads.utils.exceptions
+com.ads.utils.mapper
+com.ads.utils.parser.csv
+com.ads.utils.parser.excel
+com.ads.utils.validators
