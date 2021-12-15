@@ -194,7 +194,7 @@ public class ClassDTO implements Serializable {
     @ExcelColumn(index = 33, type = GenericType.BOOLEAN)
     private Boolean videoConference;
     @XmlElement
-    @Feature(name = "Átrio")
+    @Feature(name = "Atrio")
     @CsvCustomBindByPosition(position = 34, converter = CsvBooleanField.class)
     @ExcelColumn(index = 34, type = GenericType.BOOLEAN)
     private Boolean atrium;

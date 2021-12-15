@@ -26,12 +26,6 @@ public class FileController {
     private final TimetablesService timetablesService;
     private final FileService fileService;
 
-    /**
-     * constructor of class FileController
-     *
-     * @param timetablesService
-     * @param fileService
-     */
     public FileController(TimetablesService timetablesService, FileService fileService) {
         this.timetablesService = timetablesService;
         this.fileService = fileService;

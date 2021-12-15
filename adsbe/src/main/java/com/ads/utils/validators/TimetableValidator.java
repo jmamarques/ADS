@@ -17,8 +17,9 @@ public class TimetableValidator {
 
     /**
      * verify if is valid class
-     * @param classDTOs
-     * @return
+     *
+     * @param classDTOs - classroom from user file
+     * @return true if is valid otherwise false
      */
     public static boolean isValidClassDTO(List<ClassDTO> classDTOs) {
         // is not valid if found that not respect TimetableValidator::isValidClassDTO
@@ -27,8 +28,8 @@ public class TimetableValidator {
 
     /**
      * verify if is valid class
-     * @param classDTO
-     * @return
+     * @param classDTO - classroom from user file
+     * @return true if is valid otherwise false
      */
     public static boolean isValidClassDTO(ClassDTO classDTO) {
         // not null
@@ -48,8 +49,8 @@ public class TimetableValidator {
 
     /**
      * verify if is valid timetable
-     * @param timetable
-     * @return
+     * @param timetable - timetable
+     * @return true if is valid timetable
      */
     public static boolean isValidTimetable(Timetable timetable) {
         return timetable != null && timetable.getEnd() != null && timetable.getBegin() != null && timetable.getDay() != null;
@@ -57,8 +58,8 @@ public class TimetableValidator {
 
     /**
      * verify if is valid timetable
-     * @param timetables
-     * @return
+     * @param timetables - timetable list
+     * @return true if is valid timetable
      */
     public static List<Timetable> validationTimetables(@NonNull List<Timetable> timetables) {
         return timetables.stream().peek(timetable -> {
@@ -71,16 +72,16 @@ public class TimetableValidator {
 
     /**
      * verify if is valid class
-     * @param classRoom
-     * @return
+     * @param classRoom - classroom
+     * @return true if is valid class
      */
     public static boolean isValidClassRoom(ClassRoom classRoom) {
         return classRoom != null && StringUtils.isNotBlank(classRoom.getRoomName());
     }
 
     /**
-     * @param classRooms
-     * @return
+     * @param classRooms - list of classrooms
+     * @return ClassRooms validation - update error field if it is invalid
      */
     public static List<ClassRoom> validationClassRooms(@NonNull List<ClassRoom> classRooms) {
         return classRooms.stream().peek(classRoom -> {

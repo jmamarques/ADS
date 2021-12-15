@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 /**
  * JMA - 21/11/2021 21:36
+ * Algorithm based on Feature
  **/
 public class FeatureAlgorithm implements Algorithm {
 
@@ -81,7 +82,7 @@ public class FeatureAlgorithm implements Algorithm {
                         }
                     } catch (Exception e) {
                         timetable.setHasError(true);
-                        timetable.setError("During Execution of " + FifoAlgorithm.class.getName() + " has got an error. Exception: " + e.getMessage());
+                        timetable.setError("During Execution of " + FeatureAlgorithm.class.getName() + " has got an error. Exception: " + e.getMessage());
                     }
                 });
         // Try recover missing timetables for lack of space // add 25% extra space
@@ -118,7 +119,7 @@ public class FeatureAlgorithm implements Algorithm {
                         }
                     } catch (Exception e) {
                         timetable.setHasError(true);
-                        timetable.setError("During Execution of " + FifoAlgorithm.class.getName() + " has got an error. Exception: " + e.getMessage());
+                        timetable.setError("During Execution of " + FeatureAlgorithm.class.getName() + " has got an error. Exception: " + e.getMessage());
                     }
                 });
         return timetables;

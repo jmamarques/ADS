@@ -57,7 +57,7 @@ public class GeneralConst {
     public final static String F_C_32 = "Sala de Arquitectura";
     public final static String F_C_33 = "Sala de Aulas normal";
     public final static String F_C_34 = "videoconferencia";
-    public final static String F_C_35 = "Átrio";
+    public final static String F_C_35 = "Atrio";
     public final static String F_C_36 = "Características reais da sala";
     public final static String F_C_OTHERS = "Outros";
     // Criteria

@@ -3,6 +3,7 @@ package com.ads.services;
 import com.ads.manager.algorithms.AlgorithmUtil;
 import com.ads.manager.algorithms.FeatureAlgorithm;
 import com.ads.manager.algorithms.FifoAlgorithm;
+import com.ads.manager.algorithms.MatchesAlgorithm;
 import com.ads.manager.criteria.*;
 import com.ads.models.internal.ClassRoom;
 import com.ads.models.internal.Reservation;
@@ -31,7 +32,9 @@ import static com.ads.utils.constants.GeneralConst.*;
 @Log4j2
 public class AlgorithmService {
 
+    public static final int MAX_FILES_FROM_ALGORITHMS = 3;
     private final FifoAlgorithm fifoAlgorithm;
+    private final MatchesAlgorithm MatchesAlgorithm;
     private final FeatureAlgorithm featureAlgorithm;
     private final NSGAIIIService nsgaiiiService;
     private final NSGAIIService nsgaiiService;
@@ -45,25 +48,37 @@ public class AlgorithmService {
         this.swrlapiService = swrlapiService;
         featureAlgorithm = new FeatureAlgorithm();
         fifoAlgorithm = new FifoAlgorithm();
+        MatchesAlgorithm = new MatchesAlgorithm();
     }
 
+    /**
+     * Process everything to get new timetables
+     * the list of timetable already have some classes filled if the user desire
+     *
+     * @param classRoomList  - list of classrooms
+     * @param timetablesList - list of timetables
+     * @param qualities      - qualities
+     * @param fast           - fast mode on algorithm runs
+     * @return list of results with timetables
+     */
     public List<List<Timetable>> process(List<ClassRoom> classRoomList, List<Timetable> timetablesList, String[] qualities, boolean fast) {
         ArrayList<List<Timetable>> result = new ArrayList<>();
-        List<String> qualitiesList = Arrays.stream(qualities).toList();
+        List<String> qualitiesList = Arrays.stream(qualities).collect(Collectors.toList());
         log.info("Run basic algorithms");
         // base algorithms, the most simple
+        result.add(MatchesAlgorithm.apply(classRoomList, timetablesList, qualitiesList));
         result.add(fifoAlgorithm.apply(classRoomList, timetablesList, qualitiesList));
         result.add(featureAlgorithm.apply(classRoomList, timetablesList, qualitiesList));
         log.info("Prepare variables auxiliaries");
         // complex
-        List<ClassRoom> classRooms = classRoomList.stream().filter(ClassRoom::isNotError).toList();
-        List<Timetable> timetables = timetablesList.stream().filter(v -> v.isNotError() && StringUtils.isBlank(v.getClassRoom())).toList();
-        List<Timetable> timetablesFilled = timetablesList.stream().filter(v -> !(v.isNotError() && StringUtils.isBlank(v.getClassRoom()))).toList();
+        List<ClassRoom> classRooms = classRoomList.stream().filter(ClassRoom::isNotError).collect(Collectors.toList());
+        List<Timetable> timetables = timetablesList.stream().filter(v -> v.isNotError() && StringUtils.isBlank(v.getClassRoom())).collect(Collectors.toList());
+        List<Timetable> timetablesFilled = timetablesList.stream().filter(v -> !(v.isNotError() && StringUtils.isBlank(v.getClassRoom()))).collect(Collectors.toList());
         // occupation
         log.info("Prepare Occupation");
         ArrayListValuedHashMap<ClassRoom, Reservation> occupation = new ArrayListValuedHashMap<>();
         AlgorithmUtil.populateOccupation(
-                timetablesList.stream().filter(v -> v.isNotError() && StringUtils.isNotBlank(v.getClassRoom())).toList(),
+                timetablesList.stream().filter(v -> v.isNotError() && StringUtils.isNotBlank(v.getClassRoom())).collect(Collectors.toList()),
                 occupation,
                 classRooms.stream().collect(Collectors.toMap(ClassRoom::getRoomName, Function.identity()))
         );
@@ -82,14 +97,9 @@ public class AlgorithmService {
         for (String alg : algorithmList) {
             try {
                 switch (alg) {
-                    case ":nsgaiii":
-                        result.addAll(convertSolution(nsgaiiService.process(classRooms, timetables, maxGenerations, populationSize, qualitiesClass, occupation), classRooms, timetables, occupation, timetablesFilled));
-                        break;
-                    case ":nsgaii":
-                        result.addAll(convertSolution(nsgaiiiService.process(classRooms, timetables, maxGenerations, populationSize, qualitiesClass, occupation), classRooms, timetables, occupation, timetablesFilled));
-                        break;
-                    case ":smsemoa":
-                        result.addAll(convertSolution(smsemoaService.process(classRooms, timetables, maxGenerations, populationSize, qualitiesClass, occupation), classRooms, timetables, occupation, timetablesFilled));
+                    case ":nsgaiii" -> result.addAll(convertSolution(nsgaiiService.process(classRooms, timetables, maxGenerations, populationSize, qualitiesClass, occupation), classRooms, timetables, occupation, timetablesFilled));
+                    case ":nsgaii" -> result.addAll(convertSolution(nsgaiiiService.process(classRooms, timetables, maxGenerations, populationSize, qualitiesClass, occupation), classRooms, timetables, occupation, timetablesFilled));
+                    case ":smsemoa" -> result.addAll(convertSolution(smsemoaService.process(classRooms, timetables, maxGenerations, populationSize, qualitiesClass, occupation), classRooms, timetables, occupation, timetablesFilled));
                 }
             } catch (Throwable e) {
                 throw new InvalidAlgorithmException("Algorithm " + alg + " with error", e);
@@ -110,7 +120,8 @@ public class AlgorithmService {
      */
     private List<List<Timetable>> convertSolution(List<DefaultIntegerSolution> solutions, List<ClassRoom> classRooms, List<Timetable> timetables, ArrayListValuedHashMap<ClassRoom, Reservation> occupation, List<Timetable> timetablesFilled) {
         ArrayList<List<Timetable>> result = new ArrayList<>();
-        for (DefaultIntegerSolution solution : solutions) {
+        for (int index = 0; index < Math.min(solutions.size(), MAX_FILES_FROM_ALGORITHMS); index++) {
+            DefaultIntegerSolution solution = solutions.get(index);
             try {
                 List<Timetable> timetablesCloned = TimetableMapper.toTimetableWithoutClassList(timetables);
                 ArrayListValuedHashMap<ClassRoom, Reservation> occupationCloned = new ArrayListValuedHashMap<>(occupation);
@@ -137,6 +148,12 @@ public class AlgorithmService {
         return result;
     }
 
+    /**
+     * Utility to get Qualities based on Strings
+     *
+     * @param qualities - text representation of qualities
+     * @return List of class qualities
+     */
     private List<Class<? extends Criteria>> getQualities(String[] qualities) {
         ArrayList<Class<? extends Criteria>> result = new ArrayList<>();
         for (String quality : qualities) {

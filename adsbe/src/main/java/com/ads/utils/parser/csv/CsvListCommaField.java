@@ -11,7 +11,7 @@ import java.util.List;
  **/
 public class CsvListCommaField extends AbstractBeanField<String, List<String>> {
     /**
-     * @param string
+     * @param s
      * @return list of strings split by the comma
      */
     @Override

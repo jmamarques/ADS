@@ -242,6 +242,13 @@ public class FileService {
         }
     }
 
+    /**
+     * Load class file with specific information to it
+     *
+     * @param classFile    - class file
+     * @param mappingClass - configurations
+     * @return List of class from classfile
+     */
     private List<ClassDTO> loadClassFile(MultipartFile classFile, String mappingClass) {
         return getDtoFromFile(
                 classFile,
@@ -252,6 +259,13 @@ public class FileService {
                 ";");
     }
 
+    /**
+     * Load timetable file with specific information to it
+     *
+     * @param timetableFile - timetable file
+     * @param mapping       - configurations
+     * @return List of timetable from classfile
+     */
     private List<TimetableDTO> loadTimetableFile(MultipartFile timetableFile, String mapping) {
         return getDtoFromFile(timetableFile,
                 Arrays.stream(StringUtils.split(mapping, ";")).toList(),

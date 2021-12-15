@@ -13,7 +13,7 @@ import java.util.Map;
 
 /**
  * JMA - 21/11/2021 09:38
- * Class that helps to apply algorithms
+ * Class that helps to apply algorithms - Utility
  **/
 public class AlgorithmUtil {
 
@@ -34,10 +34,6 @@ public class AlgorithmUtil {
                             StringUtils.equalsIgnoreCase(timetable.getFeatures(), feature) ||
                                     timetable.getRealFeatures() != null && timetable.getRealFeatures()
                                             .stream().anyMatch(f -> StringUtils.equalsIgnoreCase(f, feature)));
-        }
-        // size should be respected
-        if (timetable.getCapacity() > classRoom.getNormalCapacity()) {
-            isValid = false;
         }
         return isValid;
     }
