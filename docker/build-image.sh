@@ -20,14 +20,14 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-docker login
-docker push "$CURRENT_IMAGE_NAME"
-docker push $LATEST_IMAGE_NAME
-
-if [ $? -ne 0 ]; then
-    echo FAIL
-    exit 1
-fi
+#docker login
+#docker push "$CURRENT_IMAGE_NAME"
+#docker push $LATEST_IMAGE_NAME
+#
+#if [ $? -ne 0 ]; then
+#    echo FAIL
+#    exit 1
+#fi
 
 echo "$CURRENT_IMAGE_NAME"
 echo "$LATEST_IMAGE_NAME"
@@ -47,14 +47,14 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-docker login
-docker push "$CURRENT_IMAGE_NAME"
-docker push $LATEST_IMAGE_NAME
-
-if [ $? -ne 0 ]; then
-    echo FAIL
-    exit 1
-fi
+#docker login
+#docker push "$CURRENT_IMAGE_NAME"
+#docker push $LATEST_IMAGE_NAME
+#
+#if [ $? -ne 0 ]; then
+#    echo FAIL
+#    exit 1
+#fi
 
 echo "$CURRENT_IMAGE_NAME"
 echo "$LATEST_IMAGE_NAME"
