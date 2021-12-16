@@ -197,6 +197,7 @@ export class AppComponent implements OnInit {
   reset(stepper: MatStepper) {
     stepper.reset();
     this.isDone = false;
+    window.location.reload();
   }
 
   /**
@@ -237,8 +238,10 @@ export class AppComponent implements OnInit {
         this.jsonResult = value;
         this.isDone=true;
       }, error => {
+        this.dialog.open(DialogError, {data: { errors: ['Um erro ocorreu durante o processo de gerações de horários. ' +
+            'Pedimos que reveja todos os passos anteriores principalmente os de mapeamento. Desculpe pelo incomodo e obrigado.']}});
+        stepper.previous();
         console.log(error);
-        this.isDone=true;
       });
 
     } else {
