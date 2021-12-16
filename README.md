@@ -89,6 +89,7 @@ Note: You also can run without dockerfile
 # Deploy
 - Google Cloud Plataform
 - Azure Devops
+![Deploy](assets/Deploy.png)
 
 # Documentation
 ## JavaDoc
