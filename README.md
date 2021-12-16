@@ -1,6 +1,6 @@
 # ADS
 
-#Project 3: Dynamic selection and invocation of scheduling/timetabling algorithms
+# Project 3: Dynamic selection and invocation of scheduling/timetabling algorithms
 
 - Flexible import Reading (from user and from schedule/timetable initial CSV, XML, Json, BD, Web Services data) and
   computing scheduling/timetabling problem properties
@@ -15,12 +15,16 @@
 - Compute generated schedules/timetables quality metrics
 - Export the generated (best) schedules/timetables (CSV, XML, Json, DB, Web Service)
 
-#Problem Case
-Present the user with room allocation strategies through:
-  - Quality criteria;
-  - One or more room allocation suggestions.
+# Problem Case
+- List of integers-> index: timetables, value on index: classroom
+- Constraint: penalization of classroom in multiple timetables at the same schedule
+- Objectives: Different strategies to bring successful results of results(it's mandatory at least one)
+- Object representation: [Timetable Problem](adsbe/src/main/java/com/ads/manager/algorithms/TimetableProblem.java)
 
-#Procedures
+# BackEnd Project structure
+![Project Structure](assets/project_structure.png)
+
+# Procedures
   - Import the file "ADS - Caracterizacao das salas.xls";
   - Consult the knowledge base and search for the most suitable algorithm (API SWRL) capable of solving the problem of room allocation;
   - Perform dynamic invocation of the most suitable algorithm, taking into account the extraction of the knowledge base;
@@ -28,7 +32,7 @@ Present the user with room allocation strategies through:
   - Compare the metrics with the result of allocations;
   - View more than one allocation suggestion, if the user wishes.
 
-#Quality criteria:
+# Quality criteria:
   - Tolerance in the number of students allocated in the classrooms;
   - The smallest number of classes without allocated rooms;
   - The smallest number of room changes in sets of classes;
@@ -52,24 +56,46 @@ The user will be able to choose the schedule he prefers according to the weight 
 3) Go to the home page or execute the following command: ```curl http://<domain>/```
 4) Swagger is available ```curl http://<domain>/swagger-ui/```
 
-#Project Overview
+Note: You also can run without dockerfile
+
+# Project Overview
+
+[Demo](https://ads-group13-project3.azurewebsites.net/)
+
 ![img.png](assets/project_page.png)
 
-#Programming language used: JAVA and TypeScript
+# Programming language used: 
+- JAVA
+- TypeScript
 
-#Application framework used
+# Application framework used
 ![logos](assets/440-4406517_spring-boot-websockets-angular-angular-js-icon-png.png)
 * [Angular](https://angular.io/)
 * [Spring Boot](https://spring.io/projects/spring-boot)
 
-#Backend support library: POI
+# Backend support library: 
+- POI
+- Apache Commons
+- Swagger
+- Opencsv
+- SWRLAPI
+- JMetal
 
-#UI Interface: HTML and CSS
+# UI Interface: 
+- HTML
+- CSS
+- TypeScript
 
-#Other APIs used: Angular and Docker
-
-#Deploy : Google Cloud Plataform
+# Deploy
+- Google Cloud Plataform
+- Azure Devops
 
 # Documentation
 ## JavaDoc
 [Documentation](javadoc/index.html)
+
+# Contributors 
+* [João Marques](https://github.com/jmamarques)
+* [Carolina Camilo](https://github.com/CarolinaCamilo)
+* [Bruna Amorims](https://github.com/brunaamorims)
+* [Ricardo](https://github.com/Ricrolim)
