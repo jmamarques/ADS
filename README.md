@@ -87,9 +87,7 @@ Note: You also can run without dockerfile
 - TypeScript
 
 # Deploy
-- Google Cloud Plataform
 - Azure Devops
-![Deploy](assets/Deploy.png)
 
 # Documentation
 ## JavaDoc
