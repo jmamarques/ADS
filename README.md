@@ -89,6 +89,11 @@ Note: You also can run without dockerfile
 # Deploy
 - Azure Devops
 
+# New Features
+* Loading bar
+* Date format input
+* Execution time input
+
 # Documentation
 ## JavaDoc
 [Documentation](javadoc/index.html)
