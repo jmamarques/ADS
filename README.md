@@ -32,7 +32,7 @@
   - Compare the metrics with the result of allocations;
   - View more than one allocation suggestion, if the user wishes.
 
-# Quality criteria:
+# Quality criteria
   - Tolerance in the number of students allocated in the classrooms;
   - The smallest number of classes without allocated rooms;
   - The smallest number of room changes in sets of classes;
@@ -64,7 +64,7 @@ Note: You also can run without dockerfile
 
 ![img.png](assets/project_page.png)
 
-# Programming language used: 
+# Programming language used
 - JAVA
 - TypeScript
 
@@ -73,7 +73,7 @@ Note: You also can run without dockerfile
 * [Angular](https://angular.io/)
 * [Spring Boot](https://spring.io/projects/spring-boot)
 
-# Backend support library: 
+# Backend support library
 - POI
 - Apache Commons
 - Swagger
@@ -81,13 +81,12 @@ Note: You also can run without dockerfile
 - SWRLAPI
 - JMetal
 
-# UI Interface: 
+# UI Interface
 - HTML
 - CSS
 - TypeScript
 
 # Deploy
-- Google Cloud Plataform
 - Azure Devops
 
 # Documentation
