@@ -95,4 +95,30 @@ public class FileController {
         return fileService.processForm(requestDTO, classFile, timetableFile);
     }
 
+    /**
+     * Submit form - receives a classroom file and timetable file  and returns a new timetable json
+     *
+     * @param classFile     - classroom file
+     * @param timetableFile - timetable file
+     * @param requestDTO    - additional parameters as mappings, criteria and execution speed
+     * @return Time execution for Algorithm based on seconds
+     */
+    @PostMapping("/time-execution")
+    @ApiOperation(value = "Get Time execution for Algorithm",
+            produces = "application/json", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public long getTimeExecution(
+            @ApiParam(name = "classFile", value = "Select the file to Upload", required = true)
+            @RequestPart(value = "classFile")
+                    MultipartFile classFile,
+            @ApiParam(name = "timetableFile", value = "Select the file to Upload", required = true)
+            @RequestPart(value = "timetableFile")
+                    MultipartFile timetableFile,
+            @ModelAttribute RequestDTO requestDTO) {
+        // seconds
+        long startTime = System.currentTimeMillis() / 1000;
+        // put default
+        fileService.processForm(requestDTO, classFile, timetableFile);
+        return System.currentTimeMillis() / 1000 - startTime;
+    }
+
 }

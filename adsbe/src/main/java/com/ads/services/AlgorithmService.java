@@ -5,12 +5,14 @@ import com.ads.manager.algorithms.FeatureAlgorithm;
 import com.ads.manager.algorithms.FifoAlgorithm;
 import com.ads.manager.algorithms.MatchesAlgorithm;
 import com.ads.manager.criteria.*;
+import com.ads.models.dto.RequestDTO;
 import com.ads.models.internal.ClassRoom;
 import com.ads.models.internal.Reservation;
 import com.ads.models.internal.Timetable;
 import com.ads.utils.converter.TimeUtils;
 import com.ads.utils.exceptions.InvalidAlgorithmException;
 import com.ads.utils.mapper.TimetableMapper;
+import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.apache.commons.lang3.StringUtils;
@@ -58,10 +60,10 @@ public class AlgorithmService {
      * @param classRoomList  - list of classrooms
      * @param timetablesList - list of timetables
      * @param qualities      - qualities
-     * @param fast           - fast mode on algorithm runs
+     * @param requestDTO     - algorithm configurations
      * @return list of results with timetables
      */
-    public List<List<Timetable>> process(List<ClassRoom> classRoomList, List<Timetable> timetablesList, String[] qualities, boolean fast) {
+    public List<List<Timetable>> process(List<ClassRoom> classRoomList, List<Timetable> timetablesList, String[] qualities, @NonNull RequestDTO requestDTO) {
         ArrayList<List<Timetable>> result = new ArrayList<>();
         List<String> qualitiesList = Arrays.stream(qualities).collect(Collectors.toList());
         log.info("Run basic algorithms");
@@ -83,12 +85,9 @@ public class AlgorithmService {
                 classRooms.stream().collect(Collectors.toMap(ClassRoom::getRoomName, Function.identity()))
         );
         // set execution complexity
-        int maxGenerations = 1000;
-        int populationSize = 50;
-        if (!fast) {
-            maxGenerations = 2000;
-            populationSize = 100;
-        }
+        int maxGenerations = requestDTO.getMaxGenerations();
+        int populationSize = requestDTO.getPopulationSize();
+
         // get Objective functions
         List<Class<? extends Criteria>> qualitiesClass = getQualities(qualities);
         log.info("Query to database to search best algorithm");

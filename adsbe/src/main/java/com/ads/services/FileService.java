@@ -236,7 +236,7 @@ public class FileService {
             boolean fast = requestDTO.getFast();
             // get results
             log.info("Prepare Algorithms");
-            return algorithmService.process(classRoomList, timetablesList, qualities, fast);
+            return algorithmService.process(classRoomList, timetablesList, qualities, requestDTO);
         } catch (Throwable e) {
             throw new InvalidFormException(e);
         }

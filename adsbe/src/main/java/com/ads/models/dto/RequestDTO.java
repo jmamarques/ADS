@@ -19,4 +19,6 @@ public class RequestDTO implements Serializable {
     String mappingTimetable;
     String qualities;
     Boolean fast;
+    int maxGenerations = 250;
+    int populationSize = 50;
 }
