@@ -21,4 +21,5 @@ public class RequestDTO implements Serializable {
     Boolean fast;
     int maxGenerations = 250;
     int populationSize = 50;
+    String dateFormat;
 }

@@ -12,6 +12,7 @@ import com.ads.utils.exceptions.InvalidFormException;
 import com.ads.utils.exceptions.InvalidFormatException;
 import com.ads.utils.mapper.ClassRoomMapper;
 import com.ads.utils.mapper.TimetableMapper;
+import com.ads.utils.parser.csv.CsvDateField;
 import com.ads.utils.parser.csv.CsvPOJOUtils;
 import com.ads.utils.parser.excel.PoiPOJOUtils;
 import com.ads.utils.validators.TimetableValidator;
@@ -220,6 +221,12 @@ public class FileService {
             throw new InvalidFileException(error);
         }
         try {
+            // populate Date Format
+            if (StringUtils.isNotBlank(requestDTO.getDateFormat())) {
+                CsvDateField.dateFormatList.add(requestDTO.getDateFormat());
+            } else {
+                CsvDateField.dateFormatList.clear();
+            }
             // load from file
             log.info("Creating classDTO");
             List<ClassDTO> classRoomDTOList = loadClassFile(classFile, requestDTO.getMappingClass());

@@ -92,7 +92,13 @@ public class FileController {
             @RequestPart(value = "timetableFile")
                     MultipartFile timetableFile,
             @ModelAttribute RequestDTO requestDTO) {
-        return fileService.processForm(requestDTO, classFile, timetableFile);
+        // seconds
+        long startTime = System.currentTimeMillis() / 1000;
+        log.info("Start Time : " + startTime);
+        List<List<Timetable>> lists = fileService.processForm(requestDTO, classFile, timetableFile);
+        long endTime = (System.currentTimeMillis() / 1000) - startTime;
+        log.info("End Time : " + endTime);
+        return lists;
     }
 
     /**
@@ -116,9 +122,12 @@ public class FileController {
             @ModelAttribute RequestDTO requestDTO) {
         // seconds
         long startTime = System.currentTimeMillis() / 1000;
+        log.info("Start Time : " + startTime);
         // put default
         fileService.processForm(requestDTO, classFile, timetableFile);
-        return System.currentTimeMillis() / 1000 - startTime;
+        long endTime = (System.currentTimeMillis() / 1000) - startTime;
+        log.info("End Time : " + endTime);
+        return endTime;
     }
 
 }
