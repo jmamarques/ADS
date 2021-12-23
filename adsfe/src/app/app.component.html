@@ -67,13 +67,61 @@
           </div>
         </form>
       </mat-step>
+      <mat-step [stepControl]="confFormGroup">
+        <form [formGroup]="confFormGroup">
+          <ng-template matStepLabel>Configurações Extra</ng-template>
+          <div class="container">
+            <table class="table">
+              <tbody>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Padrão Exemplo</th>
+                <th scope="col">Resultado</th>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>MM/dd/yyyy</td>
+                <td>01/02/2018</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>dd-M-yyyy hh:mm:ss</td>
+                <td>02-1-2018 06:07:59</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>dd MMMM yyyy</td>
+                <td>02 January 2018</td>
+              </tr>
+              <tr>
+                <th scope="row">4</th>
+                <td>dd MMMM yyyy zzzz</td>
+                <td>02 January 2018 India Standard Time</td>
+              </tr>
+              <tr>
+                <th scope="row">5</th>
+                <td>E, dd MMM yyyy HH:mm:ss z</td>
+                <td>Tue, 02 Jan 2018 18:07:59 IST</td>
+              </tr>
+              </tbody>
+            </table>
+            <mat-form-field appearance="fill">
+              <mat-label>Formato da data no excel</mat-label>
+              <input matInput type="text" formControlName="dateFormat">
+            </mat-form-field>
+            <p>Nota: Não é obrigatorio preencher pois já existem alguns formatos pre-defenidos</p>
+          </div>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
       <mat-step [stepControl]="fifthFormGroup">
         <form [formGroup]="fifthFormGroup">
           <div class="alert alert-warning mt-3" role="alert">
             Quanto mais critérios forem selecionados maior poderá ser o tempo de execução.
           </div>
-          <mat-slide-toggle class="mt-3 mb-3" [checked]="isChecked" (toggleChange)="toggle()">Rápida
-            geração: {{isChecked ? 'ligado' : 'desligado'}}</mat-slide-toggle>
           <ng-template matStepLabel>Critérios de qualidade</ng-template>
           <mat-selection-list #quality (selectionChange)="updateCriterias(quality.selectedOptions.selected)">
             <mat-list-option *ngFor="let quality of typeofQuality" [value]="quality">
@@ -85,9 +133,40 @@
           </p>
           <div>
             <button mat-button matStepperPrevious>Back</button>
-            <button mat-button (click)="finalForm(stepper)">Next</button>
+            <button mat-button (click)="calculationExecutionTime(stepper)">Next</button>
           </div>
         </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Tempo de execução</ng-template>
+        <div *ngIf="isDone2; else loadingDone2" class="container">
+          <div class="example-label-container">
+            <label id="example-name-label" class="example-name-label">Tempo previsto de execução do algoritmo (pode
+              variar pois é uma estimativa com base numa execução simples):</label>
+            <label class="example-value-label">{{' ' + maxGenerations + ' segundos'}}</label>
+          </div>
+          <mat-slider
+            class="example-margin w-100"
+            [max]="1440"
+            [min]="timeExecutionResult"
+            [step]="10"
+            [(ngModel)]="maxGenerations"
+            [vertical]="false"
+            aria-labelledby="example-name-label">
+          </mat-slider>
+        </div>
+        <ng-template #loadingDone2>
+          <div class="container">
+            <div class="alert alert-warning mt-3 blink-1" role="alert">
+              Por favor aguarde, estamos a calcular o tempo de execução. Obrigado.
+            </div>
+            <img id="loading-image" src="assets/loading.gif" alt="Loading..."/>
+          </div>
+        </ng-template>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="finalForm(stepper)">Next</button>
+        </div>
       </mat-step>
       <mat-step>
         <ng-template matStepLabel>Done</ng-template>
@@ -104,16 +183,22 @@
           </div>
           <div *ngIf="jsonResult" class="container">
             <button mat-fab color="primary" *ngFor="let jj of jsonResult; index as i" (click)="downloadToTab(jj)">
-              File {{i+1}}
+              File {{i + 1}}
             </button>
           </div>
         </div>
         <ng-template #loadingDone>
           <div class="container">
-            <div class="alert alert-warning mt-3 blink-1" role="alert">
-              Por favor aguarde, esta acção pode demorar um pouco. Obrigado.
+            <div class="mt-3 mb-3">
+              <label id="example-name-label2" class="example-name-label2">Aguarde por favor</label>
+              <mat-progress-bar
+                class="example-margin"
+                [color]="'primary'"
+                [mode]="'determinate'"
+                [value]="progressbarValue"
+                aria-labelledby="example-name-label2">
+              </mat-progress-bar>
             </div>
-            <img id="loading-image" src="assets/loading.gif" alt="Loading..."/>
           </div>
         </ng-template>
         <div>

@@ -117,7 +117,10 @@ export class FileService {
       .set('mappingClass', mappingCstr)
       .set('mappingTimetable', mappingFstr)
       .set('qualities', qualities)
-      .set('fast', result.fast);
+      .set('fast', result.fast)
+      .set('maxGenerations', result.maxGenerations || 250)
+      .set('dateFormat', result.dateFormat || '')
+      .set('populationSize', result.populationSize || 50);
     // , responseType: 'arraybuffer'
     // @ts-ignore
     return this.http.post(`${environment.API_URL}/ads/execute`, formData, {params});
@@ -133,6 +136,35 @@ export class FileService {
       }
     }
     return mapping;
+  }
+
+  executionTime(result: RequestDto): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('classFile', result.classFile);
+    formData.append('timetableFile', result.timetableFile);
+    let qualities = '';
+    let mappingCstr = '';
+    let mappingFstr = '';
+    result.qualities.forEach(value => qualities += value + ';')
+    qualities = qualities.substr(0, qualities.length - 1)
+    const mappingC = this.mapToList(result.mappingClass);
+    mappingC.forEach(value => mappingCstr += value + ';')
+    mappingCstr = mappingCstr.substr(0, mappingCstr.length - 1)
+    const mappingF = this.mapToList(result.mappingTimetable);
+    mappingF.forEach(value => mappingFstr += value + ';')
+    mappingFstr = mappingFstr.substr(0, mappingFstr.length - 1)
+
+    const params = new HttpParams()
+      .set('mappingClass', mappingCstr)
+      .set('mappingTimetable', mappingFstr)
+      .set('qualities', qualities)
+      .set('fast', result.fast)
+      .set('maxGenerations', 10)
+      .set('dateFormat', result.dateFormat || '')
+      .set('populationSize', 50);
+    // , responseType: 'arraybuffer'
+    // @ts-ignore
+    return this.http.post(`${environment.API_URL}/ads/time-execution`, formData, {params});
   }
 
   mapHeadersTimetable() {

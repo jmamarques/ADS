@@ -5,4 +5,7 @@ export interface RequestDto {
   mappingTimetable: any;
   qualities: string[];
   fast: boolean;
+  maxGenerations: number;
+  populationSize: number;
+  dateFormat?: any;
 }

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from "@angular/router";
 import {FileService} from "./core/file.service";
-import {Observable, of} from "rxjs";
+import {interval, Observable, of} from "rxjs";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatListOption} from "@angular/material/list";
 import {MatStepper} from "@angular/material/stepper";
@@ -38,6 +38,9 @@ export class AppComponent implements OnInit {
   fifthFormGroup: FormGroup = this.fb.group({
     fifthCtrl: ['', Validators.required],
   });
+  confFormGroup: FormGroup = this.fb.group({
+    dateFormat: [''],
+  });
   // Mappings
   headerClassroom: String[] = [];
   excelClassHeaders$: Observable<String[]> = of([]);
@@ -50,6 +53,7 @@ export class AppComponent implements OnInit {
   isChecked = true;
   // final check
   isDone: boolean = false;
+  isDone2: boolean = false;
   // formats available
   formats = ['json', 'excel', 'csv'];
   format = 'csv';
@@ -58,6 +62,11 @@ export class AppComponent implements OnInit {
   });
   jsonResult: any;
   currentExcelHeaders: any;
+  timeExecutionResult: any = 10;
+  maxGenerations: number = 1;
+  progressbarValue = 0;
+  curSec: number = 0;
+  sub: any;
 
   // Constructor
   constructor(private router: Router,
@@ -223,6 +232,13 @@ export class AppComponent implements OnInit {
       this.fifthFormGroup.controls['fifthCtrl'].value
     ) {
       stepper.next();
+      let mxGen = null;
+      try {
+        mxGen = this.calculateMaxGenerations();
+      } catch (error){
+        console.error(error);
+      }
+
       // final object to send to BE
       let result: RequestDto = {
         fast: this.isChecked,
@@ -230,13 +246,21 @@ export class AppComponent implements OnInit {
         timetableFile: this.timetableFile,
         mappingClass: this.secondFormGroup.controls['secondCtrl'].value,
         mappingTimetable: this.fourthFormGroup.controls['fourthCtrl'].value,
-        qualities: this.fifthFormGroup.controls['fifthCtrl'].value
+        qualities: this.fifthFormGroup.controls['fifthCtrl'].value,
+        maxGenerations: mxGen || 250,
+        populationSize: 50,
+        dateFormat: this.confFormGroup.controls['dateFormat'].value || ''
       };
       this.isDone=false;
+      this.startTimer(this.maxGenerations);
       this.fileService.submit(result).subscribe(value => {
         console.log("Save json response");
         this.jsonResult = value;
         this.isDone=true;
+        if( this.sub){
+          this.progressbarValue = 100;
+          this.sub.unsubscribe();
+        }
       }, error => {
         this.dialog.open(DialogError, {data: { errors: ['Um erro ocorreu durante o processo de gerações de horários. ' +
             'Pedimos que reveja todos os passos anteriores principalmente os de mapeamento. Desculpe pelo incomodo e obrigado.']}});
@@ -382,6 +406,7 @@ export class AppComponent implements OnInit {
     return new Blob(byteArrays, { type: contentType });
   }
 
+
   downloadToTab(jj: any) {
     this.isDone = false;
     let headersServer = this.fileService.mapToList(this.fourthFormGroup.controls['fourthCtrl'].value);
@@ -394,26 +419,105 @@ export class AppComponent implements OnInit {
     }
     switch (this.format) {
       case 'json':
-            const dataJson = JSON.stringify(jj);
-            type = 'application/json';
-            blob = new Blob([dataJson], { type: type});
+        const dataJson = JSON.stringify(jj);
+        type = 'application/json';
+        blob = new Blob([dataJson], { type: type});
         break;
       case 'excel':
-            const csvData1 = this.convertToCSV(jj, headersServer, headersExcel, mapHeadersServer);
-            let rawExcel = this.convertCsvToExcelBuffer(csvData1);
-            blob = this.base64toBlob(rawExcel, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        const csvData1 = this.convertToCSV(jj, headersServer, headersExcel, mapHeadersServer);
+        let rawExcel = this.convertCsvToExcelBuffer(csvData1);
+        blob = this.base64toBlob(rawExcel, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 
         break;
       case 'csv':
-            const csvData = this.convertToCSV(jj, headersServer, headersExcel, mapHeadersServer);
-            type = 'text/csv;charset=utf-8;';
-            const data = '\ufeff' + csvData;
-            blob = new Blob([data], { type: type});
+        const csvData = this.convertToCSV(jj, headersServer, headersExcel, mapHeadersServer);
+        type = 'text/csv;charset=utf-8;';
+        const data = '\ufeff' + csvData;
+        blob = new Blob([data], { type: type});
     }
     // let url = window.URL.createObjectURL(blob);
     // let pwa = window.open(url, '_blank');
     // if(pwa) pwa.focus();
     if(blob) fileSaver.saveAs(blob, 'Timetable');
     this.isDone = true;
+  }
+
+  /**
+   * Execution time
+   * @param stepper - update state on stepper
+   */
+  calculationExecutionTime(stepper: MatStepper) {
+    if (!this.classFile) {
+      this.dialog.open(DialogError, {data: { errors: ['O ficheiro das aulas deve ser carregado, verifique que está tudo bem']}});
+    } else if (!this.timetableFile) {
+      this.dialog.open(DialogError, {data: { errors: ['O ficheiro dos horários deve ser carregado, verifique que está tudo bem']}});
+    } else if (!this.secondFormGroup.controls['secondCtrl'].value) {
+      this.dialog.open(DialogError, {data: { errors: ['Por favor verifique que está tudo bem com o mapping das aulas']}});
+    } else if (!this.fourthFormGroup.controls['fourthCtrl'].value) {
+      this.dialog.open(DialogError, {data: { errors: ['Por favor verifique que está tudo bem com o mapping dos horários']}});
+    } else if (!this.fifthFormGroup.controls['fifthCtrl'].value) {
+      this.dialog.open(DialogError, {data: { errors: ['Selecione pelo menos um critério']}});
+    } else if (
+      this.classFile &&
+      this.timetableFile &&
+      this.secondFormGroup.controls['secondCtrl'].value &&
+      this.fourthFormGroup.controls['fourthCtrl'].value &&
+      this.fifthFormGroup.controls['fifthCtrl'].value
+    ) {
+      stepper.next();
+      // final object to send to BE
+      let result: RequestDto = {
+        fast: this.isChecked,
+        classFile: this.classFile,
+        timetableFile: this.timetableFile,
+        mappingClass: this.secondFormGroup.controls['secondCtrl'].value,
+        mappingTimetable: this.fourthFormGroup.controls['fourthCtrl'].value,
+        qualities: this.fifthFormGroup.controls['fifthCtrl'].value,
+        maxGenerations: 10,
+        populationSize: 50,
+        dateFormat: this.confFormGroup.controls['dateFormat'].value || ''
+      };
+      this.isDone2=false;
+      this.fileService.executionTime(result).subscribe(value => {
+        console.log("Save time execution response");
+        console.log(typeof value);
+        if(typeof value === 'number'){
+          this.timeExecutionResult = value as number;
+          this.maxGenerations = Math.ceil(value * 2.15);
+        }
+
+        this.isDone2=true;
+      }, error => {
+        this.dialog.open(DialogError, {data: { errors: ['Um erro ocorreu durante o processo de calculo de horários. ' +
+            'Pedimos que reveja todos os passos anteriores principalmente os de mapeamento. Desculpe pelo incomodo e obrigado.']}});
+        stepper.previous();
+        console.log(error);
+      });
+
+    } else {
+      console.log("Execution Time with problems");
+    }
+  }
+
+  startTimer(seconds: number) {
+    const time = seconds;
+    const timer$ = interval(1000);
+
+    this.sub = timer$.subscribe((sec) => {
+      this.progressbarValue = Math.min(99, 100 - (100 - sec * 100 / seconds));
+      this.curSec = sec;
+
+      if (this.curSec === seconds) {
+        this.sub.unsubscribe();
+      }
+    });
+  }
+
+  calculateMaxGenerations(): number {
+    if( this.maxGenerations <= Math.ceil(this.timeExecutionResult * 2.15)){
+      return Math.max(10, Math.ceil(this.maxGenerations * 250 / Math.ceil(this.timeExecutionResult * 2.15)));
+    } else {
+      return Math.ceil(this.maxGenerations * 250 / Math.ceil(this.timeExecutionResult * 2.15));
+    }
   }
 }

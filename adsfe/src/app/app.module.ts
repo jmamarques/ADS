@@ -28,6 +28,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import { MappingComponent } from './components/mapping/mapping.component';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {DialogError} from "./components/dialog-error";
+import {MatSliderModule} from "@angular/material/slider";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 const material = [
   MatCardModule,
@@ -57,17 +59,19 @@ const material = [
     MappingComponent,
     DialogError
   ],
-    imports: [
-        ...material,
-        ReactiveFormsModule,
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        CommonModule,
-        FormsModule,
-        MatSlideToggleModule,
-    ],
+  imports: [
+    ...material,
+    ReactiveFormsModule,
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    CommonModule,
+    FormsModule,
+    MatSlideToggleModule,
+    MatSliderModule,
+    MatProgressBarModule,
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
